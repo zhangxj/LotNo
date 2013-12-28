@@ -8,6 +8,7 @@ Rectangle {
     signal selected(string value);
     property variant selectedSubItem;
     property variant currentData;
+    color: "transparent"
 
     ListModel{
         id: sub_list_model
@@ -20,15 +21,15 @@ Rectangle {
                 id: list_item
                 state: ""
                 height: 40; width:leftMenu.width
-                color: is_LastOne(modelData, leftMenu.model) == "1" ? "lightblue": "transparent"
+                color: is_LastOne(modelData, leftMenu.model) == "1" ? "#0527af": "transparent"
                 Text {
                     id: id_text
-                    x:25
-                    font.pixelSize:16
+                    font.pixelSize:18
                     font.bold: true
                     text: modelData
-                    color: "#474747"
+                    color: is_LastOne(modelData, leftMenu.model) == "1" ? "white": "#474747"
                     anchors.verticalCenter: parent.verticalCenter
+                    anchors.horizontalCenter: parent.horizontalCenter
                 }
 
                 MouseArea {
@@ -45,7 +46,7 @@ Rectangle {
                         name:"selected"
                         PropertyChanges{
                             target:list_item;
-                            color: "lightblue"
+                            color: "#0527af"
                             width:leftMenu.width + 1;
                         }
                     },

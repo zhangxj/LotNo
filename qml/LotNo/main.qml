@@ -50,17 +50,8 @@ ApplicationWindow {
     }
 
 
-
-
 /*
 
-    MouseArea {
-        anchors.fill: parent
-        onClicked: {
-            console.log("AAAAAAAAAAAAAA");
-            pageLoader.source = "Search.qml"
-        }
-    }
     LuRu{
         id: luru
         width: parent.width; height: parent.height

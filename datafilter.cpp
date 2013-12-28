@@ -118,7 +118,6 @@ void DataFilter::setScan(QString flag, QString no)
         if( !m_DB.InsertLotNo(no) )
         {
             m_string = "数据已存在";
-            emit stringChanged();
         }
         if( !m_LotNoMap.contains(no) ){
             QSet<QString> block_no;

@@ -1,27 +1,24 @@
 import QtQuick 2.0
+import "func.js" as Func
 
 Rectangle {
     id: form
     //width: parent.width; height: parent.height
-    radius:5
+    color: "transparent"
 
-    Rectangle{
-        z: 1
-        width: form.width; height: 50
+    Text{
+        anchors.horizontalCenter: form.horizontalCenter
         anchors.top: form.top
         anchors.topMargin: 0
-        Text{
-            id: label
-            z: 2
-            font.pixelSize: 25
-            color: 'red'
-            anchors.centerIn: parent
-        }
+        id: label
+        font.pixelSize: 25
+        color: 'red'
     }
+
     Rectangle{
-        z: 1
-        width: row_text.width + 15; height: row_text.height + 25
+        width: row_text.width + 50; height: row_text.height + 25
         radius: 5
+        color: parent.color
         border.color: "grey"
         border.width: 1
         anchors.horizontalCenter: row_text.horizontalCenter
@@ -29,13 +26,23 @@ Rectangle {
         anchors.bottomMargin: -10
     }
 
+    Rectangle{
+        width: row_list.width + 50; height: row_list.height + 25
+        radius: 5
+        color: parent.color
+        border.color: "grey"
+        border.width: 1
+        anchors.horizontalCenter: row_list.horizontalCenter
+        anchors.bottom: row_list.bottom
+        anchors.bottomMargin: -10
+    }
+
     Row{
         id: row_text
-        z: 1
-        spacing: 40
+        spacing: 50
         anchors.horizontalCenter: form.horizontalCenter
         anchors.top: form.top
-        anchors.topMargin: 80
+        anchors.topMargin: 50
 
         Column{
             spacing: 10
@@ -128,7 +135,6 @@ Rectangle {
     }
     Row{
         id: row_list
-        z: 0
         spacing: row_text.spacing
 
         anchors.top: row_text.bottom

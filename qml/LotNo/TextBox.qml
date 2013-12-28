@@ -28,7 +28,7 @@ FocusScope {
 
     TextInput {
         id: textInput
-        anchors { left: parent.left; leftMargin: 8; right: clear.left; rightMargin: 8; verticalCenter: parent.verticalCenter }
+        anchors { left: parent.left; leftMargin: 8; right: parent.right; rightMargin: 8; verticalCenter: parent.verticalCenter }
         font.pixelSize:20
         focus: true
         onAccepted: {
@@ -37,17 +37,18 @@ FocusScope {
         }
     }
 
+    /*
     Image {
         id: clear
         anchors { right: parent.right; rightMargin: 8; verticalCenter: parent.verticalCenter }
-        source: Func.get_image_path("clear.png");
+        //source: Func.get_image_path("clear.png");
         opacity: 0
-    }
+    }*/
 
     states: State {
         name: "hasText"; when: textInput.text != ''
         PropertyChanges { target: typeSomething; opacity: 0 }
-        PropertyChanges { target: clear; opacity: 1 }
+        //PropertyChanges { target: clear; opacity: 1 }
     }
 
     transitions: [
