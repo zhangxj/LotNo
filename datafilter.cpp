@@ -90,12 +90,12 @@ void DataFilter::searchData(QString flag, QString no)
     QMap< QString, QSet<QString> >::Iterator it;
     for(it = m_LotNoMap.begin(); it != m_LotNoMap.end(); ++it){
         m_LotNoList.append(it.key());
-        QSet< QString > block_no = it.value();
+        QSet< QString > block_no_set = it.value();
 
-        foreach (const QString &value, block_no) {
+        foreach (const QString &value, block_no_set) {
             m_BlockNoList.append(value);
-            QSet< QString > sn = m_BlockNoMap.value(value);
-            foreach (const QString &value, sn) {
+            QSet< QString > sn_set = m_BlockNoMap.value(value);
+            foreach (const QString &value, sn_set) {
                 m_SnList.append(value);
             }
         }
@@ -110,10 +110,16 @@ void DataFilter::setScan(QString flag, QString no)
 {
     if(no == "") return;
 
-    m_string = flag + " " + no;
+    m_string = "";
+    emit stringChanged();
+
     if("lot_no" == flag){
         m_CurrentLotNo = no;
-        m_DB.InsertLotNo(no);
+        if( !m_DB.InsertLotNo(no) )
+        {
+            m_string = "数据已存在";
+            emit stringChanged();
+        }
         if( !m_LotNoMap.contains(no) ){
             QSet<QString> block_no;
             m_LotNoMap.insert(no, block_no);
@@ -121,8 +127,8 @@ void DataFilter::setScan(QString flag, QString no)
         if( !m_LotNoList.contains(no) ) m_LotNoList.append(no);
         emit lotNoListChanged();
     }
+
     else if("block_no" == flag){
-        m_CurrentBlockNo = no;
         QMap< QString, QSet< QString> >::Iterator it = m_LotNoMap.find(m_CurrentLotNo);
         if(it == m_LotNoMap.end()) {
             m_string = "没有对应的LotNo";
@@ -132,9 +138,20 @@ void DataFilter::setScan(QString flag, QString no)
 
         if( !m_DB.InsertBlockNo(no, m_CurrentLotNo) )
         {
-            m_string = "数据已存在";
-            emit stringChanged();
+            QString tmp_LotNO = m_DB.GetLotNoByBlockNo(no);
+
+            if(tmp_LotNO != m_CurrentLotNo){
+                m_string = QString("BlockNo %1 不属于 %2 属于 %3")
+                        .arg(no)
+                        .arg(m_CurrentLotNo)
+                        .arg(tmp_LotNO);
+                emit stringChanged();
+                //QMessageBox::critical(NULL, "Waining", m_string, QMessageBox::Ok);
+                return;
+            }
         }
+
+        m_CurrentBlockNo = no;
         QSet< QString >  *block_no = &(it.value());
         block_no->insert(no);
 
@@ -156,10 +173,10 @@ void DataFilter::setScan(QString flag, QString no)
         if( !m_DB.InsertSn(no, m_CurrentBlockNo) ){
             m_string = "数据已存在";
             emit stringChanged();
+            return;
         }
         QSet< QString > *sn = &(it.value());
         sn->insert(no);
-
         if( !m_SnList.contains(no) ) m_SnList.append(no);
         emit snListChanged();
     }

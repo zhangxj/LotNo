@@ -36,8 +36,10 @@ public:
     void InsertLotNoMap(QString LotNo, QString BlockNo,
                         QMap<QString, QSet<QString> > *LotNoMap);
 
-    void InsertBLockNoMap(QString BlockNo, QString SN,
+    void InsertBlockNoMap(QString BlockNo, QString SN,
                           QMap<QString, QSet<QString> > *BlockNoMap);
+
+    QString GetLotNoByBlockNo(QString BlockNo);
 private:
     QSqlDatabase m_Conn;
     QSqlQuery m_Query;

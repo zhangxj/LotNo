@@ -2,9 +2,8 @@ import QtQuick 2.0
 
 Rectangle {
     id: form
-    width: parent.width; height: parent.height
+    //width: parent.width; height: parent.height
     radius:5
-    visible: false
 
     Rectangle{
         z: 1
@@ -84,7 +83,7 @@ Rectangle {
     }
     Row{
         id: row_list
-        z: 0
+        z: 1
         spacing: row_text.spacing
 
         anchors.top: form.top

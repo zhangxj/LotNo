@@ -3,7 +3,6 @@ import 'func.js' as Func
 
 Rectangle {
     id:leftMenu
-    //color:"#d5d5d5";
     property variant model;//: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
     property string flag;
     signal selected(string value);
@@ -13,8 +12,6 @@ Rectangle {
     ListModel{
         id: sub_list_model
     }
-
-
 
     Component{
         id: plugin_sub_item
@@ -41,8 +38,6 @@ Rectangle {
                         selected(modelData);
                         currentData = modelData;
                     }
-                    //onEntered: enter_item(list_item);
-                    //onExited: exit_item(list_item);
                 }
 
                 states: [
@@ -95,15 +90,6 @@ Rectangle {
             return "1"
         }else
             return "0"
-    }
-
-    function enter_item(item){
-        if(selectedSubItem != item)
-            item.state = "entered"
-    }
-    function exit_item(item){
-        if(selectedSubItem != item)
-            item.state = ""
     }
 }
 

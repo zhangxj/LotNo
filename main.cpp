@@ -4,6 +4,7 @@
 #include <QQuickWindow>
 #include <QQmlContext>
 #include "datafilter.h"
+#include <QSettings>
 
 int main(int argc, char *argv[])
 {

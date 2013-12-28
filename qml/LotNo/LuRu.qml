@@ -2,29 +2,22 @@ import QtQuick 2.0
 
 Rectangle {
     id: form
-    width: parent.width; height: parent.height
+    //width: parent.width; height: parent.height
     radius:5
-    visible: false
-
 
     Rectangle{
         z: 1
         width: form.width; height: 50
         anchors.top: form.top
         anchors.topMargin: 0
-
-        Timer {
-           id: timer
-           interval: 1000;
-           running: true; repeat: false
-           onTriggered: label.text = ""
-           }
         Text{
             id: label
             z: 2
+            font.pixelSize: 25
+            color: 'red'
+            anchors.centerIn: parent
         }
     }
-
     Rectangle{
         z: 1
         width: row_text.width + 15; height: row_text.height + 25
@@ -34,7 +27,6 @@ Rectangle {
         anchors.horizontalCenter: row_text.horizontalCenter
         anchors.bottom: row_text.bottom
         anchors.bottomMargin: -10
-
     }
 
     Row{
@@ -43,7 +35,7 @@ Rectangle {
         spacing: 40
         anchors.horizontalCenter: form.horizontalCenter
         anchors.top: form.top
-        anchors.topMargin: 50
+        anchors.topMargin: 80
 
         Column{
             spacing: 10
@@ -117,7 +109,6 @@ Rectangle {
         target: dataFilter
         onStringChanged: {
             label.text = dataFilter.getString()
-            timer.start()
         }
 
         onLotNoListChanged:{

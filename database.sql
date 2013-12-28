@@ -31,3 +31,8 @@ create table SN
 	addon datetime default getdate()
 )
 
+
+select LOT_NO.LOT_NO, BLOCK_NO.BLOCK_NO, SN.SN from LOT_NO 
+left join BLOCK_NO on LOT_NO.LOT_NO = BLOCK_NO.LOT_NO 
+left join SN on BLOCK_NO.BLOCK_NO = SN.BLOCK_NO
+where LOT_NO.LOT_NO = 'q'

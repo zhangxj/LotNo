@@ -20,18 +20,16 @@ ApplicationWindow {
             MenuItem {
                 text: qsTr("录入")
                 onTriggered: {
-                    luru.visible=true;
-                    search.visible = false
                     dataFilter.clearData()
+                    pageLoader.source = "LuRu.qml"
                 }
             }
             MenuSeparator {}
             MenuItem {
                 text: qsTr("查询")
                 onTriggered:{
-                    luru.visible=false;
-                    search.visible = true;
                     dataFilter.clearData()
+                    pageLoader.source = "Search.qml"
                 }
             }
         }
@@ -42,9 +40,27 @@ ApplicationWindow {
                 onTriggered: dataFilter.OnAbout();
             }
         }
-
     }
 
+    Loader {
+        id: pageLoader
+        focus: true
+        width: parent.width; height: parent.height
+        source: "LuRu.qml"
+    }
+
+
+
+
+/*
+
+    MouseArea {
+        anchors.fill: parent
+        onClicked: {
+            console.log("AAAAAAAAAAAAAA");
+            pageLoader.source = "Search.qml"
+        }
+    }
     LuRu{
         id: luru
         width: parent.width; height: parent.height
@@ -56,5 +72,5 @@ ApplicationWindow {
         width: parent.width; height: parent.height
         visible: false
     }
-
+*/
 }

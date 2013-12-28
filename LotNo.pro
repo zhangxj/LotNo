@@ -31,6 +31,7 @@ HEADERS += \
     about.h
 
 OTHER_FILES += \
-    logo.ico
+    logo.ico \
+    config.ini
 
 RC_FILE = LotNo.rc
