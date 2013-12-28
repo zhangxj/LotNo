@@ -32,6 +32,12 @@ public:
     void SearchSn(QString Sn,
                      QMap<QString, QSet<QString> > *LotNoMap,
                      QMap<QString, QSet<QString> > *BlockNoMap);
+
+    void InsertLotNoMap(QString LotNo, QString BlockNo,
+                        QMap<QString, QSet<QString> > *LotNoMap);
+
+    void InsertBLockNoMap(QString BlockNo, QString SN,
+                          QMap<QString, QSet<QString> > *BlockNoMap);
 private:
     QSqlDatabase m_Conn;
     QSqlQuery m_Query;

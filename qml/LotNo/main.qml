@@ -9,10 +9,12 @@ ApplicationWindow {
         Menu {
             title: qsTr("系统")
             MenuItem {
-                text: qsTr("Exit")
+                text: qsTr("退出")
                 onTriggered: Qt.quit();
             }
         }
+
+
         Menu {
             title: qsTr("操作")
             MenuItem {
@@ -23,6 +25,7 @@ ApplicationWindow {
                     dataFilter.clearData()
                 }
             }
+            MenuSeparator {}
             MenuItem {
                 text: qsTr("查询")
                 onTriggered:{
@@ -45,13 +48,13 @@ ApplicationWindow {
     LuRu{
         id: luru
         width: parent.width; height: parent.height
-        visible: false
+        visible: true
     }
 
     Search{
         id: search
         width: parent.width; height: parent.height
-        visible: true
+        visible: false
     }
 
 }

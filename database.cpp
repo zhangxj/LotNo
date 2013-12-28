@@ -61,29 +61,10 @@ void Database::SearchLotNo(QString LotNo,
     m_Query.exec(QString("SELECT b.BLOCK_NO, s.SN from BLOCK_NO b, SN s where s.BLOCK_no = b.BLOCK_NO and LOT_NO = '%1'").arg(LotNo) );
 
     while(m_Query.next()){
-        QString block_no = m_Query.value(0).toString();
-        QString sn = m_Query.value(1).toString();
-
-        if(LotNoMap->contains(LotNo)){
-            QMap<QString, QSet<QString> >::Iterator it =  LotNoMap->find(LotNo);
-            QSet<QString> *block_no_set = &(it.value());
-            block_no_set->insert(block_no);
-        }
-        else{
-            QSet<QString> b;
-            b.insert(block_no);
-            LotNoMap->insert(LotNo, b);
-        }
-
-        if(BlockNoMap->contains(block_no)){
-            QMap<QString, QSet<QString> >::Iterator it = BlockNoMap->find(block_no);
-            QSet<QString> *sn_set = &(it.value());
-            sn_set->insert(sn);
-        }else{
-            QSet<QString> b;
-            b.insert(sn);
-            BlockNoMap->insert(block_no, b);
-        }
+        QString BlockNo = m_Query.value(0).toString();
+        QString SN = m_Query.value(1).toString();
+        InsertLotNoMap(LotNo, BlockNo, LotNoMap);
+        InsertBLockNoMap(BlockNo, SN, BlockNoMap);
     }
 }
 
@@ -91,34 +72,15 @@ void Database::SearchBlockNo(QString BlockNo,
                  QMap<QString, QSet<QString> > *LotNoMap,
                  QMap<QString, QSet<QString> > *BlockNoMap)
 {
-    m_Query.exec(QString("select LOT_NO from BLOCK_NO where BLOCK_NO = '%1'").arg(BlockNo));
+
+    m_Query.exec(QString("select b.LOT_NO, b.BLOCK_NO, s.SN from BLOCK_NO b, SN s where b.BLOCK_NO = S.BLOCK_NO AND S.BLOCK_NO = '%1'").arg(BlockNo));
     while(m_Query.next()){
         QString LotNo = m_Query.value(0).toString();
-        if(LotNoMap->contains(LotNo)){
-            QMap<QString, QSet<QString> >::Iterator it =  LotNoMap->find(LotNo);
-            QSet<QString> *block_no_set = &(it.value());
-            block_no_set->insert(BlockNo);
-        }
-        else{
-            QSet<QString> b;
-            b.insert(BlockNo);
-            LotNoMap->insert(LotNo, b);
-        }
-    }
+        QString BlockNo = m_Query.value(1).toString();
+        QString SN = m_Query.value(2).toString();
 
-    m_Query.exec(QString("select SN from SN where BLOCK_NO = '%1'").arg(BlockNo));
-    while(m_Query.next()){
-        QString sn = m_Query.value(0).toString();
-
-        if(BlockNoMap->contains(BlockNo)){
-            QMap<QString, QSet<QString> >::Iterator it = BlockNoMap->find(BlockNo);
-            QSet<QString> *sn_set = &(it.value());
-            sn_set->insert(sn);
-        }else{
-            QSet<QString> b;
-            b.insert(sn);
-            BlockNoMap->insert(BlockNo, b);
-        }
+        InsertLotNoMap(LotNo, BlockNo, LotNoMap);
+        InsertBLockNoMap(BlockNo, SN, BlockNoMap);
     }
 }
 
@@ -126,36 +88,42 @@ void Database::SearchSn(QString Sn,
                  QMap<QString, QSet<QString> > *LotNoMap,
                  QMap<QString, QSet<QString> > *BlockNoMap)
 {
-    m_Query.exec(QString("select BLOCK_NO from SN where SN = '%1'").arg(Sn));
-    QString BlockNo;
-    while(m_Query.next()){
-        BlockNo = m_Query.value(0).toString();
-
-        if(BlockNoMap->contains(BlockNo)){
-            QMap<QString, QSet<QString> >::Iterator it = BlockNoMap->find(BlockNo);
-            QSet<QString> *sn_set = &(it.value());
-            sn_set->insert(Sn);
-        }else{
-            QSet<QString> b;
-            b.insert(Sn);
-            BlockNoMap->insert(BlockNo, b);
-        }
-    }
-
-    m_Query.exec(QString("select LOT_NO from BLOCK_NO where BLOCK_NO = '%1'").arg(BlockNo));
+    m_Query.exec(QString("select b.LOT_NO, b.BLOCK_NO, s.SN from BLOCK_NO b, SN s where b.BLOCK_NO = S.BLOCK_NO AND S.SN = '%1'").arg(Sn));
     while(m_Query.next()){
         QString LotNo = m_Query.value(0).toString();
+        QString BlockNo = m_Query.value(1).toString();
+        QString SN = m_Query.value(2).toString();
 
-        if(LotNoMap->contains(LotNo)){
-            QMap<QString, QSet<QString> >::Iterator it =  LotNoMap->find(LotNo);
-            QSet<QString> *block_no_set = &(it.value());
-            block_no_set->insert(BlockNo);
-        }
-        else{
-            QSet<QString> b;
-            b.insert(BlockNo);
-            LotNoMap->insert(LotNo, b);
-        }
+        InsertLotNoMap(LotNo, BlockNo, LotNoMap);
+        InsertBLockNoMap(BlockNo, SN, BlockNoMap);
     }
+}
 
+void Database::InsertLotNoMap(QString LotNo, QString BlockNo,
+                              QMap<QString, QSet<QString> > *LotNoMap)
+{
+    if(LotNoMap->contains(LotNo)){
+        QMap<QString, QSet<QString> >::Iterator it =  LotNoMap->find(LotNo);
+        QSet<QString> *block_no_set = &(it.value());
+        block_no_set->insert(BlockNo);
+    }
+    else{
+        QSet<QString> b;
+        b.insert(BlockNo);
+        LotNoMap->insert(LotNo, b);
+    }
+}
+
+void Database::InsertBLockNoMap(QString BlockNo, QString SN,
+                                QMap<QString, QSet<QString> > *BlockNoMap)
+{
+    if(BlockNoMap->contains(BlockNo)){
+        QMap<QString, QSet<QString> >::Iterator it = BlockNoMap->find(BlockNo);
+        QSet<QString> *sn_set = &(it.value());
+        sn_set->insert(SN);
+    }else{
+        QSet<QString> b;
+        b.insert(SN);
+        BlockNoMap->insert(BlockNo, b);
+    }
 }
