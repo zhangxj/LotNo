@@ -3,8 +3,7 @@ import QtQuick 2.0
 Rectangle {
     id: form
     //width: parent.width; height: parent.height
-    color: "transparent"
-
+    color: "#ece9d8"
 
 
     Rectangle{
@@ -127,23 +126,30 @@ Rectangle {
         SingleListView{
             id: lot_no_listview
             flag: "lot_no"
-            width: 180; height: form.height - 200
+            width: 180; height: form.height - 130
             onSelected: dataFilter.selectItem(flag, value)
         }
         SingleListView{
             id: block_no_listview
             flag: "block_no"
-            width: 180; height: form.height - 200
+            width: 180; height: form.height - 130
             onSelected: dataFilter.selectItem(flag, value)
         }
 
         SingleListView{
             id: sn_listview
             flag: "sn"
-            width: 180; height: form.height - 200
+            width: 180; height: form.height - 130
             onSelected: dataFilter.selectItem(flag, value)
         }
 
+    }
+
+    Rectangle{
+        color: parent.color
+        width: row_list.width; height: 40
+        anchors.top: row_list.bottom
+        anchors.left: row_list.left
     }
 
 }

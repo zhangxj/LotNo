@@ -3,7 +3,7 @@ import QtQuick.Controls 1.0
 import QtQuick.Window 2.0
 
 ApplicationWindow {
-    title: qsTr("")
+    //title: qsTr("条码录入系统")
     width: 1024; height: 600
     menuBar: MenuBar {
         Menu {

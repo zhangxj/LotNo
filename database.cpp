@@ -3,30 +3,46 @@
 
 Database::Database()
 {
-    QString sIniFilePath   = "config.ini";
-    QSettings *s = new QSettings(sIniFilePath, QSettings::IniFormat);
-    QString dbHost = s->value("DATABASE/IP").toString();
-    QString user = s->value("DATABASE/USER").toString();
-    QString pwd= s->value("DATABASE/PWD").toString();
-    QString db = "barcode";
-    QString driver = "DRIVER={SQL SERVER};SERVER=" + dbHost + ";DATABASE=" + db;
-
-    m_Conn = QSqlDatabase::addDatabase("QODBC");
-    //QString dsn = QString::fromLocal8Bit(driver);
-    m_Conn.setDatabaseName(driver);
-    m_Conn.setUserName(user);
-    m_Conn.setPassword(pwd);
-    if(!m_Conn.open()) {
-            QMessageBox::critical(0, QObject::tr("Database Error"),
-                m_Conn.lastError().text());
+    if (! InitDB() ){
+        exit(0);
     }
-
-    m_Query = QSqlQuery(m_Conn);
 }
 
 Database::~Database()
 {
     m_Conn.close();
+}
+
+bool Database::InitDB()
+{
+    QString sIniFilePath   = "config.ini";
+    QSettings *s = new QSettings(sIniFilePath, QSettings::IniFormat);
+    QString dbHost = s->value("DATABASE/IP").toString();
+    QString user = s->value("DATABASE/USER").toString();
+    QString pwd= s->value("DATABASE/PWD").toString();
+
+    if(dbHost.isEmpty() || user.isEmpty() || pwd.isEmpty()){
+        QMessageBox::critical(0, QObject::tr("config Error"),
+                              "请配置数据库文件 config.ini");
+        return false;
+    }
+
+    QString db = "barcode";
+    QString driver = "DRIVER={SQL SERVER};SERVER=" + dbHost + ";DATABASE=" + db;
+
+    m_Conn = QSqlDatabase::addDatabase("QODBC");
+    m_Conn.setDatabaseName(driver);
+    m_Conn.setUserName(user);
+    m_Conn.setPassword(pwd);
+    if(!m_Conn.open()) {
+            QMessageBox::critical(0, QObject::tr("Database Error"),
+                                  "数据库配置错误\r\n" + m_Conn.lastError().text());
+
+            return false;
+    }
+
+    m_Query = QSqlQuery(m_Conn);
+    return true;
 }
 
 bool Database::ExecuteSQL(QString sql){
@@ -153,4 +169,5 @@ QString Database::GetLotNoByBlockNo(QString BlockNo)
     while(m_Query.next()){
         return m_Query.value(0).toString();
     }
+    return "";
 }

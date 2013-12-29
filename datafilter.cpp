@@ -2,6 +2,7 @@
 #include <QVariant>
 #include "about.h"
 
+extern QString WindowTitle;
 
 DataFilter::DataFilter(QObject *parent) :
     QObject(parent)
@@ -108,6 +109,7 @@ void DataFilter::searchData(QString flag, QString no)
 
 void DataFilter::setScan(QString flag, QString no)
 {
+    no = no.trimmed();
     if(no == "") return;
 
     m_string = "";
@@ -186,12 +188,9 @@ void DataFilter::setScan(QString flag, QString no)
 
 void DataFilter::OnAbout()
 {
-    QMessageBox box;
-    box.setIcon(QMessageBox::Information);
-    box.setText("条码录入系统 V1.0 " + tr("\r\n\nCopyright 深圳市菲尼曼特科技有限公司 2013"));
-    box.setStandardButtons(QMessageBox::Yes);
-    box.exec();
-    //::information(NULL, "关于", "CopyRight 深圳", QMessageBox::Yes);
+    QMessageBox::information(NULL, WindowTitle,
+                            "条码录入系统 V1.0 " + tr("\r\n\nCopyright 深圳市菲尼曼特科技有限公司 2013"),
+                            QMessageBox::Yes);
     /*
     About *ab = new About();
     ab->setSource(QUrl("qml/LotNo/about.qml"));

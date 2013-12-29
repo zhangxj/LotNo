@@ -9,10 +9,36 @@ Rectangle {
     property variant selectedSubItem;
     property variant currentData;
     color: "transparent"
+    border.width: 2
+    border.color: "blue"
+    property int item_height: 40
 
     ListModel{
         id: sub_list_model
     }
+
+
+    Rectangle{
+        id: top
+        z: 3
+        color: "lightgrey"
+        radius: 5
+        width: leftMenu.width; height: item_height
+        anchors.top: parent.top
+        Text{
+            text: flag
+            font.bold: true
+            font.pixelSize: 20
+            anchors.centerIn: parent
+        }
+
+        Rectangle{
+            width: parent.width; height:1
+            anchors.bottom: parent.bottom
+            color: "blue"
+        }
+    }
+
 
     Component{
         id: plugin_sub_item
@@ -20,7 +46,7 @@ Rectangle {
             Rectangle{
                 id: list_item
                 state: ""
-                height: 40; width:leftMenu.width
+                height: item_height; width:leftMenu.width
                 color: is_LastOne(modelData, leftMenu.model) == "1" ? "#0527af": "transparent"
                 Text {
                     id: id_text
@@ -63,7 +89,8 @@ Rectangle {
             Image{
                 source: Func.get_image_path("dotted_line2.png");
                 fillMode:Image.TileHorizontally;
-                width:leftMenu.width;
+                height: 2
+                width:leftMenu.width - 2;
             }
         }
     }
@@ -71,7 +98,9 @@ Rectangle {
     ListView{
         id: listView
         width: leftMenu.width
-        anchors.fill: parent
+        //anchors.fill: parent
+        anchors.top: top.bottom
+        anchors.bottom: parent.bottom
         model: leftMenu.model
         delegate: plugin_sub_item
         onCurrentIndexChanged: {

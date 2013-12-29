@@ -16,6 +16,7 @@ public:
     ~Database();
 
 public:
+    bool InitDB();
     bool ExecuteSQL(QString sql);
     bool InsertLotNo(QString LotNo);
     bool InsertBlockNo(QString BlockNo, QString LotNo);
