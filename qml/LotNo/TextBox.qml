@@ -5,7 +5,9 @@ FocusScope {
     id: focusScope
     width: 600; height: 40
     property string flag;
-    focus: false;
+    property string defaultText;
+    property bool clear: true
+    focus: false
     signal finished(string value)
 
     BorderImage {
@@ -28,12 +30,14 @@ FocusScope {
 
     TextInput {
         id: textInput
+        text: focusScope.defaultText
         anchors { left: parent.left; leftMargin: 8; right: parent.right; rightMargin: 8; verticalCenter: parent.verticalCenter }
         font.pixelSize:20
         focus: true
+        mouseSelectionMode: TextInput.SelectCharacters
         onAccepted: {
             finished(textInput.text)
-            textInput.text = ''
+            textInput.text = clear ? '': textInput.text
         }
     }
 

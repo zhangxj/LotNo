@@ -21,6 +21,8 @@ signals:
     void lotNoListChanged();
     void blockNoListChanged();
     void snListChanged();
+    void checkCodeOk();
+    void checkCodeError();
 
 public slots:
     QString getString();
@@ -32,6 +34,11 @@ public slots:
     void selectItem(QString flag, QString no);
     void OnAbout();
     void clearData();
+    QString getHardMD5();
+    void checkCode(QString code);
+    void FirstCheck();
+    QString JiaMi(QString code);
+
 
 public:
     Database        m_DB;
@@ -45,6 +52,8 @@ public:
 
     QMap< QString, QSet<QString> > m_LotNoMap;
     QMap< QString, QSet<QString> > m_BlockNoMap;
+
+    QString m_checkCode;
 
 };
 

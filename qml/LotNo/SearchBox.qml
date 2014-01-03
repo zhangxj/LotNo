@@ -6,23 +6,27 @@ Rectangle {
     width: 614; height: 54
     color: "#7bffffff"
     radius:5
+    property string defaultText;
+    property bool clear;
+    signal textBox(string value)
 
-    MouseArea {
-        anchors.fill: parent
-        onClicked: page.focus = false;
-    }
     ShadowRectangle {
         color: "#434343"
         transformOrigin: "Center"
         opacity: 0.97
         visible: true
-        anchors.centerIn: parent; width: 610; height: 50
+        anchors.centerIn: parent; width: parent.width - 4; height: parent.height - 4
     }
     TextBox {
         id: search;
-        visible: true
+        width: parent.width -  10; height: parent.height - 10
+        defaultText: page.defaultText
+        clear: clear
         opacity: 1
         anchors.centerIn: parent
+        onFinished: {
+            textBox(value);
+        }
     }
 }
 

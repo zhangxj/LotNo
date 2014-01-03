@@ -73,6 +73,7 @@ Rectangle {
 
     }
 
+
     Connections
     {
         target: dataFilter

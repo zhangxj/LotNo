@@ -22,7 +22,6 @@ Rectangle {
         id: top
         z: 3
         color: "lightgrey"
-        radius: 5
         width: leftMenu.width; height: item_height
         anchors.top: parent.top
         Text{

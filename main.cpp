@@ -6,6 +6,7 @@
 #include "datafilter.h"
 #include <QSettings>
 
+
 QString WindowTitle = "条码录入系统";
 
 int main(int argc, char *argv[])

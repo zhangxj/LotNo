@@ -1,13 +1,77 @@
 #include "datafilter.h"
 #include <QVariant>
 #include "about.h"
+#include <QNetworkInterface>
+#include <QCryptographicHash>
+#include <QSettings>
 
 extern QString WindowTitle;
 
 DataFilter::DataFilter(QObject *parent) :
     QObject(parent)
 {
+    QSettings *s = new QSettings("config.ini", QSettings::IniFormat);
+    m_checkCode = s->value("CODE/VALUE").toString();
     m_string = "hello";
+}
+
+QString DataFilter::JiaMi(QString code)
+{
+    QString r;
+    QByteArray ba = code.toLatin1();
+
+    for(int i = 0; i<ba.length(); i++){
+        if(ba[i] >= 'A' && ba[i] <='Z'){
+            ba[i] = ba[i] + 33;
+        }else if(ba[i] >= 'b'&& ba[i] <= 'z'){
+            ba[i] = ba[i] - 32;
+        }else if(ba[i] >= '0'&& ba[i] <= '7'){
+            ba[i] = ba[i] + 2;
+        }
+    }
+    QCryptographicHash md(QCryptographicHash::Md5);
+    md.addData(ba);
+    r.append(md.result().toHex());
+    return r;
+}
+
+void DataFilter::FirstCheck()
+{
+    QString src = getHardMD5();
+    QString jiami = JiaMi(src);
+    if(m_checkCode != jiami){
+        emit checkCodeError();
+    }else{
+        emit checkCodeOk();
+    }
+}
+
+void DataFilter::checkCode(QString code)
+{
+    QString src = getHardMD5();
+    QString jiami = JiaMi(src);
+
+    if(jiami == code){
+        QSettings *s = new QSettings("config.ini", QSettings::IniFormat);
+        s->setValue("CODE/VALUE", code);
+        emit checkCodeOk();
+    }else{
+        QMessageBox::critical(NULL, "错误", "请向厂家索要校验码", QMessageBox::Ok);
+        emit checkCodeError();
+    }
+}
+
+QString DataFilter::getHardMD5()
+{
+    QList<QNetworkInterface> list = QNetworkInterface::allInterfaces();
+    QString md5;
+    QByteArray ba,bb;
+    QCryptographicHash md(QCryptographicHash::Md5);
+    ba.append(list.at(0).name() + list.at(0).hardwareAddress());
+    md.addData(ba);
+    bb = md.result();
+    md5.append(bb.toHex());
+    return md5;
 }
 
 QString DataFilter::getString()
