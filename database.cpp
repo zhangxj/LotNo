@@ -4,7 +4,7 @@
 Database::Database()
 {
     if (! InitDB() ){
-        //exit(0);
+        exit(0);
     }
 }
 

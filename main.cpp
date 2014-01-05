@@ -7,7 +7,7 @@
 #include <QSettings>
 
 
-QString WindowTitle = "条码录入系统";
+QString WindowTitle = "SMF 条码追溯系统";
 
 int main(int argc, char *argv[])
 {

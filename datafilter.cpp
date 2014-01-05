@@ -64,10 +64,18 @@ void DataFilter::checkCode(QString code)
 QString DataFilter::getHardMD5()
 {
     QList<QNetworkInterface> list = QNetworkInterface::allInterfaces();
+    QString mac;
+    foreach (QNetworkInterface i, list) {
+        //qDebug() << i.name() << i.hardwareAddress();
+        mac = mac + i.hardwareAddress();
+    }
+    mac = list.at(1).hardwareAddress();
+
+
     QString md5;
     QByteArray ba,bb;
     QCryptographicHash md(QCryptographicHash::Md5);
-    ba.append(list.at(0).name() + list.at(0).hardwareAddress());
+    ba.append(mac);
     md.addData(ba);
     bb = md.result();
     md5.append(bb.toHex());
@@ -183,7 +191,6 @@ void DataFilter::setScan(QString flag, QString no)
         m_CurrentLotNo = no;
         if( !m_DB.InsertLotNo(no) )
         {
-            m_string = "数据已存在";
         }
         if( !m_LotNoMap.contains(no) ){
             QSet<QString> block_no;
@@ -205,6 +212,11 @@ void DataFilter::setScan(QString flag, QString no)
         {
             QString tmp_LotNO = m_DB.GetLotNoByBlockNo(no);
 
+            if(tmp_LotNO == ""){
+                m_string = '请检查数据库';
+                emit stringChanged();
+                return;
+            }
             if(tmp_LotNO != m_CurrentLotNo){
                 m_string = QString("BlockNo %1 不属于 %2 属于 %3")
                         .arg(no)
