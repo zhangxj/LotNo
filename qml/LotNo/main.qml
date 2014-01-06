@@ -83,7 +83,7 @@ Rectangle {
         anchors.right: parent.right
         anchors.rightMargin: 5
         focus: true
-        source: "Search.qml"
+        source: "LuRu.qml"
     }
 
     Connections{
@@ -101,7 +101,7 @@ Rectangle {
 
     Register{
         id: register
-        width: parent.width; height: parent.height - 60
+        width: parent.width; height: parent.height - 80
         z: 1
         visible: false
         anchors.centerIn: parent

@@ -13,7 +13,7 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
 
     DataFilter dataFilter;
     QDeclarativeView viewer;
-    viewer.setWindowFlags(Qt::FramelessWindowHint);
+    //viewer.setWindowFlags(Qt::FramelessWindowHint);
     QDeclarativeEngine *engine=viewer.engine();
     QDeclarativeContext *context=engine->rootContext();
     context->setContextProperty("dataFilter", &dataFilter);

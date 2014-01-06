@@ -32,3 +32,5 @@ HEADERS += \
     database.h \
     about.h \
     datafilter.h
+
+RC_FILE = LotNo.rc

@@ -2,8 +2,8 @@ import QtQuick 1.1
 import "func.js" as Func
 
 Rectangle {
-    color: "grey"
-    opacity: 0.9
+    color: "white"
+    opacity: 0.97
     signal checked(int r)
 
     MouseArea{
