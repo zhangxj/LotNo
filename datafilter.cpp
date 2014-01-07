@@ -318,12 +318,37 @@ void DataFilter::setScan(QString flag, QString no)
 
 void DataFilter::OnAbout()
 {
+    /*
     QMessageBox::information(NULL, WindowTitle,
                             "条码录入系统 V1.0 " + tr("\r\n\nCopyright 深圳市菲尼曼特科技有限公司 2013"),
                             QMessageBox::Yes);
+                            */
+
+    QMessageBox msgBox;
+    msgBox.setIcon(QMessageBox::Information);
+    msgBox.setWindowTitle(WindowTitle);
+    msgBox.setText("条码录入系统 V1.0                           ");
+    msgBox.setInformativeText("Copyright 深圳市菲尼曼特科技有限公司 2013");
+    msgBox.addButton("确定", QMessageBox::YesRole);
+    msgBox.exec();
     /*
     About *ab = new About();
     ab->setSource(QUrl("qml/LotNo/about.qml"));
     ab->show();
     */
+}
+
+void DataFilter::quit()
+{
+    QMessageBox msgBox;
+    msgBox.setIcon(QMessageBox::Question);
+    msgBox.setWindowTitle(WindowTitle);
+    msgBox.setText("当前操作将退出系统              ");
+    msgBox.setInformativeText("确定退出?");
+    msgBox.addButton("确定", QMessageBox::YesRole);
+    msgBox.addButton("取消", QMessageBox::NoRole);
+    int ret = msgBox.exec();
+    if(ret == 0){
+        exit(0);
+    }
 }

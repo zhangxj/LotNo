@@ -31,7 +31,8 @@ Item{
                         if (modelData == "minimum"){
                             main_window.showMinimized()
                         }else if(modelData == "close"){
-                            app.quit();
+                            //app.quit();
+                            dataFilter.quit();
                         }else{
                             win_button.clicked(modelData);
                         }

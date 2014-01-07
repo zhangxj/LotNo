@@ -43,6 +43,7 @@ public slots:
     QString getUser();
     QString getPwd();
     QString CheckDB();
+    void quit();
 
 
 public:
