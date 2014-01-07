@@ -105,7 +105,7 @@ Rectangle {
                         width:leftMenu.width;
                         height:40;
                         color:"transparent";
-                        state: "" //modelData.id == "record" && (selectedItem = item)? "selected":""
+                        state: modelData.id == "record" && (select_item(item, "subselected"))? "selected":""
                         Text{
                             x:25
                             font.pixelSize:12
@@ -181,6 +181,7 @@ Rectangle {
         if(selectedSubItem) {
             selectedSubItem.state = "";
         }
+        return true;
     }
 
     function select_subitem(item){

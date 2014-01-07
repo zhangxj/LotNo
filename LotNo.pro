@@ -34,3 +34,6 @@ HEADERS += \
     datafilter.h
 
 RC_FILE = LotNo.rc
+
+OTHER_FILES += \
+    qml/LotNo/generate_code.qml

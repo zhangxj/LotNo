@@ -7,6 +7,7 @@ Rectangle {
 
     Text{
         id: label
+        z: 1
         anchors.horizontalCenter: form.horizontalCenter
         anchors.top: form.top
         anchors.topMargin: 0

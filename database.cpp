@@ -24,7 +24,7 @@ bool Database::InitDB()
     QString pwd= s->value("DATABASE/PWD").toString();
 
     if(dbHost.isEmpty() || user.isEmpty() || pwd.isEmpty()){
-        //QMessageBox::critical(0, QObject::tr("config Error"), "请配置数据库文件 config.ini");
+        //QMessageBox::critical(0, QObject::tr("config Error"), "请配置数据库");
         return false;
     }
 
@@ -35,8 +35,9 @@ bool Database::InitDB()
     m_Conn.setDatabaseName(driver);
     m_Conn.setUserName(user);
     m_Conn.setPassword(pwd);
+    m_Conn.setConnectOptions("SQL_ATTR_CONNECTION_TIMEOUT=1;SQL_ATTR_LOGIN_TIMEOUT=1");
     if(!m_Conn.open()) {
-            //QMessageBox::critical(0, QObject::tr("Database Error"), "数据库配置错误\r\n" + m_Conn.lastError().text());
+            QMessageBox::critical(0, QObject::tr("Database Error"), "数据库配置错误\r\n" + m_Conn.lastError().text());
 
             return false;
     }

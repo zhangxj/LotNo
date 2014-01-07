@@ -74,7 +74,7 @@ Rectangle {
 
     Text{
         id: label
-        text: dataFilter.CheckDB()
+        text: ""
         anchors.horizontalCenter: form.horizontalCenter
         anchors.bottom: row_text.top
         anchors.bottomMargin: 20
