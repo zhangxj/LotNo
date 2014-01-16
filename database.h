@@ -43,6 +43,8 @@ public:
                           QMap<QString, QSet<QString> > *BlockNoMap);
 
     QString GetLotNoByBlockNo(QString BlockNo);
+
+    bool IsExistSn(QString SN);
 private:
     QSqlDatabase m_Conn;
     QSqlQuery m_Query;

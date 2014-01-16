@@ -29,8 +29,9 @@ if EXISTS (select * from sysobjects where name = 'SN')
 
 create table SN
 (
-	SN varchar(50) primary key,
+	SN varchar(50),
 	BLOCK_NO varchar(50),
+	FLAG int,
 	addon datetime default getdate()
 )
 

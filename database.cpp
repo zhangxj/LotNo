@@ -78,7 +78,7 @@ bool Database::InsertBlockNo(QString BlockNo, QString LotNo)
 
 bool Database::InsertSn(QString Sn, QString BlockNo)
 {
-    m_Query.prepare("insert into SN (SN,BLOCK_NO) values (:SN, :BLOCK_NO)");
+    m_Query.prepare("insert into SN (SN, BLOCK_NO, FLAG) values (:SN, :BLOCK_NO, 0)");
     m_Query.bindValue(0, Sn);
     m_Query.bindValue(1, BlockNo);
     return m_Query.exec();
@@ -183,4 +183,14 @@ QString Database::GetLotNoByBlockNo(QString BlockNo)
     }
 
     return "";
+}
+
+bool Database::IsExistSn(QString SN)
+{
+    m_Query.exec(QString("select SN from SN where SN = '%1' and FLAG = 0").arg(SN));
+
+    while(m_Query.next())
+        return true;
+
+    return false;
 }

@@ -301,11 +301,14 @@ void DataFilter::setScan(QString flag, QString no)
             return;
         }
 
-        if( !m_DB.InsertSn(no, m_CurrentBlockNo) ){
+        if( m_DB.IsExistSn(no)) {
             m_string = "数据已存在";
             emit stringChanged();
             return;
         }
+
+        m_DB.InsertSn(no, m_CurrentBlockNo);
+
         QSet< QString > *sn = &(it.value());
         sn->insert(no);
         if( !m_SnList.contains(no) ) m_SnList.append(no);
