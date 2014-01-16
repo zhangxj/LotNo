@@ -78,7 +78,7 @@ bool Database::InsertBlockNo(QString BlockNo, QString LotNo)
 
 bool Database::InsertSn(QString Sn, QString BlockNo)
 {
-    m_Query.prepare("insert into SN (SN, BLOCK_NO, FLAG) values (:SN, :BLOCK_NO, 0)");
+    m_Query.prepare("insert into SN (SN, BLOCK_NO, FLAG) values (:SN, :BLOCK_NO, 1)");
     m_Query.bindValue(0, Sn);
     m_Query.bindValue(1, BlockNo);
     return m_Query.exec();
@@ -125,7 +125,7 @@ void Database::SearchSn(QString Sn,
                  QMap<QString, QSet<QString> > *LotNoMap,
                  QMap<QString, QSet<QString> > *BlockNoMap)
 {
-    m_Query.exec(QString("select b.LOT_NO, b.BLOCK_NO, s.SN from BLOCK_NO b, SN s where b.BLOCK_NO = S.BLOCK_NO AND S.SN = '%1'").arg(Sn));
+    m_Query.exec(QString("select b.LOT_NO, b.BLOCK_NO, s.SN from BLOCK_NO b, SN s where b.BLOCK_NO = S.BLOCK_NO AND S.SN = '%1' AND S.FLAG=1").arg(Sn));
     while(m_Query.next()){
         QString LotNo = m_Query.value(0).toString();
         QString BlockNo = m_Query.value(1).toString();

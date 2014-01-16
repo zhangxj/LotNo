@@ -5,7 +5,7 @@
 #include <QIcon>
 #include "datafilter.h"
 
-QString WindowTitle = "SMF 条码追溯系统";
+QString WindowTitle = "返修品SMF 条码追溯系统";
 Q_DECL_EXPORT int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
