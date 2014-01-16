@@ -159,7 +159,7 @@ void DataFilter::selectItem(QString flag, QString no)
         QSet< QString > block_no = m_LotNoMap.value(no);
         foreach (const QString &value, block_no) {
             m_BlockNoList.append(value);
-            QSet< QString > sn = m_BlockNoMap.value(value);
+            QStringList sn = m_BlockNoMap.value(value);
             foreach (const QString &value, sn) {
                 m_SnList.append(value);
             }
@@ -170,7 +170,7 @@ void DataFilter::selectItem(QString flag, QString no)
     else if("block_no" == flag){
         m_CurrentBlockNo = no;
         m_SnList.clear();
-        QSet< QString > sn = m_BlockNoMap.value(no);
+        QStringList sn= m_BlockNoMap.value(no);
         foreach (const QString &value, sn) {
             m_SnList.append(value);
         }
@@ -204,7 +204,6 @@ void DataFilter::searchData(QString flag, QString no)
 
     clearData();
     if("lot_no" == flag){
-        qDebug() << flag << no << "search lotno";
         m_DB.SearchLotNo(no, &m_LotNoMap, &m_BlockNoMap);
     }
     else if("block_no" == flag){
@@ -221,7 +220,7 @@ void DataFilter::searchData(QString flag, QString no)
 
         foreach (const QString &value, block_no_set) {
             m_BlockNoList.append(value);
-            QSet< QString > sn_set = m_BlockNoMap.value(value);
+            QStringList sn_set= m_BlockNoMap.value(value);
             foreach (const QString &value, sn_set) {
                 m_SnList.append(value);
             }
@@ -286,14 +285,14 @@ void DataFilter::setScan(QString flag, QString no)
         QSet< QString >  *block_no = &(it.value());
         block_no->insert(no);
 
-        QSet<QString> sn_no;
+        QStringList sn_no;
         m_BlockNoMap.insert(no, sn_no);
 
         if( !m_BlockNoList.contains(no) ) m_BlockNoList.append(no);
         emit blockNoListChanged();
     }
     else if("sn" == flag){
-        QMap< QString, QSet< QString > >::Iterator it = m_BlockNoMap.find(m_CurrentBlockNo);
+        QMap< QString, QStringList >::Iterator it = m_BlockNoMap.find(m_CurrentBlockNo);
 
         if( it == m_BlockNoMap.end() ){
             m_string = "没有对应的BlockNo";
@@ -301,17 +300,11 @@ void DataFilter::setScan(QString flag, QString no)
             return;
         }
 
-        if( m_DB.IsExistSn(no)) {
-            m_string = "数据已存在";
-            emit stringChanged();
-            return;
-        }
-
         m_DB.InsertSn(no, m_CurrentBlockNo);
 
-        QSet< QString > *sn = &(it.value());
-        sn->insert(no);
-        if( !m_SnList.contains(no) ) m_SnList.append(no);
+        QStringList *sn = &(it.value());
+        sn->append(no);
+        m_SnList.append(no);
         emit snListChanged();
     }
 

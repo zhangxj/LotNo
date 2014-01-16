@@ -26,21 +26,21 @@ public:
 
     void SearchLotNo(QString LotNo,
                      QMap<QString, QSet<QString> > *LotNoMap,
-                     QMap<QString, QSet<QString> > *BlockNoMap);
+                     QMap<QString, QStringList > *BlockNoMap);
 
     void SearchBlockNo(QString BlockNo,
                      QMap<QString, QSet<QString> > *LotNoMap,
-                     QMap<QString, QSet<QString> > *BlockNoMap);
+                     QMap<QString, QStringList > *BlockNoMap);
 
     void SearchSn(QString Sn,
                      QMap<QString, QSet<QString> > *LotNoMap,
-                     QMap<QString, QSet<QString> > *BlockNoMap);
+                     QMap<QString, QStringList > *BlockNoMap);
 
     void InsertLotNoMap(QString LotNo, QString BlockNo,
                         QMap<QString, QSet<QString> > *LotNoMap);
 
     void InsertBlockNoMap(QString BlockNo, QString SN,
-                          QMap<QString, QSet<QString> > *BlockNoMap);
+                          QMap<QString, QStringList > *BlockNoMap);
 
     QString GetLotNoByBlockNo(QString BlockNo);
 

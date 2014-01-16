@@ -57,7 +57,7 @@ public:
     QString m_CurrentBlockNo;
 
     QMap< QString, QSet<QString> > m_LotNoMap;
-    QMap< QString, QSet<QString> > m_BlockNoMap;
+    QMap< QString, QStringList > m_BlockNoMap;
 
     QString m_checkCode;
 

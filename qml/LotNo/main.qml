@@ -21,7 +21,7 @@ Rectangle {
             anchors.left:title.left
             anchors.leftMargin: 20
             anchors.verticalCenter: title.verticalCenter
-            text: "SMF 条码追溯系统"
+            text: "返修品SMF 条码追溯系统"
             color:"#ffffff"
             font.pixelSize:14
             font.bold: true
