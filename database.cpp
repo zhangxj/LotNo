@@ -127,7 +127,7 @@ void Database::SearchSn(QString Sn,
 {
     m_Query.exec(QString("select b.LOT_NO, b.BLOCK_NO, s.SN from BLOCK_NO b, SN s "
                          "where b.BLOCK_NO = S.BLOCK_NO "
-                         "AND S.SN = '%1' and sn.flag=0").arg(Sn));
+                         "AND S.SN = '%1' and s.flag=0").arg(Sn));
     while(m_Query.next()){
         QString LotNo = m_Query.value(0).toString();
         QString BlockNo = m_Query.value(1).toString();
