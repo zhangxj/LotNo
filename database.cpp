@@ -196,3 +196,10 @@ bool Database::IsExistSn(QString SN)
 
     return false;
 }
+
+bool Database::ClearSnByBlockNo(QString BlockNo)
+{
+    m_Query.prepare("delete from SN where BLOCK_NO = :BLOCK_NO and flag = 0");
+    m_Query.bindValue(0, BlockNo);
+    return m_Query.exec();
+}

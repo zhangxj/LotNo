@@ -45,6 +45,8 @@ public:
     QString GetLotNoByBlockNo(QString BlockNo);
 
     bool IsExistSn(QString SN);
+
+    bool ClearSnByBlockNo(QString BlockNo);
 private:
     QSqlDatabase m_Conn;
     QSqlQuery m_Query;

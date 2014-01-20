@@ -240,11 +240,6 @@ void DataFilter::setScan(QString flag, QString no)
         return;
     }
 
-    if(flag == "sn" && (no == "rescan" || no == "RESCAN")){
-        qDebug() << flag << no;
-        return;
-    }
-
     no = no.trimmed();
     if(no == "") return;
 
@@ -303,6 +298,14 @@ void DataFilter::setScan(QString flag, QString no)
         if( it == m_BlockNoMap.end() ){
             m_string = "没有对应的BlockNo";
             emit stringChanged();
+            return;
+        }
+
+        if(no == "rescan" || no == "RESCAN"){
+            qDebug() << flag << no;
+            m_DB.ClearSnByBlockNo(m_CurrentBlockNo);
+            m_SnList.clear();
+            emit snListChanged();
             return;
         }
 

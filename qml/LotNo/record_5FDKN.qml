@@ -111,6 +111,14 @@ Rectangle {
             //sn_listview.currentData = "";
             var color = 'green'
             var snList = dataFilter.getSnList();
+            if(snList.length == 0){
+                pos1.color = 'transparent'; pos1.text = "";
+                pos2.color = 'transparent'; pos2.text = "";
+                pos3.color = 'transparent'; pos3.text = "";
+                pos4.color = 'transparent'; pos4.text = "";
+                pos5.color = 'transparent'; pos5.text = "";
+                pos6.color = 'transparent'; pos6.text = "";
+            }
             if(snList.length == 1){pos1.color = color; pos1.text = snList[0];}
             if(snList.length == 2){pos2.color = color; pos2.text = snList[1];}
             if(snList.length == 3){pos3.color = color; pos3.text = snList[2];}
@@ -185,5 +193,4 @@ Rectangle {
             Text{ text: parent.text; anchors.centerIn: parent; font.pixelSize: 16; font.bold: true; color: 'black'}
         }
     }
-
 }

@@ -111,6 +111,20 @@ Rectangle {
             //sn_listview.currentData = "";
             var color = 'green'
             var snList = dataFilter.getSnList();
+            if(snList.length == 0){
+                pos1.color = 'transparent'; pos1.text = "";
+                pos2.color = 'transparent'; pos2.text = "";
+                pos3.color = 'transparent'; pos3.text = "";
+                pos4.color = 'transparent'; pos4.text = "";
+                pos5.color = 'transparent'; pos5.text = "";
+                pos6.color = 'transparent'; pos6.text = "";
+                pos7.color = 'transparent'; pos7.text = "";
+                pos8.color = 'transparent'; pos8.text = "";
+                pos9.color = 'transparent'; pos9.text = "";
+                pos10.color = 'transparent'; pos10.text = "";
+                pos11.color = 'transparent'; pos11.text = "";
+                pos12.color = 'transparent'; pos12.text = "";
+            }
             if(snList.length == 1){pos1.color = color; pos1.text = snList[0];}
             if(snList.length == 2){pos2.color = color; pos2.text = snList[1];}
             if(snList.length == 3){pos3.color = color; pos3.text = snList[2];}
