@@ -69,8 +69,8 @@ Rectangle {
             }else if(value == "about"){
                 dataFilter.OnAbout();
             }else if(value == "quit"){
-                //app.quit()
-                dataFilter.quit();
+                app.quit()
+                //dataFilter.quit();
             }
         }
     }

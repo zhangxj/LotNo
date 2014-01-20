@@ -17,7 +17,6 @@ Rectangle {
 
     Row{
         id: row_text
-        z: 1
         spacing: 50
         anchors.horizontalCenter: form.horizontalCenter
         anchors.top: form.top
@@ -59,7 +58,10 @@ Rectangle {
             TextBox {
                 id: sn; flag: 'sn'
                 width: parent.width; height: parent.height
-                onFinished: dataFilter.setScan(flag, value)
+                onFinished: {
+                    if(dataFilter.getSnList().length < 12)
+                        dataFilter.setScan(flag, value);
+                }
             }
         }
 
@@ -107,6 +109,20 @@ Rectangle {
         onSnListChanged:{
             //sn_listview.model = dataFilter.getSnList()
             //sn_listview.currentData = "";
+            var color = 'green'
+            var snList = dataFilter.getSnList();
+            if(snList.length == 1){pos1.color = color; pos1.text = snList[0];}
+            if(snList.length == 2){pos2.color = color; pos2.text = snList[1];}
+            if(snList.length == 3){pos3.color = color; pos3.text = snList[2];}
+            if(snList.length == 4){pos4.color = color; pos4.text = snList[3];}
+            if(snList.length == 5){pos5.color = color; pos5.text = snList[4];}
+            if(snList.length == 6){pos6.color = color; pos6.text = snList[5];}
+            if(snList.length == 7){pos7.color = color; pos7.text = snList[6];}
+            if(snList.length == 8){pos8.color = color; pos8.text = snList[7];}
+            if(snList.length == 9){pos9.color = color; pos9.text = snList[8];}
+            if(snList.length == 10){pos10.color = color; pos10.text = snList[9];}
+            if(snList.length == 11){pos11.color = color; pos11.text = snList[10];}
+            if(snList.length == 12){pos12.color = color; pos12.text = snList[11];}
         }
     }
 
@@ -121,6 +137,120 @@ Rectangle {
     }
 
 
+
+    Row{
+        spacing: 80
+        anchors.top: pic.top
+        anchors.topMargin: 80
+        anchors.left: pic.left
+        anchors.leftMargin: 60
+        Rectangle {
+            id: pos1
+            property variant text: ''
+            color:'transparent'; width: 150; height: 35
+            Text{ text: parent.text; anchors.centerIn: parent; font.pixelSize: 16; font.bold: true; color: 'black'}
+        }
+
+        Rectangle {
+            id: pos3
+            property variant text: ''
+            color:'transparent'; width: 150; height: 35
+            Text{ text: parent.text; anchors.centerIn: parent; font.pixelSize: 16; font.bold: true; color: 'black'}
+        }
+
+        Rectangle {
+            id: pos5
+            property variant text: ''
+            color:'transparent'; width: 150; height: 35
+            Text{ text: parent.text; anchors.centerIn: parent; font.pixelSize: 16; font.bold: true; color: 'black'}
+        }
+    }
+
+    Row{
+        spacing: 80
+        anchors.top: pic.top
+        anchors.topMargin: 120
+        anchors.left: pic.left
+        anchors.leftMargin: 100
+        Rectangle {
+            id: pos2
+            property variant text: ''
+            color:'transparent'; width: 150; height: 35
+            Text{ text: parent.text; anchors.centerIn: parent; font.pixelSize: 16; font.bold: true; color: 'black'}
+        }
+
+        Rectangle {
+            id: pos4
+            property variant text: ''
+            color:'transparent'; width: 150; height: 35
+            Text{ text: parent.text; anchors.centerIn: parent; font.pixelSize: 16; font.bold: true; color: 'black'}
+        }
+
+        Rectangle {
+            id: pos6
+            property variant text: ''
+            color:'transparent'; width: 150; height: 35
+            Text{ text: parent.text; anchors.centerIn: parent; font.pixelSize: 16; font.bold: true; color: 'black'}
+        }
+    }
+
+    Row{
+        spacing: 80
+        anchors.top: pic.top
+        anchors.topMargin: 260
+        anchors.left: pic.left
+        anchors.leftMargin: 60
+        Rectangle {
+            id: pos12
+            property variant text: ''
+            color:'transparent'; width: 150; height: 35
+            Text{ text: parent.text; anchors.centerIn: parent; font.pixelSize: 16; font.bold: true; color: 'black'}
+        }
+
+        Rectangle {
+            id: pos10
+            property variant text: ''
+            color:'transparent'; width: 150; height: 35
+            Text{ text: parent.text; anchors.centerIn: parent; font.pixelSize: 16; font.bold: true; color: 'black'}
+        }
+
+        Rectangle {
+            id: pos8
+            property variant text: ''
+            color:'transparent'; width: 150; height: 35
+            Text{ text: parent.text; anchors.centerIn: parent; font.pixelSize: 16; font.bold: true; color: 'black'}
+        }
+    }
+
+    Row{
+        spacing: 80
+        anchors.top: pic.top
+        anchors.topMargin: 300
+        anchors.left: pic.left
+        anchors.leftMargin: 100
+        Rectangle {
+            id: pos11
+            property variant text: ''
+            color:'transparent'; width: 150; height: 35
+            Text{ text: parent.text; anchors.centerIn: parent; font.pixelSize:16; font.bold: true; color: 'black'}
+        }
+
+        Rectangle {
+            id: pos9
+            property variant text: ''
+            color:'transparent'; width: 150; height: 35
+            Text{ text: parent.text; anchors.centerIn: parent; font.pixelSize: 16; font.bold: true; color: 'black'}
+        }
+
+        Rectangle {
+            id: pos7
+            property variant text: ''
+            color:'transparent'; width: 150; height: 35
+            Text{ text: parent.text; anchors.centerIn: parent; font.pixelSize: 16; font.bold: true; color: 'black'}
+        }
+    }
+
+    /*
     Grid {
         z: 1
         columns: 3
@@ -135,6 +265,6 @@ Rectangle {
         Rectangle { color: "blue"; width: 40; height: 35 }
         Rectangle { color: "blue"; width: 40; height: 35 }
         Rectangle { color: "blue"; width: 40; height: 35 }
-    }
+    }*/
 
 }
