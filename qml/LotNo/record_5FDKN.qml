@@ -27,6 +27,7 @@ Rectangle {
             width: 210; height: 50
             TextBox {
                 id: lot_no; flag: 'lot_no'
+                bk_text: 'lot_no'
                 width: parent.width; height: parent.height
                 focus: true
                 onFinished: {
@@ -42,6 +43,7 @@ Rectangle {
             width: 210; height: 50
             TextBox {
                 id: block_no; flag: 'block_no'
+                bk_text: 'block_no'
                 width: parent.width; height: parent.height
                 onFinished: {
                     dataFilter.setScan(flag, value)
@@ -57,6 +59,7 @@ Rectangle {
             width: 210; height: 50
             TextBox {
                 id: sn; flag: 'sn'
+                bk_text: 'sn'
                 width: parent.width; height: parent.height
                 onFinished: {
                     if(dataFilter.getSnList().length < 6 || (value == "rescan" || value == "RESCAN"))

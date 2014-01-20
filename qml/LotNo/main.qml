@@ -72,8 +72,8 @@ Rectangle {
             }else if(value == "about"){
                 dataFilter.OnAbout();
             }else if(value == "quit"){
-                app.quit()
-                //dataFilter.quit();
+                //app.quit()
+                dataFilter.quit();
             }
         }
     }
@@ -87,7 +87,7 @@ Rectangle {
         anchors.right: parent.right
         anchors.rightMargin: 5
         focus: true
-        source: "record_5FDKN.qml"
+        source: "LuRu.qml"
     }
 
     Connections{

@@ -6,6 +6,7 @@ FocusScope {
     width: 600; height: 40
     property string flag;
     property alias text: textInput.text
+    property variant bk_text: ''
     focus: false;
     signal finished(string value)
 
@@ -19,7 +20,8 @@ FocusScope {
         id: typeSomething
         anchors.fill: parent; anchors.leftMargin: 8
         verticalAlignment: Text.AlignVCenter
-        text: ""
+        text: bk_text
+        font.pixelSize:16
         color: "gray"
     }
 

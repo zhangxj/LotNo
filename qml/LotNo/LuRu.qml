@@ -29,6 +29,7 @@ Rectangle {
                 id: lot_no; flag: 'lot_no'
                 width: parent.width; height: parent.height
                 focus: true
+                bk_text: 'lot_no'
                 onFinished: {
                     dataFilter.setScan(flag, value)
                     block_no.focus = true
@@ -42,6 +43,7 @@ Rectangle {
             width: 210; height: 50
             TextBox {
                 id: block_no; flag: 'block_no'
+                bk_text: 'block_no'
                 width: parent.width; height: parent.height
                 onFinished: {
                     dataFilter.setScan(flag, value)
@@ -57,6 +59,7 @@ Rectangle {
             width: 210; height: 50
             TextBox {
                 id: sn; flag: 'sn'
+                bk_text: 'sn'
                 width: parent.width; height: parent.height
                 onFinished: {
                     if(dataFilter.getSnList().length < 12|| (value == "rescan" || value == "RESCAN"))
@@ -145,7 +148,7 @@ Rectangle {
         id: pic
         width: parent.width - 40
         anchors.top: row_text.bottom
-        anchors.topMargin: 60
+        anchors.topMargin: 40
         anchors.horizontalCenter: parent.horizontalCenter
         source:Func.get_image_path("6ADKN.jpg")
     }

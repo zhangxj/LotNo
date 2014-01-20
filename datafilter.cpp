@@ -338,7 +338,7 @@ void DataFilter::OnAbout()
     QMessageBox msgBox;
     msgBox.setIcon(QMessageBox::Information);
     msgBox.setWindowTitle(WindowTitle);
-    msgBox.setText("条码录入系统 V1.0                           ");
+    msgBox.setText(WindowTitle + " V1.1                           ");
     msgBox.setInformativeText("Copyright 深圳市菲尼曼特科技有限公司 2013");
     msgBox.addButton("确定", QMessageBox::YesRole);
     msgBox.exec();
