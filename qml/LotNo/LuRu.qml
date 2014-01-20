@@ -33,6 +33,7 @@ Rectangle {
                 onFinished: {
                     dataFilter.setScan(flag, value)
                     block_no.focus = true
+                    lot_no_text.text = 'lot_no: ' + value
                 }
             }
         }
@@ -46,9 +47,11 @@ Rectangle {
                 onFinished: {
                     dataFilter.setScan(flag, value)
                     sn.focus = true
+                    block_no_text.text = 'block_no: ' + value
                 }
             }
         }
+
         ShadowRectangle {
             id: shadow3
             color: "#434343"
@@ -62,6 +65,28 @@ Rectangle {
 
     }
 
+    Row{
+        spacing: 50
+        anchors.horizontalCenter: form.horizontalCenter
+        anchors.top: row_text.bottom
+        anchors.topMargin: 15
+
+        Text{
+            id: lot_no_text
+            width: 210;
+            text: ''
+            font.pixelSize: 25
+            color: 'red'
+        }
+        Text{
+            id: block_no_text
+            width: 210;
+            text: ''
+            font.pixelSize: 25
+            color: 'red'
+        }
+    }
+
     Connections
     {
         target: dataFilter
@@ -70,67 +95,46 @@ Rectangle {
         }
 
         onLotNoListChanged:{
-            lot_no_listview.model = dataFilter.getLotNoList()
-            lot_no_listview.currentData = "";
+            //lot_no_listview.model = dataFilter.getLotNoList()
+            //lot_no_listview.currentData = "";
         }
 
         onBlockNoListChanged:{
-            block_no_listview.model = dataFilter.getBlockNoList()
-            block_no_listview.currentData = "";
+            //block_no_listview.model = dataFilter.getBlockNoList()
+            //block_no_listview.currentData = "";
         }
 
         onSnListChanged:{
-            sn_listview.model = dataFilter.getSnList()
-            sn_listview.currentData = "";
+            //sn_listview.model = dataFilter.getSnList()
+            //sn_listview.currentData = "";
         }
     }
-    Row{
-        id: row_list
-        spacing: row_text.spacing
 
+
+    Image {
+        id: pic
+        width: parent.width - 40
         anchors.top: row_text.bottom
-        anchors.topMargin: 30
-        anchors.left: row_text.left
-
-        SingleListView{
-            id: lot_no_listview
-            flag: "lot_no"
-            width: 210; height: form.height - 190
-            onSelected: dataFilter.selectItem(flag, value)
-        }
-        SingleListView{
-            id: block_no_listview
-            flag: "block_no"
-            width: 210; height: form.height - 190
-            onSelected: dataFilter.selectItem(flag, value)
-        }
-
-        SingleListView{
-            id: sn_listview
-            flag: "sn"
-            width: 210; height: form.height - 190
-            onSelected: dataFilter.selectItem(flag, value)
-        }
+        anchors.topMargin: 60
+        anchors.horizontalCenter: parent.horizontalCenter
+        source:Func.get_image_path("6ADKN.jpg")
     }
 
-    Rectangle{
-        color: "white"
-        width: row_list.width
-        anchors.top: parent.top
-        anchors.bottom: row_text.top
-        anchors.left: row_list.left
+
+    Grid {
+        z: 1
+        columns: 3
+        spacing: 200
+        anchors.top: pic.top
+        anchors.topMargin: 80
+        anchors.left: pic.left
+        anchors.leftMargin: 100
+        Rectangle { color: "red"; width: 40; height: 35 }
+        Rectangle { color: "green"; width: 40; height: 35 }
+        Rectangle { color: "blue"; width: 40; height: 35 }
+        Rectangle { color: "blue"; width: 40; height: 35 }
+        Rectangle { color: "blue"; width: 40; height: 35 }
+        Rectangle { color: "blue"; width: 40; height: 35 }
     }
-    Rectangle{
-        color: "white"
-        width: row_list.width
-        anchors.top: row_text.bottom
-        anchors.bottom: row_list.top
-        anchors.left: row_list.left
-    }
-    Rectangle{
-        color: "white"
-        width: row_list.width; height: 40
-        anchors.top: row_list.bottom
-        anchors.left: row_list.left
-    }
+
 }
