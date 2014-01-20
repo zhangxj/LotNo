@@ -10,7 +10,8 @@ Rectangle {
             ]
         },
         {'id': 'op', 'value': '操作', 'items': [
-                {'id': 'record', 'value': '录入'},
+                {'id': 'record_6ADKN', 'value': '6ADKN 录入'},
+                {'id': 'record_5FDKN', 'value': '5FDKN 录入'},
                 {'id': 'search', 'value': '查询'}
             ]
         },
@@ -105,7 +106,7 @@ Rectangle {
                         width:leftMenu.width;
                         height:40;
                         color:"transparent";
-                        state: modelData.id == "record" && (select_item(item, "subselected"))? "selected":""
+                        state: modelData.id == "record_6ADKN" && (select_item(item, "subselected"))? "selected":""
                         Text{
                             x:25
                             font.pixelSize:12

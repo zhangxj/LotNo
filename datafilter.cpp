@@ -240,6 +240,11 @@ void DataFilter::setScan(QString flag, QString no)
         return;
     }
 
+    if(flag == "sn" && (no == "rescan" || no == "RESCAN")){
+        qDebug() << flag << no;
+        return;
+    }
+
     no = no.trimmed();
     if(no == "") return;
 
