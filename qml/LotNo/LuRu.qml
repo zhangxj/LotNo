@@ -3,11 +3,10 @@ import "func.js" as Func
 
 Rectangle {
     id: form
-    color: "white"
+    color: "transparent"
 
     Text{
         id: label
-        z: 1
         anchors.horizontalCenter: form.horizontalCenter
         anchors.top: form.top
         anchors.topMargin: 0
@@ -150,7 +149,7 @@ Rectangle {
         anchors.top: row_text.bottom
         anchors.topMargin: 40
         anchors.horizontalCenter: parent.horizontalCenter
-        source:Func.get_image_path("6ADKN.jpg")
+        source:Func.get_image_path("6ADKN.png")
     }
 
 
