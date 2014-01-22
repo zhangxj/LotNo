@@ -101,7 +101,7 @@ Rectangle {
         }
 
         onSnListChanged:{
-            sn_listview.model = dataFilter.getSnList()
+            sn_listview.model = dataFilter.getSnList();
             //sn_listview.currentData = "";
             var color = 'green'
             var snList = dataFilter.getSnList();
