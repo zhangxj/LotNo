@@ -29,7 +29,7 @@ Item{
                     anchors.fill : parent
                     onClicked : {
                         if (modelData == "minimum"){
-                            main_window.showMinimized()
+                            main_window.showMinimized();
                         }else if(modelData == "close"){
                             //app.quit();
                             dataFilter.quit();

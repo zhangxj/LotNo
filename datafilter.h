@@ -6,6 +6,7 @@
 #include <QDebug>
 #include <QMap>
 #include <QSet>
+#include <QJsonArray>
 #include "database.h"
 
 class DataFilter : public QObject
@@ -29,7 +30,7 @@ public slots:
     QStringList getLotNoList();
     QStringList getBlockNoList();
     QStringList getSnList();
-    void setScan(QString flag, QString no);
+    void setScan(QString flag, QString no, QString Location);
     void searchData(QString flag, QString no);
     void selectItem(QString flag, QString no);
     void OnAbout();
@@ -60,7 +61,6 @@ public:
     QMap< QString, QSet<QString> > m_BlockNoMap;
 
     QString m_checkCode;
-
 };
 
 #endif // DATAFILTER_H

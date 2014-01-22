@@ -29,9 +29,9 @@ Rectangle {
                 id: lot_no; flag: 'lot_no'
                 width: parent.width; height: parent.height
                 focus: true
-                bk_text: 'lot_no'
+                bk_text: 'SMF Lot No.'
                 onFinished: {
-                    dataFilter.setScan(flag, value)
+                    dataFilter.setScan(flag, value, "")
                     block_no.focus = true
                     lot_no_text.text = 'lot_no: ' + value
                 }
@@ -43,10 +43,10 @@ Rectangle {
             width: 210; height: 50
             TextBox {
                 id: block_no; flag: 'block_no'
-                bk_text: 'block_no'
+                bk_text: 'Block No.'
                 width: parent.width; height: parent.height
                 onFinished: {
-                    dataFilter.setScan(flag, value)
+                    dataFilter.setScan(flag, value, "")
                     sn.focus = true
                     block_no_text.text = 'block_no: ' + value
                 }
@@ -59,11 +59,11 @@ Rectangle {
             width: 210; height: 50
             TextBox {
                 id: sn; flag: 'sn'
-                bk_text: 'sn'
+                bk_text: 'Sample SN'
                 width: parent.width; height: parent.height
                 onFinished: {
                     if(dataFilter.getSnList().length < 12|| (value == "rescan" || value == "RESCAN"))
-                        dataFilter.setScan(flag, value);
+                        dataFilter.setScan(flag, value, dataFilter.getSnList().length + 1);
                 }
             }
         }
@@ -100,16 +100,6 @@ Rectangle {
             label.text = dataFilter.getString()
         }
 
-        onLotNoListChanged:{
-            //lot_no_listview.model = dataFilter.getLotNoList()
-            //lot_no_listview.currentData = "";
-        }
-
-        onBlockNoListChanged:{
-            //block_no_listview.model = dataFilter.getBlockNoList()
-            //block_no_listview.currentData = "";
-        }
-
         onSnListChanged:{
             sn_listview.model = dataFilter.getSnList()
             //sn_listview.currentData = "";
@@ -129,21 +119,27 @@ Rectangle {
                 pos11.color = 'transparent'; pos11.text = "";
                 pos12.color = 'transparent'; pos12.text = "";
             }
-            if(snList.length == 1){pos1.color = color; pos1.text = "1";}
-            if(snList.length == 2){pos2.color = color; pos2.text = "2";}
-            if(snList.length == 3){pos3.color = color; pos3.text = "3";}
-            if(snList.length == 4){pos4.color = color; pos4.text = "4";}
-            if(snList.length == 5){pos5.color = color; pos5.text = "5";}
-            if(snList.length == 6){pos6.color = color; pos6.text = "6";}
-            if(snList.length == 7){pos7.color = color; pos7.text = "7";}
-            if(snList.length == 8){pos8.color = color; pos8.text = "8";}
-            if(snList.length == 9){pos9.color = color; pos9.text = "9";}
-            if(snList.length == 10){pos10.color = color; pos10.text = "10";}
-            if(snList.length == 11){pos11.color = color; pos11.text = "11";}
-            if(snList.length == 12){pos12.color = color; pos12.text = "12";}
+            if(snList.length == 1){pos1.color = color; pos1.text = snList[0] == "NOSAMPLE" ? "NOSAMPLE":"1";}
+            if(snList.length == 2){pos2.color = color; pos2.text = snList[1] == "NOSAMPLE" ? "NOSAMPLE":"2";}
+            if(snList.length == 3){pos3.color = color; pos3.text = snList[2] == "NOSAMPLE" ? "NOSAMPLE":"3";}
+            if(snList.length == 4){pos4.color = color; pos4.text = snList[3] == "NOSAMPLE" ? "NOSAMPLE":"4";}
+            if(snList.length == 5){pos5.color = color; pos5.text = snList[4] == "NOSAMPLE" ? "NOSAMPLE":"5";}
+            if(snList.length == 6){pos6.color = color; pos6.text = snList[5] == "NOSAMPLE" ? "NOSAMPLE":"6";}
+            if(snList.length == 7){pos7.color = color; pos7.text = snList[6] == "NOSAMPLE" ? "NOSAMPLE":"7";}
+            if(snList.length == 8){pos8.color = color; pos8.text = snList[7] == "NOSAMPLE" ? "NOSAMPLE":"8";}
+            if(snList.length == 9){pos9.color = color; pos9.text = snList[8] == "NOSAMPLE" ? "NOSAMPLE":"9";}
+            if(snList.length == 10){pos10.color = color; pos10.text = snList[9] == "NOSAMPLE" ? "NOSAMPLE":"10";}
+            if(snList.length == 11){pos11.color = color; pos11.text = snList[10] == "NOSAMPLE" ? "NOSAMPLE":"11";}
+            if(snList.length == 12){pos12.color = color; pos12.text = snList[11] == "NOSAMPLE" ? "NOSAMPLE":"12";}
         }
     }
 
+    SampleSNListView{
+        id: sn_listview
+        width: 180; height: pic.height / 3
+        anchors.left: pic.right
+        anchors.top: pic.top
+    }
 
     Image {
         id: pic
@@ -154,14 +150,6 @@ Rectangle {
         source:Func.get_image_path("6ADKN.png")
     }
 
-    SingleListView{
-        id: sn_listview
-        flag: "sn"
-        width: 180; height: pic.height
-        anchors.left: pic.right
-        anchors.top: pic.top
-        //onSelected: dataFilter.selectItem(flag, value)
-    }
 
     Row{
         spacing: 150

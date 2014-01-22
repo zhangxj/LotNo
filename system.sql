@@ -12,7 +12,7 @@ if EXISTS (select * from sysobjects where name = 'LOT_NO')
 create table LOT_NO 
 (
 	LOT_NO varchar(50) primary key,
-	addon datetime default getdate()
+	ADDON datetime default getdate()
 );
 if EXISTS (select * from sysobjects where name = 'BLOCK_NO')
 	DROP TABLE BLOCK_NO;
@@ -21,7 +21,7 @@ create table BLOCK_NO
 (  
 	BLOCK_NO varchar(50) primary key,
 	LOT_NO varchar(50),
-	addon datetime default getdate()
+	ADDON datetime default getdate()
 );
 
 if EXISTS (select * from sysobjects where name = 'SN')
@@ -31,8 +31,9 @@ create table SN
 (
 	SN varchar(50),
 	BLOCK_NO varchar(50),
-	FLAG int,
-	addon datetime default getdate()
+	LOCATION varchar(50),
+	FLAG int,  /* 0:Õý³£  1:·µÐÞÆ·*/
+	ADDON datetime default getdate()
 )
 
 /*

@@ -22,7 +22,7 @@ public:
     bool ExecuteSQL(QString sql);
     bool InsertLotNo(QString LotNo);
     bool InsertBlockNo(QString BlockNo, QString LotNo);
-    bool InsertSn(QString Sn, QString BlockNo);
+    bool InsertSn(QString Sn, QString BlockNo, QString Location);
 
     void SearchLotNo(QString LotNo,
                      QMap<QString, QSet<QString> > *LotNoMap,

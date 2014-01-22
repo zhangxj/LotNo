@@ -76,11 +76,12 @@ bool Database::InsertBlockNo(QString BlockNo, QString LotNo)
     return m_Query.exec();
 }
 
-bool Database::InsertSn(QString Sn, QString BlockNo)
+bool Database::InsertSn(QString Sn, QString BlockNo, QString Location)
 {
-    m_Query.prepare("insert into SN (SN, BLOCK_NO, FLAG) values (:SN, :BLOCK_NO, 0)");
+    m_Query.prepare("insert into SN (SN, BLOCK_NO, Location, FLAG) values (:SN, :BLOCK_NO, :LOCATION, 0)");
     m_Query.bindValue(0, Sn);
     m_Query.bindValue(1, BlockNo);
+    m_Query.bindValue(2, Location);
     return m_Query.exec();
 }
 
@@ -88,7 +89,7 @@ void Database::SearchLotNo(QString LotNo,
                            QMap<QString, QSet<QString> > *LotNoMap,
                            QMap<QString, QSet<QString> > *BlockNoMap)
 {
-    m_Query.exec(QString("select LOT_NO.LOT_NO, BLOCK_NO.BLOCK_NO, SN.SN from LOT_NO "
+    m_Query.exec(QString("select LOT_NO.LOT_NO, BLOCK_NO.BLOCK_NO, SN.SN, SN.LOCATION, SN.ADDON from LOT_NO "
                          "left join BLOCK_NO on LOT_NO.LOT_NO = BLOCK_NO.LOT_NO "
                          "left join SN on BLOCK_NO.BLOCK_NO = SN.BLOCK_NO "
                          "where LOT_NO.LOT_NO = '%1' and sn.flag=0").arg(LotNo) );
@@ -107,7 +108,7 @@ void Database::SearchBlockNo(QString BlockNo,
                  QMap<QString, QSet<QString> > *BlockNoMap)
 {
 
-    m_Query.exec(QString("select LOT_NO.LOT_NO, BLOCK_NO.BLOCK_NO, SN.SN from LOT_NO "
+    m_Query.exec(QString("select LOT_NO.LOT_NO, BLOCK_NO.BLOCK_NO, SN.SN, SN.LOCATION, SN.ADDON from LOT_NO "
                          "join BLOCK_NO on LOT_NO.LOT_NO = BLOCK_NO.LOT_NO "
                          "left join SN on BLOCK_NO.BLOCK_NO = SN.BLOCK_NO "
                          "where BLOCK_NO.BLOCK_NO = '%1' and sn.flag=0").arg(BlockNo));
@@ -125,7 +126,7 @@ void Database::SearchSn(QString Sn,
                  QMap<QString, QSet<QString> > *LotNoMap,
                  QMap<QString, QSet<QString> > *BlockNoMap)
 {
-    m_Query.exec(QString("select b.LOT_NO, b.BLOCK_NO, s.SN from BLOCK_NO b, SN s "
+    m_Query.exec(QString("select b.LOT_NO, b.BLOCK_NO, s.SN, s.LOCATION, s.ADDON from BLOCK_NO b, SN s "
                          "where b.BLOCK_NO = S.BLOCK_NO "
                          "AND S.SN = '%1' and s.flag=0").arg(Sn));
     while(m_Query.next()){
