@@ -276,11 +276,13 @@ void DataFilter::setScan(QString flag, QString no, QString Location)
             m_string = QString("请录入 SMF Lot No. Block No.");
             QMessageBox::critical(NULL, "Waining", m_string, QMessageBox::Ok);
             return;
-        }
-
-        if(no == "rescan" || no == "RESCAN"){
+        }else if(no == "rescan" || no == "RESCAN"){
             m_DB.ClearSnByBlockNo(m_CurrentBlockNo);
             m_SnList.clear();
+            emit snListChanged();
+            return;
+        }else if(no == "NOSAMPLE"){
+            m_SnList.append(no + "|" + Location);
             emit snListChanged();
             return;
         }
