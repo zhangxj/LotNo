@@ -33,9 +33,13 @@ FocusScope {
         id: textInput
         anchors { left: parent.left; leftMargin: 8; right: parent.right; rightMargin: 8; verticalCenter: parent.verticalCenter }
         font.pixelSize:20
+        font.bold: true
         focus: true
         onAccepted: {
             finished(textInput.text)
+        }
+
+        onFocusChanged: {
             textInput.text = ''
         }
     }

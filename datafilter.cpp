@@ -136,61 +136,25 @@ QString DataFilter::getString()
     return m_string;
 }
 
-QStringList DataFilter::getLotNoList()
-{
-    return m_LotNoList;
-}
-
-QStringList DataFilter::getBlockNoList()
-{
-    return m_BlockNoList;
-}
-
 QStringList DataFilter::getSnList()
 {
     return m_SnList;
 }
 
-void DataFilter::selectItem(QString flag, QString no)
-{
-    if("lot_no" == flag){
-        m_CurrentLotNo = no;
-        m_BlockNoList.clear();
-        m_SnList.clear();
-        QSet< QString > block_no = m_LotNoMap.value(no);
-        foreach (const QString &value, block_no) {
-            m_BlockNoList.append(value);
-            QSet< QString > sn = m_BlockNoMap.value(value);
-            foreach (const QString &value, sn) {
-                m_SnList.append(value);
-            }
-        }
-        emit blockNoListChanged();
-        emit snListChanged();
-    }
-    else if("block_no" == flag){
-        m_CurrentBlockNo = no;
-        m_SnList.clear();
-        QSet< QString > sn = m_BlockNoMap.value(no);
-        foreach (const QString &value, sn) {
-            m_SnList.append(value);
-        }
-        emit snListChanged();
-    }
-}
 void DataFilter::clearData()
 {
-    m_LotNoMap.clear();
-    m_BlockNoMap.clear();
-    m_LotNoList.clear();
-    m_BlockNoList.clear();
     m_SnList.clear();
 
     m_CurrentLotNo = "";
     m_CurrentBlockNo = "";
 
-    emit lotNoListChanged();
-    emit blockNoListChanged();
+    emit snListChanged();
+}
+
+void DataFilter::clearBlockNo()
+{
+    m_SnList.clear();
+    m_CurrentBlockNo = "";
     emit snListChanged();
 }
 
@@ -205,45 +169,29 @@ void DataFilter::searchData(QString flag, QString no)
 
     clearData();
     if("lot_no" == flag){
-        qDebug() << flag << no << "search lotno";
-        m_DB.SearchLotNo(no, &m_LotNoMap, &m_BlockNoMap);
+        m_DB.SearchLotNo(no, &m_SnList);
     }
     else if("block_no" == flag){
-        m_DB.SearchBlockNo(no, &m_LotNoMap, &m_BlockNoMap);
+        m_DB.SearchBlockNo(no, &m_SnList);
     }
     else if("sn" == flag){
-        m_DB.SearchSn(no, &m_LotNoMap, &m_BlockNoMap);
+        m_DB.SearchSn(no, &m_SnList);
     }
 
-    QMap< QString, QSet<QString> >::Iterator it;
-    for(it = m_LotNoMap.begin(); it != m_LotNoMap.end(); ++it){
-        m_LotNoList.append(it.key());
-        QSet< QString > block_no_set = it.value();
-
-        foreach (const QString &value, block_no_set) {
-            m_BlockNoList.append(value);
-            QSet< QString > sn_set = m_BlockNoMap.value(value);
-            foreach (const QString &value, sn_set) {
-                m_SnList.append(value);
-            }
-        }
-    }
-    emit lotNoListChanged();
-    emit blockNoListChanged();
     emit snListChanged();
 }
 
 
-void DataFilter::setScan(QString flag, QString no, QString Location)
+bool DataFilter::setScan(QString flag, QString no, QString Location)
 {
     qDebug() << flag << no << Location;
     if(! m_DB.isOpen()){
         QMessageBox::critical(NULL, "Waining", "数据库连接异常 请配置", QMessageBox::Ok);
-        return;
+        return false;
     }
 
     no = no.trimmed();
-    if(no == "") return;
+    if(no == "") return false;
 
     m_string = "";
     emit stringChanged();
@@ -257,7 +205,7 @@ void DataFilter::setScan(QString flag, QString no, QString Location)
         if(m_CurrentLotNo == "") {
             m_string = QString("请先录入 SMF Lot No.");
             QMessageBox::critical(NULL, "Waining", m_string, QMessageBox::Ok);
-            return;
+            return false;
         }
 
         QString tmp_LotNO = m_DB.GetLotNoByBlockNo(no);
@@ -266,7 +214,7 @@ void DataFilter::setScan(QString flag, QString no, QString Location)
                     .arg(no)
                     .arg(tmp_LotNO);
             QMessageBox::critical(NULL, "Waining", m_string, QMessageBox::Ok);
-            return;
+            return false;
         }
         m_CurrentBlockNo = no;
         m_DB.InsertBlockNo(no, m_CurrentLotNo);
@@ -275,22 +223,22 @@ void DataFilter::setScan(QString flag, QString no, QString Location)
         if( m_CurrentLotNo == "" || m_CurrentBlockNo == "" ){
             m_string = QString("请录入 SMF Lot No. Block No.");
             QMessageBox::critical(NULL, "Waining", m_string, QMessageBox::Ok);
-            return;
+            return false;
         }else if(no == "rescan" || no == "RESCAN"){
             m_DB.ClearSnByBlockNo(m_CurrentBlockNo);
             m_SnList.clear();
             emit snListChanged();
-            return;
+            return true;
         }else if(no == "NOSAMPLE"){
             m_SnList.append(no + "|" + Location);
             emit snListChanged();
-            return;
+            return true;
         }
 
         if( m_DB.IsExistSn(no)) {
             m_string = "数据已存在";
             emit stringChanged();
-            return;
+            return false;
         }
 
         m_DB.InsertSn(no, m_CurrentBlockNo, Location);
@@ -298,7 +246,7 @@ void DataFilter::setScan(QString flag, QString no, QString Location)
         emit snListChanged();
     }
 
-    //selectItem(flag, no);
+    return true;
 }
 
 void DataFilter::OnAbout()

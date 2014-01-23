@@ -6,8 +6,6 @@
 #include <QDebug>
 #include <QMessageBox>
 #include <QSqlError>
-#include <QMap>
-#include <QSet>
 
 class Database
 {
@@ -24,23 +22,11 @@ public:
     bool InsertBlockNo(QString BlockNo, QString LotNo);
     bool InsertSn(QString Sn, QString BlockNo, QString Location);
 
-    void SearchLotNo(QString LotNo,
-                     QMap<QString, QSet<QString> > *LotNoMap,
-                     QMap<QString, QSet<QString> > *BlockNoMap);
+    void SearchLotNo(QString LotNo, QStringList *stringList);
 
-    void SearchBlockNo(QString BlockNo,
-                     QMap<QString, QSet<QString> > *LotNoMap,
-                     QMap<QString, QSet<QString> > *BlockNoMap);
+    void SearchBlockNo(QString BlockNo, QStringList *stringList);
 
-    void SearchSn(QString Sn,
-                     QMap<QString, QSet<QString> > *LotNoMap,
-                     QMap<QString, QSet<QString> > *BlockNoMap);
-
-    void InsertLotNoMap(QString LotNo, QString BlockNo,
-                        QMap<QString, QSet<QString> > *LotNoMap);
-
-    void InsertBlockNoMap(QString BlockNo, QString SN,
-                          QMap<QString, QSet<QString> > *BlockNoMap);
+    void SearchSn(QString Sn, QStringList *stringList);
 
     QString GetLotNoByBlockNo(QString BlockNo);
 

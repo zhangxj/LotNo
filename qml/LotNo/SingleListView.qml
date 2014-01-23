@@ -3,41 +3,94 @@ import 'func.js' as Func
 
 Rectangle {
     id:leftMenu
-    property variant model;//: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
-    property string flag;
+    property variant model;
     signal selected(string value);
-    property variant selectedSubItem;
+    property variant selectedItem;
     property variant currentData;
-    border.width: 2
-    border.color: "blue"
-    property int item_height: 40
+    border.width: 1
+    border.color: "grey"
+    property int item_height: 25
 
-    ListModel{
-        id: sub_list_model
-    }
-
-
-    Rectangle{
-        id: top
+    Row{
+        id: title
         z: 1
-        color: "grey"
-        width: leftMenu.width; height: item_height
-        anchors.top: parent.top
-        Text{
-            text: flag
-            color: "white"
-            font.bold: true
-            font.pixelSize: 20
-            anchors.centerIn: parent
+        width: parent.width; height: item_height
+
+        Rectangle{
+            id: title1
+            width: parent.width / 5 - 10; height: parent.height
+            color: "darkgrey"
+            border.width: 1
+            border.color: "grey"
+            Text {
+                font.pixelSize:18
+                font.bold: true
+                text: "SMF Lot No."
+                color: "#474747"
+                anchors.centerIn: parent
+            }
         }
 
         Rectangle{
-            width: parent.width; height:1
-            anchors.bottom: parent.bottom
-            color: "blue"
+            id: title2
+            width: parent.width / 5 - 10; height: parent.height
+            color: "darkgrey"
+            border.width: 1
+            border.color: "grey"
+            Text {
+                font.pixelSize:18
+                font.bold: true
+                text: "Block No."
+                color: "#474747"
+                anchors.centerIn: parent
+            }
+        }
+
+        Rectangle{
+            id: title3
+            width: parent.width - title1.width - title2.width - title4.width - title5.width; height: parent.height
+            color: "darkgrey"
+            border.width: 1
+            border.color: "grey"
+            Text {
+                font.pixelSize:18
+                font.bold: true
+                text: "Sample SN"
+                color: "#474747"
+                anchors.centerIn: parent
+            }
+        }
+
+        Rectangle{
+            id: title4
+            width: 60; height: parent.height
+            color: "darkgrey"
+            border.width: 1
+            border.color: "grey"
+            Text {
+                font.pixelSize:18
+                font.bold: true
+                text: "位置"
+                color: "#474747"
+                anchors.centerIn: parent
+            }
+        }
+
+        Rectangle{
+            id: title5
+            width: 200; height: parent.height
+            color: "darkgrey"
+            border.width: 1
+            border.color: "grey"
+            Text {
+                font.pixelSize:18
+                font.bold: true
+                text: "录入时间"
+                color: "#474747"
+                anchors.centerIn: parent
+            }
         }
     }
-
 
     Component{
         id: plugin_sub_item
@@ -46,23 +99,81 @@ Rectangle {
                 id: list_item
                 state: ""
                 height: item_height; width:leftMenu.width
-                color: is_LastOne(modelData, leftMenu.model) == "1" ? "#0527af": "transparent"
-                Text {
-                    id: id_text
-                    font.pixelSize:18
-                    font.bold: true
-                    text: modelData
-                    color: is_LastOne(modelData, leftMenu.model) == "1" ? "white": "#474747"
-                    anchors.verticalCenter: parent.verticalCenter
-                    anchors.horizontalCenter: parent.horizontalCenter
+                color: "transparent" //is_LastOne(modelData, leftMenu.model) == "1" ? "#0527af": "transparent"
+                property variant text_color: "#474747"
+                Row{
+                    width: parent.width; height: parent.height
+                    Rectangle{
+                        width: title1.width; height: parent.height
+                        color: "transparent"
+                        border.width: 1
+                        border.color: "grey"
+                        Text {
+                            font.pixelSize:18
+                            font.bold: true
+                            text: index == 0 ? getModelData(modelData, 0): ""
+                            color: list_item.text_color //is_LastOne(modelData, leftMenu.model) == "1" ? "white": "#474747"
+                            anchors.centerIn: parent
+                        }
+                    }
+                    Rectangle{
+                        width: title2.width; height: parent.height
+                        color: "transparent"
+                        border.width: 1
+                        border.color: "grey"
+                        Text {
+                            font.pixelSize:18
+                            font.bold: true
+                            text: getModelData(modelData, 1)
+                            color: list_item.text_color //is_LastOne(modelData, leftMenu.model) == "1" ? "white": "#474747"
+                            anchors.centerIn: parent
+                        }
+                    }
+                    Rectangle{
+                        width: title3.width; height: parent.height
+                        color: "transparent"
+                        border.width: 1
+                        border.color: "grey"
+                        Text {
+                            font.pixelSize:18
+                            font.bold: true
+                            text: getModelData(modelData, 2)
+                            color: list_item.text_color //is_LastOne(modelData, leftMenu.model) == "1" ? "white": "#474747"
+                            anchors.centerIn: parent
+                        }
+                    }
+                    Rectangle{
+                        width: title4.width; height: parent.height
+                        color: "transparent"
+                        border.width: 1
+                        border.color: "grey"
+                        Text {
+                            font.pixelSize:18
+                            font.bold: true
+                            text: getModelData(modelData, 3)
+                            color: list_item.text_color //is_LastOne(modelData, leftMenu.model) == "1" ? "white": "#474747"
+                            anchors.centerIn: parent
+                        }
+                    }
+                    Rectangle{
+                        width: title5.width; height: parent.height
+                        color: "transparent"
+                        border.width: 1
+                        border.color: "grey"
+                        Text {
+                            font.pixelSize:18
+                            font.bold: true
+                            text: getModelData(modelData, 4).substring(0, 100)
+                            color: list_item.text_color //is_LastOne(modelData, leftMenu.model) == "1" ? "white": "#474747"
+                            anchors.centerIn: parent
+                        }
+                    }
                 }
 
-                MouseArea {
-                    id:subClick; anchors.fill:parent
-                    hoverEnabled: true
-                    onClicked:{
-                        selected(modelData);
-                        currentData = modelData;
+                MouseArea{
+                    anchors.fill: parent
+                    onClicked: {
+                        select_item(list_item)
                     }
                 }
 
@@ -72,6 +183,7 @@ Rectangle {
                         PropertyChanges{
                             target:list_item;
                             color: "#0527af"
+                            text_color: "white"
                             width:leftMenu.width + 1;
                         }
                     },
@@ -85,40 +197,40 @@ Rectangle {
                 ]
             }
 
-            Image{
-                source: Func.get_image_path("dotted_line2.png");
-                fillMode:Image.TileHorizontally;
-                height: 2
-                width:leftMenu.width - 2;
-            }
         }
     }
 
     ListView{
-        id: listView
+        id: list_view
         width: leftMenu.width
-        anchors.top: top.bottom
+        anchors.top: title.bottom
         anchors.bottom: parent.bottom
         model: leftMenu.model
         delegate: plugin_sub_item
-        onCurrentIndexChanged: {
-            positionViewAtEnd()
+        //onCurrentIndexChanged: positionViewAtEnd()
+    }
+
+
+    function getModelData(data, index){
+        return data.split('|')[index];
+    }
+
+    function select_item(item){
+        if(selectedItem){
+            selectedItem.state = "";
         }
+
+        item.state = "selected";
+        selectedItem = item;
     }
 
     function is_LastOne(v, src){
-        //console.log("***************************");
-        for(var i = 0; i < src.length; i++){
-            if(currentData == src[i] && currentData == v){
-                return "1";
-            }
-        }
-
         if(!currentData && v == src[src.length - 1]){
-            return "1"
-        }else
-            return "0"
+            return "1";
+        }
+        return "0";
     }
+
 }
 
 

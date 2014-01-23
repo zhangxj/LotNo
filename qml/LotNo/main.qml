@@ -3,7 +3,8 @@ import "func.js" as Func
 
 Rectangle {
     id: form
-    width:980; height:610
+    //width:980; height:610
+    width: WIDTH; height: HEIGHT
     border.width: 3;
     border.color:"#cacaca";
     radius: 4
@@ -87,7 +88,7 @@ Rectangle {
         anchors.right: parent.right
         anchors.rightMargin: 5
         focus: true
-        source: "LuRu.qml"
+        source: "record_5FDKN.qml"
     }
 
     Connections{
@@ -115,7 +116,6 @@ Rectangle {
         id: timerFirstCheck
         interval: 1; running: true; repeat: false
         onTriggered: {
-            console.log('timer')
             dataFilter.FirstCheck();
         }
     }

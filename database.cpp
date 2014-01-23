@@ -85,9 +85,7 @@ bool Database::InsertSn(QString Sn, QString BlockNo, QString Location)
     return m_Query.exec();
 }
 
-void Database::SearchLotNo(QString LotNo,
-                           QMap<QString, QSet<QString> > *LotNoMap,
-                           QMap<QString, QSet<QString> > *BlockNoMap)
+void Database::SearchLotNo(QString LotNo, QStringList *stringList)
 {
     m_Query.exec(QString("select LOT_NO.LOT_NO, BLOCK_NO.BLOCK_NO, SN.SN, SN.LOCATION, SN.ADDON from LOT_NO "
                          "left join BLOCK_NO on LOT_NO.LOT_NO = BLOCK_NO.LOT_NO "
@@ -98,14 +96,15 @@ void Database::SearchLotNo(QString LotNo,
         QString LotNo = m_Query.value(0).toString();
         QString BlockNo = m_Query.value(1).toString();
         QString SN = m_Query.value(2).toString();
-        InsertLotNoMap(LotNo, BlockNo, LotNoMap);
-        InsertBlockNoMap(BlockNo, SN, BlockNoMap);
+        QString Location = m_Query.value(3).toString();
+        QString Addon = m_Query.value(4).toString();
+        QStringList qsl = Addon.split("T");
+        Addon = qsl.join(" ");
+        stringList->append(LotNo + "|" + BlockNo + "|" + SN + "|" + Location + "|" + Addon);
     }
 }
 
-void Database::SearchBlockNo(QString BlockNo,
-                 QMap<QString, QSet<QString> > *LotNoMap,
-                 QMap<QString, QSet<QString> > *BlockNoMap)
+void Database::SearchBlockNo(QString BlockNo, QStringList *stringList)
 {
 
     m_Query.exec(QString("select LOT_NO.LOT_NO, BLOCK_NO.BLOCK_NO, SN.SN, SN.LOCATION, SN.ADDON from LOT_NO "
@@ -116,15 +115,15 @@ void Database::SearchBlockNo(QString BlockNo,
         QString LotNo = m_Query.value(0).toString();
         QString BlockNo = m_Query.value(1).toString();
         QString SN = m_Query.value(2).toString();
-
-        InsertLotNoMap(LotNo, BlockNo, LotNoMap);
-        InsertBlockNoMap(BlockNo, SN, BlockNoMap);
+        QString Location = m_Query.value(3).toString();
+        QString Addon = m_Query.value(4).toString();
+        QStringList qsl = Addon.split("T");
+        Addon = qsl.join(" ");
+        stringList->append(LotNo + "|" + BlockNo + "|" + SN + "|" + Location + "|" + Addon);
     }
 }
 
-void Database::SearchSn(QString Sn,
-                 QMap<QString, QSet<QString> > *LotNoMap,
-                 QMap<QString, QSet<QString> > *BlockNoMap)
+void Database::SearchSn(QString Sn, QStringList *stringList)
 {
     m_Query.exec(QString("select b.LOT_NO, b.BLOCK_NO, s.SN, s.LOCATION, s.ADDON from BLOCK_NO b, SN s "
                          "where b.BLOCK_NO = S.BLOCK_NO "
@@ -133,46 +132,11 @@ void Database::SearchSn(QString Sn,
         QString LotNo = m_Query.value(0).toString();
         QString BlockNo = m_Query.value(1).toString();
         QString SN = m_Query.value(2).toString();
-
-        InsertLotNoMap(LotNo, BlockNo, LotNoMap);
-        InsertBlockNoMap(BlockNo, SN, BlockNoMap);
-    }
-}
-
-void Database::InsertLotNoMap(QString LotNo, QString BlockNo,
-                              QMap<QString, QSet<QString> > *LotNoMap)
-{
-    if(LotNoMap->contains(LotNo)){
-        QMap<QString, QSet<QString> >::Iterator it =  LotNoMap->find(LotNo);
-        if(BlockNo != ""){
-            QSet<QString> *block_no_set = &(it.value());
-            block_no_set->insert(BlockNo);
-        }
-    }
-    else{
-        QSet<QString> b;
-        if(BlockNo != ""){
-            b.insert(BlockNo);
-        }
-        LotNoMap->insert(LotNo, b);
-    }
-}
-
-void Database::InsertBlockNoMap(QString BlockNo, QString SN,
-                                QMap<QString, QSet<QString> > *BlockNoMap)
-{
-    if(BlockNoMap->contains(BlockNo)){
-        QMap<QString, QSet<QString> >::Iterator it = BlockNoMap->find(BlockNo);
-        if(SN != ""){
-            QSet<QString> *sn_set = &(it.value());
-            sn_set->insert(SN);
-        }
-    }else{
-        QSet<QString> b;
-        if(SN != ""){
-            b.insert(SN);
-        }
-        BlockNoMap->insert(BlockNo, b);
+        QString Location = m_Query.value(3).toString();
+        QString Addon = m_Query.value(4).toString();
+        QStringList qsl = Addon.split("T");
+        Addon = qsl.join(" ");
+        stringList->append(LotNo + "|" + BlockNo + "|" + SN + "|" + Location + "|" + Addon);
     }
 }
 

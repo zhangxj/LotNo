@@ -9,7 +9,7 @@ Rectangle {
     property variant currentData;
     border.width: 1
     border.color: "grey"
-    property int item_height: 25
+    property int item_height: 40
 
     Row{
         id: title
