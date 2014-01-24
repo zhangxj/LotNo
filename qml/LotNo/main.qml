@@ -3,7 +3,6 @@ import "func.js" as Func
 
 Rectangle {
     id: form
-    //width:980; height:610
     width: WIDTH; height: HEIGHT
     border.width: 3;
     border.color:"#cacaca";
@@ -22,7 +21,7 @@ Rectangle {
             anchors.left:title.left
             anchors.leftMargin: 20
             anchors.verticalCenter: title.verticalCenter
-            text: "SMF 条码追溯系统"
+            text: windowTitle
             color:"#ffffff"
             font.pixelSize:14
             font.bold: true
@@ -49,35 +48,23 @@ Rectangle {
         }
     }
 
-
     LeftMenu {
         id:leftMenu
+        width:160
         anchors.leftMargin:1;
         anchors.left:form.left
         anchors.top:title.bottom
         anchors.bottom:form.bottom;
         anchors.bottomMargin:1;
-        width:160
+        model: Func.getMenuModel(SMF_Product);
         onSelected:{
-            if(value == "config"){
-                pageLoader.source = "Config.qml"
-            }else if(value == "record"){
-                dataFilter.clearData();
-                pageLoader.source = "record.qml"
-            }else if(value == "record_6ADKN"){
-                dataFilter.clearData();
-                pageLoader.source = "record_6ADKN.qml"
-            }else if(value == "record_5FDKN"){
-                dataFilter.clearData();
-                pageLoader.source = "record_5FDKN.qml"
-            }else if(value == "search"){
-                dataFilter.clearData();
-                pageLoader.source = "Search.qml"
-            }else if(value == "about"){
+            if(value == "about"){
                 dataFilter.OnAbout();
             }else if(value == "quit"){
-                //app.quit()
                 dataFilter.quit();
+            }else{
+                dataFilter.clearData();
+                pageLoader.source = Func.getPage(SMF_Product, value);
             }
         }
     }
@@ -91,7 +78,7 @@ Rectangle {
         anchors.right: parent.right
         anchors.rightMargin: 5
         focus: true
-        source: "record.qml"
+        source: Func.getDefaultPage(SMF_Product);
     }
 
     Connections{

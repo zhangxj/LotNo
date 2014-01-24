@@ -3,25 +3,7 @@ import "func.js" as Func
 
 Rectangle {
     id:leftMenu
-    property variant model: [
-        {'id': 'system', 'value': '系统', 'items': [
-                {'id': 'config', 'value': '数据库配置'},
-                {'id': 'quit', 'value': '退出'}
-            ]
-        },
-        {'id': 'op', 'value': '操作', 'items': [
-                {'id': 'record', 'value': '录入系统'},
-                {'id': 'record_6ADKN', 'value': '6ADKN 录入'},
-                {'id': 'record_5FDKN', 'value': '5FDKN 录入'},
-                {'id': 'search', 'value': '查询'}
-            ]
-        },
-        {'id': 'help', 'value': '帮助', 'items': [
-                {'id': 'about', 'value': '关于'}
-            ]
-        }
-    ]
-
+    property variant model;
     signal selected(string value);
     property variant selectedItem;
     property variant selectedSubItem;
@@ -108,7 +90,7 @@ Rectangle {
                         height:40;
                         color:"transparent";
                         property variant text_color: "#474747"
-                        state: modelData.id == "record" && (select_item(item, "subselected") && select_subitem(subItem))? "selected":""
+                        state: modelData.checked == '1' && (select_item(item, "subselected") && select_subitem(subItem))? "selected":""
                         Text{
                             x:25
                             font.pixelSize:12
