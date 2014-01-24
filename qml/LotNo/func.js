@@ -55,7 +55,8 @@ function getMenuModel(p){
                     ]
                 },
                 {'id': 'op', 'value': '操作', 'items': [
-                        {'id': 'record', 'value': '录入系统', 'page': 'record.qml', 'checked': '1'}
+                        {'id': 'record', 'value': '录入系统', 'page': 'record.qml', 'checked': '1'},
+                        {'id': 'record_search', 'value': '查询系统', 'page': 'record_Search.qml'}
                     ]
                 },
                 {'id': 'help', 'value': '帮助', 'items': [

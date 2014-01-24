@@ -92,8 +92,8 @@ Rectangle {
         onStringChanged: {
         }
 
-        onSnListChanged:{
-            sn_listview.model = dataFilter.getSnList()
+        onStringListChanged:{
+            sn_listview.model = dataFilter.getStringList()
         }
     }
 

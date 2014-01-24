@@ -23,10 +23,11 @@ public:
     bool InsertSn(QString Sn, QString BlockNo, QString Location);
 
     void SearchLotNo(QString LotNo, QStringList *stringList);
-
     void SearchBlockNo(QString BlockNo, QStringList *stringList);
-
     void SearchSn(QString Sn, QStringList *stringList);
+
+    void SearchBlockNoByLotNO(QString LotNo, QStringList *stringList);
+    void SearchBlockNoByBlockNo(QString BlockNo, QStringList *stringList);
 
     QString GetLotNoByBlockNo(QString BlockNo);
 

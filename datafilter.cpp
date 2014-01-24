@@ -137,26 +137,26 @@ QString DataFilter::getString()
     return m_string;
 }
 
-QStringList DataFilter::getSnList()
+QStringList DataFilter::getStringList()
 {
-    return m_SnList;
+    return m_StringList;
 }
 
 void DataFilter::clearData()
 {
-    m_SnList.clear();
+    m_StringList.clear();
 
     m_CurrentLotNo = "";
     m_CurrentBlockNo = "";
 
-    emit snListChanged();
+    emit stringListChanged();
 }
 
 void DataFilter::clearBlockNo()
 {
-    m_SnList.clear();
+    m_StringList.clear();
     m_CurrentBlockNo = "";
-    emit snListChanged();
+    emit stringListChanged();
 }
 
 void DataFilter::searchData(QString flag, QString no)
@@ -170,16 +170,16 @@ void DataFilter::searchData(QString flag, QString no)
 
     clearData();
     if("lot_no" == flag){
-        m_DB.SearchLotNo(no, &m_SnList);
+        m_DB.SearchLotNo(no, &m_StringList);
     }
     else if("block_no" == flag){
-        m_DB.SearchBlockNo(no, &m_SnList);
+        m_DB.SearchBlockNo(no, &m_StringList);
     }
     else if("sn" == flag){
-        m_DB.SearchSn(no, &m_SnList);
+        m_DB.SearchSn(no, &m_StringList);
     }
 
-    emit snListChanged();
+    emit stringListChanged();
 }
 
 
@@ -227,21 +227,21 @@ bool DataFilter::setScan(QString flag, QString no, QString Location)
             return false;
         }else if(no == "rescan" || no == "RESCAN"){
             m_DB.ClearSnByBlockNo(m_CurrentBlockNo);
-            m_SnList.clear();
-            emit snListChanged();
+            m_StringList.clear();
+            emit stringListChanged();
             return true;
         }else if(no == "nosample" || no == "NOSAMPLE"){
-            m_SnList.append(no + "|" + Location);
-            emit snListChanged();
+            m_StringList.append(no + "|" + Location);
+            emit stringListChanged();
             return true;
         }else if(no == "delete" || no == "DELETE"){
-            if( m_SnList.size() > 0 ){
-                QString del_sn = m_SnList.back();
-                m_SnList.pop_back();
+            if( m_StringList.size() > 0 ){
+                QString del_sn = m_StringList.back();
+                m_StringList.pop_back();
                 del_sn = del_sn.split("|")[0];
                 m_DB.ClearSn(del_sn);
             }
-            emit snListChanged();
+            emit stringListChanged();
             return true;
         }
 
@@ -252,8 +252,8 @@ bool DataFilter::setScan(QString flag, QString no, QString Location)
         }
 
         m_DB.InsertSn(no, m_CurrentBlockNo, Location);
-        m_SnList.append(no + "|" + Location);
-        emit snListChanged();
+        m_StringList.append(no + "|" + Location);
+        emit stringListChanged();
     }
 
     return true;
@@ -299,11 +299,30 @@ bool DataFilter::record_LotNoBlockNo(QString flag, QString no)
             return false;
         }
 
-        m_SnList.append(m_CurrentLotNo + "|" + no);
+        m_StringList.append(m_CurrentLotNo + "|" + no);
     }
 
-    emit snListChanged();
+    emit stringListChanged();
     return true;
+}
+
+void DataFilter::searchLotNoBlockNo(QString flag, QString no)
+{
+    if(no == "") return;
+
+    if(! m_DB.isOpen()){
+        QMessageBox::critical(NULL, "Waining", "数据库连接异常 请配置", QMessageBox::Ok);
+        return;
+    }
+
+    clearData();
+    if("lot_no" == flag){
+        m_DB.SearchBlockNoByLotNO(no, &m_StringList);
+    }else if("block_no" == flag){
+        m_DB.SearchBlockNoByBlockNo(no, &m_StringList);
+    }
+
+    emit stringListChanged();
 }
 
 void DataFilter::OnAbout()

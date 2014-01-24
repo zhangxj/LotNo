@@ -106,7 +106,6 @@ void Database::SearchLotNo(QString LotNo, QStringList *stringList)
 
 void Database::SearchBlockNo(QString BlockNo, QStringList *stringList)
 {
-
     m_Query.exec(QString("select LOT_NO.LOT_NO, BLOCK_NO.BLOCK_NO, SN.SN, SN.LOCATION, SN.ADDON from LOT_NO "
                          "join BLOCK_NO on LOT_NO.LOT_NO = BLOCK_NO.LOT_NO "
                          "left join SN on BLOCK_NO.BLOCK_NO = SN.BLOCK_NO "
@@ -137,6 +136,36 @@ void Database::SearchSn(QString Sn, QStringList *stringList)
         QStringList qsl = Addon.split("T");
         Addon = qsl.join(" ");
         stringList->append(LotNo + "|" + BlockNo + "|" + SN + "|" + Location + "|" + Addon);
+    }
+}
+
+void Database::SearchBlockNoByLotNO(QString LotNo, QStringList *stringList)
+{
+    m_Query.exec(QString("select LOT_NO.LOT_NO, BLOCK_NO.BLOCK_NO, BLOCK_NO.ADDON from LOT_NO "
+                         "left join BLOCK_NO on LOT_NO.LOT_NO = BLOCK_NO.LOT_NO "
+                         "where LOT_NO.LOT_NO = '%1'").arg(LotNo) );
+
+    while(m_Query.next()){
+        QString LotNo = m_Query.value(0).toString();
+        QString BlockNo = m_Query.value(1).toString();
+        QString Addon = m_Query.value(2).toString();
+        QStringList qsl = Addon.split("T");
+        Addon = qsl.join(" ");
+        stringList->append(LotNo + "|" + BlockNo + "|" + Addon);
+    }
+}
+
+void Database::SearchBlockNoByBlockNo(QString BlockNo, QStringList *stringList)
+{
+    m_Query.exec(QString("select BLOCK_NO.LOT_NO, BLOCK_NO.BLOCK_NO, BLOCK_NO.ADDON from BLOCK_NO "
+                         "where BLOCK_NO.BLOCK_NO = '%1'").arg(BlockNo));
+    while(m_Query.next()){
+        QString LotNo = m_Query.value(0).toString();
+        QString BlockNo = m_Query.value(1).toString();
+        QString Addon = m_Query.value(2).toString();
+        QStringList qsl = Addon.split("T");
+        Addon = qsl.join(" ");
+        stringList->append(LotNo + "|" + BlockNo + "|" + Addon);
     }
 }
 

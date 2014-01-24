@@ -71,10 +71,10 @@ Rectangle{
                 bk_text: 'Sample SN'
                 width: parent.width; height: parent.height
                 onFinished: {
-                    if(dataFilter.getSnList().length < max_luru ||
+                    if(dataFilter.getStringList().length < max_luru ||
                             (value == "rescan" || value == "RESCAN") ||
                             (value == "delete" || value == "DELETE")){
-                        dataFilter.setScan(flag, value, dataFilter.getSnList().length + 1);
+                        dataFilter.setScan(flag, value, dataFilter.getStringList().length + 1);
                     }else{
                         label.text = "最大录入数量" + max_luru + "个";
                     }
@@ -89,7 +89,7 @@ Rectangle{
         anchors.top: row_text.bottom
         anchors.topMargin: 10
         Rectangle{
-            width: form.width/3; height: 40
+            width: form.width/2; height: 40
             Text{
                 id: lot_no_text
                 font.pixelSize: 25; font.bold: true
@@ -98,7 +98,7 @@ Rectangle{
             }
         }
         Rectangle{
-            width: form.width/3; height: 40
+            width: form.width/2; height: 40
             Text{
                 id: block_no_text
                 font.pixelSize: 25; font.bold: true
@@ -115,11 +115,11 @@ Rectangle{
             label.text = dataFilter.getString()
         }
 
-        onSnListChanged:{
-            sn_listview.model = dataFilter.getSnList();
+        onStringListChanged:{
+            sn_listview.model = dataFilter.getStringList();
             //sn_listview.currentData = "";
             var color = 'green'
-            var snList = dataFilter.getSnList();
+            var snList = dataFilter.getStringList();
 
             pos1.color = 'transparent'; pos1.text = "";
             pos2.color = 'transparent'; pos2.text = "";

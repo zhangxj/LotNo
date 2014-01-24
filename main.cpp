@@ -13,7 +13,7 @@
  * SMF_P3: 返修品 SMF 条码追溯系统
  */
 QString SMF_Product = "SMF_P1";
-QString WindowTitle = "SMF 条码追溯系统";
+QString WindowTitle = "";
 QString Version = "";
 
 /*
@@ -22,10 +22,9 @@ QString Version = "";
  */
 void InitProduct(int argc, char *argv[])
 {
-    if(argc <= 1)
-        return;
+    if(argc >= 2)
+        SMF_Product = argv[1];
 
-    SMF_Product = argv[1];
     if(SMF_Product == "SMF_P1"){
         WindowTitle = "SMF 条码追溯系统";
     }else if(SMF_Product == "SMF_P2"){
@@ -34,7 +33,7 @@ void InitProduct(int argc, char *argv[])
         WindowTitle = "返修品 SMF 条码追溯系统";
     }
 
-    if(argc >=2)
+    if(argc >=3)
         Version = argv[2];
 }
 

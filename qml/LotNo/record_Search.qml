@@ -36,7 +36,7 @@ Rectangle{
                     focus: true
                     bk_text: 'SMF Lot No.'
                     onFinished: {
-                        dataFilter.record_LotNoBlockNo(flag, value)
+                        dataFilter.searchLotNoBlockNo(flag, value)
                         block_no.focus = true
                     }
                 }
@@ -50,7 +50,7 @@ Rectangle{
                     bk_text: 'Block No.'
                     width: parent.width; height: parent.height
                     onFinished: {
-                        dataFilter.record_LotNoBlockNo(flag, value);
+                        dataFilter.searchLotNoBlockNo(flag, value);
                         block_no.text = "";
                     }
                 }

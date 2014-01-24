@@ -19,17 +19,20 @@ public:
 
 signals:
     void stringChanged();
-    void snListChanged();
+    void stringListChanged();
     void checkCodeOk();
     void checkCodeError();
 
 public slots:
     QString getString();
-    QStringList getSnList();
+    QStringList getStringList();
 
     bool setScan(QString flag, QString no, QString Location);
-    bool record_LotNoBlockNo(QString flag, QString no);
     void searchData(QString flag, QString no);
+
+
+    bool record_LotNoBlockNo(QString flag, QString no);
+    void searchLotNoBlockNo(QString flag, QString no);
 
     void OnAbout();
     void clearData();
@@ -50,7 +53,7 @@ public slots:
 public:
     Database        m_DB;
     QString         m_string;
-    QStringList     m_SnList;
+    QStringList     m_StringList;
 
     QString m_CurrentLotNo;
     QString m_CurrentBlockNo;
