@@ -10,6 +10,7 @@ Rectangle {
             ]
         },
         {'id': 'op', 'value': '操作', 'items': [
+                {'id': 'record', 'value': '录入系统'},
                 {'id': 'record_6ADKN', 'value': '6ADKN 录入'},
                 {'id': 'record_5FDKN', 'value': '5FDKN 录入'},
                 {'id': 'search', 'value': '查询'}
@@ -106,11 +107,12 @@ Rectangle {
                         width:leftMenu.width;
                         height:40;
                         color:"transparent";
-                        state: modelData.id == "record_6ADKN" && (select_item(item, "subselected"))? "selected":""
+                        property variant text_color: "#474747"
+                        state: modelData.id == "record" && (select_item(item, "subselected") && select_subitem(subItem))? "selected":""
                         Text{
                             x:25
                             font.pixelSize:12
-                            color: "#474747"
+                            color: text_color
                             text:modelData.value
                             anchors.verticalCenter:parent.verticalCenter
                         }
@@ -122,8 +124,6 @@ Rectangle {
                                 select_subitem(subItem)
                                 selected(modelData.id);
                             }
-                            onEntered: enter_item(subItem);
-                            onExited: exit_item(subItem);
                         }
 
                         states: [
@@ -131,7 +131,8 @@ Rectangle {
                                 name:"selected"
                                 PropertyChanges{
                                     target:subItem;
-                                    color: "white"
+                                    color: "#0527af"
+                                    text_color: "white"
                                     width:leftMenu.width + 1;
                                 }
                             },

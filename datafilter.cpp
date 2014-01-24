@@ -229,8 +229,17 @@ bool DataFilter::setScan(QString flag, QString no, QString Location)
             m_SnList.clear();
             emit snListChanged();
             return true;
-        }else if(no == "NOSAMPLE"){
+        }else if(no == "nosample" || no == "NOSAMPLE"){
             m_SnList.append(no + "|" + Location);
+            emit snListChanged();
+            return true;
+        }else if(no == "delete" || no == "DELETE"){
+            if( m_SnList.size() > 0 ){
+                QString del_sn = m_SnList.back();
+                m_SnList.pop_back();
+                del_sn = del_sn.split("|")[0];
+                m_DB.ClearSn(del_sn);
+            }
             emit snListChanged();
             return true;
         }
@@ -246,6 +255,53 @@ bool DataFilter::setScan(QString flag, QString no, QString Location)
         emit snListChanged();
     }
 
+    return true;
+}
+
+bool DataFilter::record_LotNoBlockNo(QString flag, QString no)
+{
+    if(! m_DB.isOpen()){
+        QMessageBox::critical(NULL, "Waining", "数据库连接异常 请配置", QMessageBox::Ok);
+        return false;
+    }
+
+    no = no.trimmed();
+    if(no == "") return false;
+
+    m_string = "";
+    emit stringChanged();
+
+    if("lot_no" == flag){
+        m_CurrentLotNo = no;
+        m_DB.InsertLotNo(no);
+    }
+    else if("block_no" == flag){
+        if(m_CurrentLotNo == "") {
+            m_string = QString("请先录入 SMF Lot No.");
+            QMessageBox::critical(NULL, "Waining", m_string, QMessageBox::Ok);
+            return false;
+        }
+
+        QString tmp_LotNO = m_DB.GetLotNoByBlockNo(no);
+        if(tmp_LotNO != "" && tmp_LotNO != m_CurrentLotNo){
+            m_string = QString("Block No. %1 属于 %2")
+                    .arg(no)
+                    .arg(tmp_LotNO);
+            QMessageBox::critical(NULL, "Waining", m_string, QMessageBox::Ok);
+            return false;
+        }
+
+        m_CurrentBlockNo = no;
+        if(! m_DB.InsertBlockNo(no, m_CurrentLotNo)){
+            m_string = "数据已存在";
+            emit stringChanged();
+            return false;
+        }
+
+        m_SnList.append(m_CurrentLotNo + "|" + no);
+    }
+
+    emit snListChanged();
     return true;
 }
 

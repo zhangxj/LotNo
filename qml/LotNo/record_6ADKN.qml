@@ -50,21 +50,21 @@ Rectangle {
         Rectangle {
             id: pos1
             property variant text: ''
-            color:'green'; width: 35; height: 35
+            color:'transparent'; width: 35; height: 35
             Text{ text: parent.text; anchors.centerIn: parent; font.pixelSize: 16; font.bold: true; color: 'black'}
         }
 
         Rectangle {
             id: pos3
             property variant text: ''
-            color:'green'; width: pos1.width; height: pos1.height
+            color:'transparent'; width: pos1.width; height: pos1.height
             Text{ text: parent.text; anchors.centerIn: parent; font.pixelSize: 16; font.bold: true; color: 'black'}
         }
 
         Rectangle {
             id: pos5
             property variant text: ''
-            color:'green'; width: pos1.width; height: pos1.height
+            color:'transparent'; width: pos1.width; height: pos1.height
             Text{ text: parent.text; anchors.centerIn: parent; font.pixelSize: 16; font.bold: true; color: 'black'}
         }
     }
@@ -78,21 +78,21 @@ Rectangle {
         Rectangle {
             id: pos2
             property variant text: ''
-            color:'green'; width: pos1.width; height: pos1.height
+            color:'transparent'; width: pos1.width; height: pos1.height
             Text{ text: parent.text; anchors.centerIn: parent; font.pixelSize: 16; font.bold: true; color: 'black'}
         }
 
         Rectangle {
             id: pos4
             property variant text: ''
-            color:'green'; width: pos1.width; height: pos1.height
+            color:'transparent'; width: pos1.width; height: pos1.height
             Text{ text: parent.text; anchors.centerIn: parent; font.pixelSize: 16; font.bold: true; color: 'black'}
         }
 
         Rectangle {
             id: pos6
             property variant text: ''
-            color:'green'; width: pos1.width; height: pos1.height
+            color:'transparent'; width: pos1.width; height: pos1.height
             Text{ text: parent.text; anchors.centerIn: parent; font.pixelSize: 16; font.bold: true; color: 'black'}
         }
     }
@@ -106,21 +106,21 @@ Rectangle {
         Rectangle {
             id: pos12
             property variant text: ''
-            color:'green'; width: pos1.width; height: pos1.height
+            color:'transparent'; width: pos1.width; height: pos1.height
             Text{ text: parent.text; anchors.centerIn: parent; font.pixelSize: 16; font.bold: true; color: 'black'}
         }
 
         Rectangle {
             id: pos10
             property variant text: ''
-            color:'green'; width: pos1.width; height: pos1.height
+            color:'transparent'; width: pos1.width; height: pos1.height
             Text{ text: parent.text; anchors.centerIn: parent; font.pixelSize: 16; font.bold: true; color: 'black'}
         }
 
         Rectangle {
             id: pos8
             property variant text: ''
-            color:'green'; width: pos1.width; height: pos1.height
+            color:'transparent'; width: pos1.width; height: pos1.height
             Text{ text: parent.text; anchors.centerIn: parent; font.pixelSize: 16; font.bold: true; color: 'black'}
         }
     }
@@ -134,21 +134,21 @@ Rectangle {
         Rectangle {
             id: pos11
             property variant text: ''
-            color:'green'; width: pos1.width; height: pos1.height
+            color:'transparent'; width: pos1.width; height: pos1.height
             Text{ text: parent.text; anchors.centerIn: parent; font.pixelSize:16; font.bold: true; color: 'black'}
         }
 
         Rectangle {
             id: pos9
             property variant text: ''
-            color:'green'; width: pos1.width; height: pos1.height
+            color:'transparent'; width: pos1.width; height: pos1.height
             Text{ text: parent.text; anchors.centerIn: parent; font.pixelSize: 16; font.bold: true; color: 'black'}
         }
 
         Rectangle {
             id: pos7
             property variant text: ''
-            color:'green'; width: pos1.width; height: pos1.height
+            color:'transparent'; width: pos1.width; height: pos1.height
             Text{ text: parent.text; anchors.centerIn: parent; font.pixelSize: 16; font.bold: true; color: 'black'}
         }
     }

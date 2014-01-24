@@ -61,9 +61,12 @@ Rectangle {
         onSelected:{
             if(value == "config"){
                 pageLoader.source = "Config.qml"
+            }else if(value == "record"){
+                dataFilter.clearData();
+                pageLoader.source = "record.qml"
             }else if(value == "record_6ADKN"){
                 dataFilter.clearData();
-                pageLoader.source = "LuRu.qml"
+                pageLoader.source = "record_6ADKN.qml"
             }else if(value == "record_5FDKN"){
                 dataFilter.clearData();
                 pageLoader.source = "record_5FDKN.qml"
@@ -88,7 +91,7 @@ Rectangle {
         anchors.right: parent.right
         anchors.rightMargin: 5
         focus: true
-        source: "record_5FDKN.qml"
+        source: "record.qml"
     }
 
     Connections{

@@ -14,7 +14,7 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
 
     QDesktopWidget* desktopWidget = QApplication::desktop();
     //获取可用桌面大小
-    QRect deskRect =desktopWidget->availableGeometry();
+    //QRect deskRect =desktopWidget->availableGeometry();
     //获取设备屏幕大小
     QRect screenRect =desktopWidget->screenGeometry();
 

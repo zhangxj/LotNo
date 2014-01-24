@@ -33,6 +33,7 @@ public:
     bool IsExistSn(QString SN);
 
     bool ClearSnByBlockNo(QString BlockNo);
+    bool ClearSn(QString SN);
 private:
     QSqlDatabase m_Conn;
     QSqlQuery m_Query;

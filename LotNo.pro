@@ -36,4 +36,6 @@ HEADERS += \
 RC_FILE = LotNo.rc
 
 OTHER_FILES += \
-    qml/LotNo/generate_code.qml
+    qml/LotNo/generate_code.qml \
+    qml/LotNo/record_6ADKN.qml \
+    qml/LotNo/record_6ADKN.qml

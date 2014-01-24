@@ -168,3 +168,11 @@ bool Database::ClearSnByBlockNo(QString BlockNo)
     m_Query.bindValue(0, BlockNo);
     return m_Query.exec();
 }
+
+bool Database::ClearSn(QString SN)
+{
+    m_Query.prepare("delete from SN where SN = :SN and flag = 0");
+    m_Query.bindValue(0, SN);
+    return m_Query.exec();
+}
+

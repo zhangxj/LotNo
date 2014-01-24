@@ -50,19 +50,19 @@ Rectangle {
         Rectangle {
             id: pos1
             property variant text: ''
-            color:'green'; width: 35; height: 35
+            color:'transparent'; width: 35; height: 35
             Text{ text: parent.text; anchors.centerIn: parent; font.pixelSize: 16; font.bold: true; color: 'black'}
         }
         Rectangle {
             id: pos2
             property variant text: ''
-            color:'green'; width: 35; height: 35
+            color:'transparent'; width: 35; height: 35
             Text{ text: parent.text; anchors.centerIn: parent; font.pixelSize: 16; font.bold: true; color: 'black'}
         }
         Rectangle {
             id: pos3
             property variant text: ''
-            color:'green'; width: 35; height: 35
+            color:'transparent'; width: 35; height: 35
             Text{ text: parent.text; anchors.centerIn: parent; font.pixelSize: 16; font.bold: true; color: 'black'}
         }
 
@@ -78,19 +78,19 @@ Rectangle {
         Rectangle {
             id: pos6
             property variant text: ''
-            color:'green'; width: 35; height: 35
+            color:'transparent'; width: 35; height: 35
             Text{ text: parent.text; anchors.centerIn: parent; font.pixelSize: 16; font.bold: true; color: 'black'}
         }
         Rectangle {
             id: pos5
             property variant text: ''
-            color:'green'; width: 35; height: 35
+            color:'transparent'; width: 35; height: 35
             Text{ text: parent.text; anchors.centerIn: parent; font.pixelSize: 16; font.bold: true; color: 'black'}
         }
         Rectangle {
             id: pos4
             property variant text: ''
-            color:'green'; width: 35; height: 35
+            color:'transparent'; width: 35; height: 35
             Text{ text: parent.text; anchors.centerIn: parent; font.pixelSize: 16; font.bold: true; color: 'black'}
         }
     }
