@@ -20,11 +20,11 @@ public:
     bool ExecuteSQL(QString sql);
     bool InsertLotNo(QString LotNo);
     bool InsertBlockNo(QString BlockNo, QString LotNo);
-    bool InsertSn(QString Sn, QString BlockNo, QString Location);
+    bool InsertSn(QString Sn, QString BlockNo, QString Location, int FLAG);
 
-    void SearchLotNo(QString LotNo, QStringList *stringList);
-    void SearchBlockNo(QString BlockNo, QStringList *stringList);
-    void SearchSn(QString Sn, QStringList *stringList);
+    void SearchLotNo(QString LotNo, QStringList *stringList, int sn_flag);
+    void SearchBlockNo(QString BlockNo, QStringList *stringList, int sn_flag);
+    void SearchSn(QString Sn, QStringList *stringList, int sn_flag);
 
     void SearchBlockNoByLotNO(QString LotNo, QStringList *stringList);
     void SearchBlockNoByBlockNo(QString BlockNo, QStringList *stringList);

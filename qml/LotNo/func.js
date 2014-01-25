@@ -71,6 +71,8 @@ function getMenuModel(p){
                     ]
                 },
                 {'id': 'op', 'value': '操作', 'items': [
+                        {'id': 'record_fanxiu', 'value': '返修品录入', 'page': 'record_FanXiu.qml', 'checked': '1'},
+                        {'id': 'search_fanxiu', 'value': '返修品查询', 'page': 'SearchFanXiu.qml'}
                     ]
                 },
                 {'id': 'help', 'value': '帮助', 'items': [

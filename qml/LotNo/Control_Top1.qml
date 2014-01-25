@@ -3,7 +3,9 @@ import QtQuick 1.1
 Rectangle{
     id: top_rec
     color: "white"
+    property bool pos_info: true
     property int max_luru: 12
+    property int sn_flag: 0
     Text{
         id: label
         anchors.horizontalCenter: parent.horizontalCenter
@@ -31,7 +33,7 @@ Rectangle{
                 bk_text: 'SMF Lot No.'
                 onFinished: {
                     dataFilter.clearData();
-                    if(dataFilter.setScan(flag, value, "")){
+                    if(dataFilter.setScan(flag, value, "", sn_flag)){
                         block_no.text = "";
                         block_no.focus = true
                         lot_no_text.text = bk_text + ":" + value
@@ -52,7 +54,7 @@ Rectangle{
                 width: parent.width; height: parent.height
                 onFinished: {
                     dataFilter.clearBlockNo();
-                    if(dataFilter.setScan(flag, value, "")){
+                    if(dataFilter.setScan(flag, value, "", sn_flag)){
                         sn.focus = true
                         block_no_text.text = bk_text + ":" + value
                     }else{
@@ -74,7 +76,7 @@ Rectangle{
                     if(dataFilter.getStringList().length < max_luru ||
                             (value == "rescan" || value == "RESCAN") ||
                             (value == "delete" || value == "DELETE")){
-                        dataFilter.setScan(flag, value, dataFilter.getStringList().length + 1);
+                        dataFilter.setScan(flag, value, dataFilter.getStringList().length + 1, sn_flag);
                     }else{
                         label.text = "最大录入数量" + max_luru + "个";
                     }
@@ -117,39 +119,40 @@ Rectangle{
 
         onStringListChanged:{
             sn_listview.model = dataFilter.getStringList();
-            //sn_listview.currentData = "";
             var color = 'green'
             var snList = dataFilter.getStringList();
 
-            pos1.color = 'transparent'; pos1.text = "";
-            pos2.color = 'transparent'; pos2.text = "";
-            pos3.color = 'transparent'; pos3.text = "";
-            pos4.color = 'transparent'; pos4.text = "";
-            pos5.color = 'transparent'; pos5.text = "";
-            pos6.color = 'transparent'; pos6.text = "";
-            if(max_luru == 12){
-                pos7.color = 'transparent'; pos7.text = "";
-                pos8.color = 'transparent'; pos8.text = "";
-                pos9.color = 'transparent'; pos9.text = "";
-                pos10.color = 'transparent'; pos10.text = "";
-                pos11.color = 'transparent'; pos11.text = "";
-                pos12.color = 'transparent'; pos12.text = "";
-            }
+            if(sn_flag == 0){
+                pos1.color = 'transparent'; pos1.text = "";
+                pos2.color = 'transparent'; pos2.text = "";
+                pos3.color = 'transparent'; pos3.text = "";
+                pos4.color = 'transparent'; pos4.text = "";
+                pos5.color = 'transparent'; pos5.text = "";
+                pos6.color = 'transparent'; pos6.text = "";
+                if(max_luru == 12){
+                    pos7.color = 'transparent'; pos7.text = "";
+                    pos8.color = 'transparent'; pos8.text = "";
+                    pos9.color = 'transparent'; pos9.text = "";
+                    pos10.color = 'transparent'; pos10.text = "";
+                    pos11.color = 'transparent'; pos11.text = "";
+                    pos12.color = 'transparent'; pos12.text = "";
+                }
 
-            var nosample = "?";
-            if(snList.length >= 1){pos1.color = color; pos1.text = snList[0].split("|")[0] == "NOSAMPLE" ? nosample:"1";}
-            if(snList.length >= 2){pos2.color = color; pos2.text = snList[1].split("|")[0] == "NOSAMPLE" ? nosample:"2";}
-            if(snList.length >= 3){pos3.color = color; pos3.text = snList[2].split("|")[0] == "NOSAMPLE" ? nosample:"3";}
-            if(snList.length >= 4){pos4.color = color; pos4.text = snList[3].split("|")[0] == "NOSAMPLE" ? nosample:"4";}
-            if(snList.length >= 5){pos5.color = color; pos5.text = snList[4].split("|")[0] == "NOSAMPLE" ? nosample:"5";}
-            if(snList.length >= 6){pos6.color = color; pos6.text = snList[5].split("|")[0] == "NOSAMPLE" ? nosample:"6";}
-            if(max_luru == 12){
-                if(snList.length >= 7){pos7.color = color; pos7.text = snList[6].split("|")[0] == "NOSAMPLE" ? nosample:"7";}
-                if(snList.length >= 8){pos8.color = color; pos8.text = snList[7].split("|")[0] == "NOSAMPLE" ? nosample:"8";}
-                if(snList.length >= 9){pos9.color = color; pos9.text = snList[8].split("|")[0] == "NOSAMPLE" ? nosample:"9";}
-                if(snList.length >= 10){pos10.color = color; pos10.text = snList[9].split("|")[0] == "NOSAMPLE" ? nosample:"10";}
-                if(snList.length >= 11){pos11.color = color; pos11.text = snList[10].split("|")[0] == "NOSAMPLE" ? nosample:"11";}
-                if(snList.length >= 12){pos12.color = color; pos12.text = snList[11].split("|")[0] == "NOSAMPLE" ? nosample:"12";}
+                var nosample = "?";
+                if(snList.length >= 1){pos1.color = color; pos1.text = snList[0].split("|")[0] == "NOSAMPLE" ? nosample:"1";}
+                if(snList.length >= 2){pos2.color = color; pos2.text = snList[1].split("|")[0] == "NOSAMPLE" ? nosample:"2";}
+                if(snList.length >= 3){pos3.color = color; pos3.text = snList[2].split("|")[0] == "NOSAMPLE" ? nosample:"3";}
+                if(snList.length >= 4){pos4.color = color; pos4.text = snList[3].split("|")[0] == "NOSAMPLE" ? nosample:"4";}
+                if(snList.length >= 5){pos5.color = color; pos5.text = snList[4].split("|")[0] == "NOSAMPLE" ? nosample:"5";}
+                if(snList.length >= 6){pos6.color = color; pos6.text = snList[5].split("|")[0] == "NOSAMPLE" ? nosample:"6";}
+                if(max_luru == 12){
+                    if(snList.length >= 7){pos7.color = color; pos7.text = snList[6].split("|")[0] == "NOSAMPLE" ? nosample:"7";}
+                    if(snList.length >= 8){pos8.color = color; pos8.text = snList[7].split("|")[0] == "NOSAMPLE" ? nosample:"8";}
+                    if(snList.length >= 9){pos9.color = color; pos9.text = snList[8].split("|")[0] == "NOSAMPLE" ? nosample:"9";}
+                    if(snList.length >= 10){pos10.color = color; pos10.text = snList[9].split("|")[0] == "NOSAMPLE" ? nosample:"10";}
+                    if(snList.length >= 11){pos11.color = color; pos11.text = snList[10].split("|")[0] == "NOSAMPLE" ? nosample:"11";}
+                    if(snList.length >= 12){pos12.color = color; pos12.text = snList[11].split("|")[0] == "NOSAMPLE" ? nosample:"12";}
+                }
             }
         }
     }

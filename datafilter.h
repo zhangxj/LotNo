@@ -27,8 +27,8 @@ public slots:
     QString getString();
     QStringList getStringList();
 
-    bool setScan(QString flag, QString no, QString Location);
-    void searchData(QString flag, QString no);
+    bool setScan(QString flag, QString no, QString Location, int sn_flag);
+    void searchData(QString flag, QString no, int sn_flag);
 
 
     bool record_LotNoBlockNo(QString flag, QString no);

@@ -24,7 +24,7 @@ Rectangle {
                     focus: true
                     bk_text: 'SMF Lot No.'
                     onFinished: {
-                        dataFilter.searchData(flag, value, 0)
+                        dataFilter.searchData(flag, value, 1)
                         block_no.focus = true
                         block_no.text = '';
                     }
@@ -39,7 +39,7 @@ Rectangle {
                     bk_text: 'Block No.'
                     width: parent.width; height: parent.height
                     onFinished: {
-                        dataFilter.searchData(flag, value, 0)
+                        dataFilter.searchData(flag, value, 1)
                         sn.focus = true
                     }
                 }
@@ -55,7 +55,7 @@ Rectangle {
                     width: parent.width; height: parent.height
                     onFinished: {
                         onFinished: {
-                            dataFilter.searchData(flag, value, 0);
+                            dataFilter.searchData(flag, value, 1);
                         }
                         sn.text = '';
                     }
@@ -64,7 +64,7 @@ Rectangle {
         }
     }
 
-    SingleListView{
+    ListView_FanXiu{
         id: sn_listview
         width: parent.width / 10 * 9
         anchors.top: top_rec.bottom

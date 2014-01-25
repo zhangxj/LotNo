@@ -76,21 +76,22 @@ bool Database::InsertBlockNo(QString BlockNo, QString LotNo)
     return m_Query.exec();
 }
 
-bool Database::InsertSn(QString Sn, QString BlockNo, QString Location)
+bool Database::InsertSn(QString Sn, QString BlockNo, QString Location, int FLAG)
 {
-    m_Query.prepare("insert into SN (SN, BLOCK_NO, Location, FLAG) values (:SN, :BLOCK_NO, :LOCATION, 0)");
+    m_Query.prepare("insert into SN (SN, BLOCK_NO, Location, FLAG) values (:SN, :BLOCK_NO, :LOCATION, :FLAG)");
     m_Query.bindValue(0, Sn);
     m_Query.bindValue(1, BlockNo);
     m_Query.bindValue(2, Location);
+    m_Query.bindValue(3, FLAG);
     return m_Query.exec();
 }
 
-void Database::SearchLotNo(QString LotNo, QStringList *stringList)
+void Database::SearchLotNo(QString LotNo, QStringList *stringList, int sn_flag)
 {
     m_Query.exec(QString("select LOT_NO.LOT_NO, BLOCK_NO.BLOCK_NO, SN.SN, SN.LOCATION, SN.ADDON from LOT_NO "
                          "left join BLOCK_NO on LOT_NO.LOT_NO = BLOCK_NO.LOT_NO "
                          "left join SN on BLOCK_NO.BLOCK_NO = SN.BLOCK_NO "
-                         "where LOT_NO.LOT_NO = '%1' and sn.flag=0").arg(LotNo) );
+                         "where LOT_NO.LOT_NO = '%1' and sn.flag=%2").arg(LotNo).arg(sn_flag) );
 
     while(m_Query.next()){
         QString LotNo = m_Query.value(0).toString();
@@ -104,12 +105,12 @@ void Database::SearchLotNo(QString LotNo, QStringList *stringList)
     }
 }
 
-void Database::SearchBlockNo(QString BlockNo, QStringList *stringList)
+void Database::SearchBlockNo(QString BlockNo, QStringList *stringList, int sn_flag)
 {
     m_Query.exec(QString("select LOT_NO.LOT_NO, BLOCK_NO.BLOCK_NO, SN.SN, SN.LOCATION, SN.ADDON from LOT_NO "
                          "join BLOCK_NO on LOT_NO.LOT_NO = BLOCK_NO.LOT_NO "
                          "left join SN on BLOCK_NO.BLOCK_NO = SN.BLOCK_NO "
-                         "where BLOCK_NO.BLOCK_NO = '%1' and sn.flag=0").arg(BlockNo));
+                         "where BLOCK_NO.BLOCK_NO = '%1' and sn.flag=%2").arg(BlockNo).arg(sn_flag));
     while(m_Query.next()){
         QString LotNo = m_Query.value(0).toString();
         QString BlockNo = m_Query.value(1).toString();
@@ -122,11 +123,11 @@ void Database::SearchBlockNo(QString BlockNo, QStringList *stringList)
     }
 }
 
-void Database::SearchSn(QString Sn, QStringList *stringList)
+void Database::SearchSn(QString Sn, QStringList *stringList, int sn_flag)
 {
     m_Query.exec(QString("select b.LOT_NO, b.BLOCK_NO, s.SN, s.LOCATION, s.ADDON from BLOCK_NO b, SN s "
                          "where b.BLOCK_NO = S.BLOCK_NO "
-                         "AND S.SN = '%1' and s.flag=0").arg(Sn));
+                         "AND S.SN = '%1' and s.flag=%2").arg(Sn).arg(sn_flag));
     while(m_Query.next()){
         QString LotNo = m_Query.value(0).toString();
         QString BlockNo = m_Query.value(1).toString();

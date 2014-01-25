@@ -12,7 +12,7 @@
  * SMF_P2: SMF 录入系统
  * SMF_P3: 返修品 SMF 条码追溯系统
  */
-QString SMF_Product = "SMF_P1";
+QString SMF_Product = "SMF_P3";
 QString WindowTitle = "";
 QString Version = "";
 

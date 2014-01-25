@@ -159,7 +159,7 @@ void DataFilter::clearBlockNo()
     emit stringListChanged();
 }
 
-void DataFilter::searchData(QString flag, QString no)
+void DataFilter::searchData(QString flag, QString no, int sn_flag)
 {
     if(no == "") return;
 
@@ -170,22 +170,21 @@ void DataFilter::searchData(QString flag, QString no)
 
     clearData();
     if("lot_no" == flag){
-        m_DB.SearchLotNo(no, &m_StringList);
+        m_DB.SearchLotNo(no, &m_StringList, sn_flag);
     }
     else if("block_no" == flag){
-        m_DB.SearchBlockNo(no, &m_StringList);
+        m_DB.SearchBlockNo(no, &m_StringList, sn_flag);
     }
     else if("sn" == flag){
-        m_DB.SearchSn(no, &m_StringList);
+        m_DB.SearchSn(no, &m_StringList, sn_flag);
     }
 
     emit stringListChanged();
 }
 
 
-bool DataFilter::setScan(QString flag, QString no, QString Location)
+bool DataFilter::setScan(QString flag, QString no, QString Location, int sn_flag)
 {
-    qDebug() << flag << no << Location;
     if(! m_DB.isOpen()){
         QMessageBox::critical(NULL, "Waining", "数据库连接异常 请配置", QMessageBox::Ok);
         return false;
@@ -225,16 +224,16 @@ bool DataFilter::setScan(QString flag, QString no, QString Location)
             m_string = QString("请录入 SMF Lot No. Block No.");
             QMessageBox::critical(NULL, "Waining", m_string, QMessageBox::Ok);
             return false;
-        }else if(no == "rescan" || no == "RESCAN"){
+        }else if(sn_flag == 0 && (no == "rescan" || no == "RESCAN")){
             m_DB.ClearSnByBlockNo(m_CurrentBlockNo);
             m_StringList.clear();
             emit stringListChanged();
             return true;
-        }else if(no == "nosample" || no == "NOSAMPLE"){
+        }else if(sn_flag == 0 && (no == "nosample" || no == "NOSAMPLE")){
             m_StringList.append(no + "|" + Location);
             emit stringListChanged();
             return true;
-        }else if(no == "delete" || no == "DELETE"){
+        }else if(sn_flag == 0 && (no == "delete" || no == "DELETE")){
             if( m_StringList.size() > 0 ){
                 QString del_sn = m_StringList.back();
                 m_StringList.pop_back();
@@ -245,13 +244,20 @@ bool DataFilter::setScan(QString flag, QString no, QString Location)
             return true;
         }
 
-        if( m_DB.IsExistSn(no)) {
+        if(sn_flag == 1){
+            m_DB.InsertSn(no, m_CurrentBlockNo, Location, sn_flag);
+            m_StringList.append(no);
+            emit stringListChanged();
+            return true;
+        }
+
+        if(m_DB.IsExistSn(no)) {
             m_string = "数据已存在";
             emit stringChanged();
             return false;
         }
 
-        m_DB.InsertSn(no, m_CurrentBlockNo, Location);
+        m_DB.InsertSn(no, m_CurrentBlockNo, Location, sn_flag);
         m_StringList.append(no + "|" + Location);
         emit stringListChanged();
     }
