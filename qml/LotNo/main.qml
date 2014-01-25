@@ -87,17 +87,17 @@ Rectangle {
             timerFirstCheck.running = false
             register.visible = false
             dataFilter.CheckDB();
+            pageLoader.focus = true;
         }
         onCheckCodeError:{
-            timerFirstCheck.running = false
-            register.visible = true
+            timerFirstCheck.running = false;
+            register.visible = true;
         }
     }
 
     Register{
         id: register
         width: parent.width; height: parent.height - 80
-        z: 1
         visible: false
         anchors.centerIn: parent
     }

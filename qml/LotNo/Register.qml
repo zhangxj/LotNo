@@ -28,10 +28,13 @@ Rectangle {
                 anchors.verticalCenter: s1.verticalCenter
             }
 
-            SearchBox{
+
+            TextInput {
                 id: s1
                 width: 400
-                defaultText: dataFilter.getHardMD5()
+                font.pixelSize:20
+                font.bold: true
+                text: dataFilter.getHardMD5()
             }
         }
 
