@@ -7,6 +7,7 @@
 
 extern QString WindowTitle;
 extern QString Version;
+extern QString SMF_Product;
 
 DataFilter::DataFilter(QObject *parent) :
     QObject(parent)
@@ -120,8 +121,7 @@ QString DataFilter::getHardMD5()
         mac = mac + i.hardwareAddress();
     }
     mac = list.at(1).hardwareAddress();
-
-
+    mac = mac + SMF_Product;
     QString md5;
     QByteArray ba,bb;
     QCryptographicHash md(QCryptographicHash::Md5);
