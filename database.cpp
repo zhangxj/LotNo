@@ -101,6 +101,9 @@ void Database::SearchLotNo(QString LotNo, QStringList *stringList, int sn_flag)
         QString Addon = m_Query.value(4).toString();
         QStringList qsl = Addon.split("T");
         Addon = qsl.join(" ");
+        if(sn_flag == 1 && BlockNo == LotNo){
+            BlockNo = "";
+        }
         stringList->append(LotNo + "|" + BlockNo + "|" + SN + "|" + Location + "|" + Addon);
     }
 }
@@ -136,6 +139,9 @@ void Database::SearchSn(QString Sn, QStringList *stringList, int sn_flag)
         QString Addon = m_Query.value(4).toString();
         QStringList qsl = Addon.split("T");
         Addon = qsl.join(" ");
+        if(sn_flag == 1 && BlockNo == LotNo){
+            BlockNo = "";
+        }
         stringList->append(LotNo + "|" + BlockNo + "|" + SN + "|" + Location + "|" + Addon);
     }
 }

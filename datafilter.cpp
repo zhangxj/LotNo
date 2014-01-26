@@ -220,7 +220,7 @@ bool DataFilter::setScan(QString flag, QString no, QString Location, int sn_flag
         m_DB.InsertBlockNo(no, m_CurrentLotNo);
     }
     else if("sn" == flag){
-        if( m_CurrentLotNo == "" || m_CurrentBlockNo == "" ){
+        if( sn_flag == 0 && (m_CurrentLotNo == "" || m_CurrentBlockNo == "") ){
             m_string = QString("请录入 SMF Lot No. Block No.");
             QMessageBox::critical(NULL, "Waining", m_string, QMessageBox::Ok);
             return false;
@@ -245,6 +245,15 @@ bool DataFilter::setScan(QString flag, QString no, QString Location, int sn_flag
         }
 
         if(sn_flag == 1){
+            if( m_CurrentLotNo == "" ){
+                m_string = QString("请录入 SMF Lot No. ");
+                QMessageBox::critical(NULL, "Waining", m_string, QMessageBox::Ok);
+                return false;
+            }
+            if( m_CurrentBlockNo == "" ){
+                m_CurrentBlockNo = m_CurrentLotNo;
+                m_DB.InsertBlockNo(m_CurrentBlockNo, m_CurrentLotNo);
+            }
             m_DB.InsertSn(no, m_CurrentBlockNo, Location, sn_flag);
             m_StringList.append(no);
             emit stringListChanged();
