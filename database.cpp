@@ -188,6 +188,16 @@ QString Database::GetLotNoByBlockNo(QString BlockNo)
     return "";
 }
 
+bool Database::IsExistLotNoAndBlockNo(QString LotNo, QString BlockNo)
+{
+    m_Query.exec(QString("select * from BLOCK_NO where LOT_NO = '%1' and BLOCK_NO = '%2'").arg(LotNo).arg(BlockNo));
+
+    while(m_Query.next())
+        return true;
+
+    return false;
+}
+
 bool Database::IsExistSn(QString SN)
 {
     m_Query.exec(QString("select SN from SN where SN = '%1' and FLAG = 0").arg(SN));
@@ -196,6 +206,53 @@ bool Database::IsExistSn(QString SN)
         return true;
 
     return false;
+}
+
+bool Database::IsExist(QString sql)
+{
+    m_Query.exec(sql);
+
+    while(m_Query.next())
+        return true;
+
+    return false;
+}
+/*
+ * 返修品录入
+ */
+bool Database::FanXiu_LR(QString LotNo, QString BlockNo, QString SN){
+    QString sql = QString("SELECT * FROM FANXIU_SN WHERE LOT_NO = '%1' AND BLOCK_NO = '%2' ").arg(LotNo).arg(BlockNo);
+    if(IsExist(sql)){
+        ExecuteSQL(QString("update FANXIU_SN set SN = '%1' where LOT_NO = '%2' and BLOCK_NO = '%3'").arg(SN).arg(LotNo).arg(BlockNo));
+    }else{
+        ExecuteSQL(QString("insert into FANXIU_SN (LOT_NO, BLOCK_NO, SN) values ('%1', '%2', '%3')").arg(LotNo).arg(BlockNo).arg(SN));
+    }
+    return true;
+}
+
+void Database::SearchFanXiu(QString no, QString flag, QStringList *stringList)
+{
+    QString sql;
+    if("lot_no" == flag){
+        sql = QString("select LOT_NO, BLOCK_NO, SN, ADDON from FANXIU_SN where LOT_NO = '%1'").arg(no);
+    }
+    else if("block_no" == flag){
+        sql = QString("select LOT_NO, BLOCK_NO, SN, ADDON from FANXIU_SN where BLOCK_NO = '%1'").arg(no);
+    }
+    else if("sn" == flag){
+        sql = QString("select LOT_NO, BLOCK_NO, SN, ADDON from FANXIU_SN where SN = '%1'").arg(no);
+    }
+
+    ExecuteSQL(sql);
+    while(m_Query.next()){
+        QString LotNo = m_Query.value(0).toString();
+        QString BlockNo = m_Query.value(1).toString();
+        QString SN = m_Query.value(2).toString();
+        QString Addon = m_Query.value(3).toString();
+        QStringList qsl = Addon.split("T");
+        Addon = qsl.join(" ");
+        stringList->append(LotNo + "|" + BlockNo + "|" + SN + "|" + "" + "|" + Addon);
+    }
 }
 
 bool Database::ClearSnByBlockNo(QString BlockNo)

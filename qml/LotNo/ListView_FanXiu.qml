@@ -96,7 +96,7 @@ Rectangle {
                         Text {
                             font.pixelSize:18
                             font.bold: true
-                            text: index == 0 ? getModelData(modelData, 0): ""
+                            text: getModelData(modelData, 0) //index == 0 ? getModelData(modelData, 0): ""
                             color: list_item.text_color //is_LastOne(modelData, leftMenu.model) == "1" ? "white": "#474747"
                             anchors.centerIn: parent
                         }

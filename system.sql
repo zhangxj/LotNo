@@ -41,4 +41,9 @@ select LOT_NO.LOT_NO, BLOCK_NO.BLOCK_NO, SN.SN from LOT_NO
 left join BLOCK_NO on LOT_NO.LOT_NO = BLOCK_NO.LOT_NO 
 left join SN on BLOCK_NO.BLOCK_NO = SN.BLOCK_NO
 where LOT_NO.LOT_NO = 'q'
+
+
+select name from sysobjects where parent_obj in (select id from sysobjects where name='BLOCK_NO') and xtype='pk'
+alter table	BLOCK_NO drop constraint PK__BLOCK_NO__489AC854;
+
 */

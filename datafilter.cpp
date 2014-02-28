@@ -169,14 +169,18 @@ void DataFilter::searchData(QString flag, QString no, int sn_flag)
     }
 
     clearData();
-    if("lot_no" == flag){
-        m_DB.SearchLotNo(no, &m_StringList, sn_flag);
-    }
-    else if("block_no" == flag){
-        m_DB.SearchBlockNo(no, &m_StringList, sn_flag);
-    }
-    else if("sn" == flag){
-        m_DB.SearchSn(no, &m_StringList, sn_flag);
+    if(sn_flag == 0){
+        if("lot_no" == flag){
+            m_DB.SearchLotNo(no, &m_StringList, sn_flag);
+        }
+        else if("block_no" == flag){
+            m_DB.SearchBlockNo(no, &m_StringList, sn_flag);
+        }
+        else if("sn" == flag){
+            m_DB.SearchSn(no, &m_StringList, sn_flag);
+        }
+    }else if(sn_flag == 1){
+        m_DB.SearchFanXiu(no, flag, &m_StringList);
     }
 
     emit stringListChanged();
@@ -196,81 +200,84 @@ bool DataFilter::setScan(QString flag, QString no, QString Location, int sn_flag
     m_string = "";
     emit stringChanged();
 
-    if("lot_no" == flag){
-        m_CurrentLotNo = no;
-        m_DB.InsertLotNo(no);
-    }
-
-    else if("block_no" == flag){
-        if(m_CurrentLotNo == "") {
-            m_string = QString("请先录入 SMF Lot No.");
-            QMessageBox::critical(NULL, "Waining", m_string, QMessageBox::Ok);
-            return false;
-        }
-
-        QString tmp_LotNO = m_DB.GetLotNoByBlockNo(no);
-        if(tmp_LotNO != "" && tmp_LotNO != m_CurrentLotNo){
-            m_string = QString("Block No. %1 属于 %2")
-                    .arg(no)
-                    .arg(tmp_LotNO);
-            QMessageBox::critical(NULL, "Waining", m_string, QMessageBox::Ok);
-            return false;
-        }
-        m_CurrentBlockNo = no;
-        m_DB.InsertBlockNo(no, m_CurrentLotNo);
-    }
-    else if("sn" == flag){
-        if( sn_flag == 0 && (m_CurrentLotNo == "" || m_CurrentBlockNo == "") ){
-            m_string = QString("请录入 SMF Lot No. Block No.");
-            QMessageBox::critical(NULL, "Waining", m_string, QMessageBox::Ok);
-            return false;
-        }else if(sn_flag == 0 && (no == "rescan" || no == "RESCAN")){
-            m_DB.ClearSnByBlockNo(m_CurrentBlockNo);
-            m_StringList.clear();
-            emit stringListChanged();
-            return true;
-        }else if(sn_flag == 0 && (no == "nosample" || no == "NOSAMPLE")){
-            m_StringList.append(no + "|" + Location);
-            emit stringListChanged();
-            return true;
-        }else if(sn_flag == 0 && (no == "delete" || no == "DELETE")){
-            if( m_StringList.size() > 0 ){
-                QString del_sn = m_StringList.back();
-                m_StringList.pop_back();
-                del_sn = del_sn.split("|")[0];
-                m_DB.ClearSn(del_sn);
-            }
-            emit stringListChanged();
-            return true;
-        }
-
-        if(sn_flag == 1){
-            if( m_CurrentLotNo == "" ){
-                m_string = QString("请录入 SMF Lot No. ");
+    if(sn_flag == 0){
+        if("lot_no" == flag){
+            m_CurrentLotNo = no;
+            m_DB.InsertLotNo(no);
+        }else if("block_no" == flag){
+            if(m_CurrentLotNo == "") {
+                m_string = QString("请先录入 SMF Lot No.");
                 QMessageBox::critical(NULL, "Waining", m_string, QMessageBox::Ok);
                 return false;
             }
-            if( m_CurrentBlockNo == "" ){
-                m_CurrentBlockNo = m_CurrentLotNo;
-                m_DB.InsertBlockNo(m_CurrentBlockNo, m_CurrentLotNo);
+            QString tmp_LotNO = m_DB.GetLotNoByBlockNo(no);
+            if(tmp_LotNO != "" && tmp_LotNO != m_CurrentLotNo){
+                m_string = QString("Block No. %1 属于 %2")
+                        .arg(no)
+                        .arg(tmp_LotNO);
+                QMessageBox::critical(NULL, "Waining", m_string, QMessageBox::Ok);
+                return false;
             }
+            m_CurrentBlockNo = no;
+            if(!m_DB.IsExistLotNoAndBlockNo(m_CurrentLotNo, no)){
+                m_DB.InsertBlockNo(no, m_CurrentLotNo);
+            }
+        }else if("sn" == flag){
+            if( m_CurrentLotNo == "" || m_CurrentBlockNo == "" ){
+                m_string = QString("请录入 SMF Lot No. Block No.");
+                QMessageBox::critical(NULL, "Waining", m_string, QMessageBox::Ok);
+                return false;
+            }else if(no == "rescan" || no == "RESCAN"){
+                m_DB.ClearSnByBlockNo(m_CurrentBlockNo);
+                m_StringList.clear();
+                emit stringListChanged();
+                return true;
+            }else if( no == "nosample" || no == "NOSAMPLE" ){
+                m_StringList.append(no + "|" + Location);
+                emit stringListChanged();
+                return true;
+            }else if( no == "newblock" || no == "NEWBLOCK" ){
+                clearBlockNo();
+                return true;
+            }else if( no == "delete" || no == "DELETE" ){
+                if( m_StringList.size() > 0 ){
+                    QString del_sn = m_StringList.back();
+                    m_StringList.pop_back();
+                    del_sn = del_sn.split("|")[0];
+                    m_DB.ClearSn(del_sn);
+                }
+                emit stringListChanged();
+                return true;
+            }
+
+            if(m_DB.IsExistSn(no)) {
+                m_string = "数据已存在";
+                emit stringChanged();
+                return false;
+            }
+
             m_DB.InsertSn(no, m_CurrentBlockNo, Location, sn_flag);
-            m_StringList.append(no);
+            m_StringList.append(no + "|" + Location);
             emit stringListChanged();
-            return true;
         }
-
-        if(m_DB.IsExistSn(no)) {
-            m_string = "数据已存在";
-            emit stringChanged();
-            return false;
+    }else if(sn_flag == 1){
+        if("lot_no" == flag){
+            m_CurrentLotNo = no;
         }
-
-        m_DB.InsertSn(no, m_CurrentBlockNo, Location, sn_flag);
-        m_StringList.append(no + "|" + Location);
-        emit stringListChanged();
+        else if("block_no" == flag){
+            if(m_CurrentLotNo == "") {
+                m_string = QString("请先录入 SMF Lot No.");
+                QMessageBox::critical(NULL, "Waining", m_string, QMessageBox::Ok);
+                return false;
+            }
+            m_CurrentBlockNo = no;
+        }
+        else if("sn" == flag){
+            m_DB.FanXiu_LR(m_CurrentLotNo, m_CurrentBlockNo, no);
+            m_StringList.append(no + "|" + Location);
+            emit stringListChanged();
+        }
     }
-
     return true;
 }
 

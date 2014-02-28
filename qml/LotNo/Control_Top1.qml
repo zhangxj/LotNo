@@ -73,7 +73,12 @@ Rectangle{
                 bk_text: 'Sample SN'
                 width: parent.width; height: parent.height
                 onFinished: {
-                    if(dataFilter.getStringList().length < max_luru ||
+                    if(value == "newblock" || value == "NEWBLOCK"){
+                        block_no.text = "";
+                        block_no.focus = true
+                        block_no_text.text = "";
+                        dataFilter.setScan(flag, value, dataFilter.getStringList().length + 1, sn_flag);
+                    }else if(dataFilter.getStringList().length < max_luru ||
                             (value == "rescan" || value == "RESCAN") ||
                             (value == "delete" || value == "DELETE")){
                         dataFilter.setScan(flag, value, dataFilter.getStringList().length + 1, sn_flag);
