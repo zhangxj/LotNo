@@ -47,6 +47,8 @@ public slots:
     QString getUser();
     QString getPwd();
     QString CheckDB();
+    QString getDirPath();
+    QString setFilePath();
     void quit();
 
 

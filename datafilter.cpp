@@ -4,6 +4,8 @@
 #include <QNetworkInterface>
 #include <QCryptographicHash>
 #include <QSettings>
+#include <QFileDialog>
+#include <QStandardPaths>
 
 extern QString WindowTitle;
 extern QString Version;
@@ -34,6 +36,31 @@ QString DataFilter::getPwd()
     QSettings *s = new QSettings("config.ini", QSettings::IniFormat);
     return s->value("DATABASE/PWD").toString();
 }
+
+QString DataFilter::getDirPath()
+{
+    QSettings *s = new QSettings("config.ini", QSettings::IniFormat);
+    QString path = s->value("SAVE/PATH").toString();
+    if(path == ""){
+        path = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation);
+    }
+    return path;
+
+}
+
+QString DataFilter::setFilePath()
+{
+    QFileDialog *fileDialog = new QFileDialog();
+    fileDialog->setDirectory(getDirPath());
+    QString path = fileDialog->getExistingDirectory();
+    if(path != ""){
+        QSettings *s = new QSettings("config.ini", QSettings::IniFormat);
+        s->setValue("SAVE/PATH", path);
+        return path;
+    }
+    return getDirPath();
+}
+
 
 void DataFilter::setDBConfig(QString ip, QString user, QString pwd)
 {
