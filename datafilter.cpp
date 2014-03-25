@@ -6,7 +6,14 @@
 #include <QSettings>
 #include <QFileDialog>
 #include <QStandardPaths>
+#include <QDir>
+#include <QFile>
+#include <QTextStream>
+#include <QDateTime>
 
+#define LOG_DIR  "Log format"
+#define LOG_DIR_1 "Log for Panel Registration"
+#define LOG_DIR_2 "Log for PanelBlockLinking"
 extern QString WindowTitle;
 extern QString Version;
 extern QString SMF_Product;
@@ -16,6 +23,7 @@ DataFilter::DataFilter(QObject *parent) :
 {
     QSettings *s = new QSettings("config.ini", QSettings::IniFormat);
     m_checkCode = s->value("CODE/VALUE").toString();
+    createLogDir();
     m_string = "hello";
 }
 
@@ -37,6 +45,24 @@ QString DataFilter::getPwd()
     return s->value("DATABASE/PWD").toString();
 }
 
+void DataFilter::createLogDir()
+{
+    QDir d(getDirPath() + "\\" + LOG_DIR);
+    if(!d.exists()){
+        d.mkdir(getDirPath() + "\\" + LOG_DIR);
+    }
+
+    QDir d1(getDirPath() + "\\" + LOG_DIR + "\\" + LOG_DIR_1);
+    if(!d1.exists()){
+        d1.mkdir(getDirPath() + "\\" + LOG_DIR + "\\" + LOG_DIR_1);
+    }
+
+    QDir d2(getDirPath() + "\\" + LOG_DIR + "\\" + LOG_DIR_2);
+    if(!d2.exists()){
+        d2.mkdir(getDirPath() + "\\" + LOG_DIR + "\\" + LOG_DIR_2);
+    }
+}
+
 QString DataFilter::getDirPath()
 {
     QSettings *s = new QSettings("config.ini", QSettings::IniFormat);
@@ -56,8 +82,8 @@ QString DataFilter::setFilePath()
     if(path != ""){
         QSettings *s = new QSettings("config.ini", QSettings::IniFormat);
         s->setValue("SAVE/PATH", path);
-        return path;
     }
+    createLogDir();
     return getDirPath();
 }
 
@@ -246,6 +272,10 @@ bool DataFilter::setScan(QString flag, QString no, QString Location, int sn_flag
                 return false;
             }
             m_CurrentBlockNo = no;
+
+            saveLog1(m_CurrentLotNo, no);
+            QDateTime dt = QDateTime::currentDateTime();
+            m_LogFile2 = no + "_" + dt.toString("yyyyMMddhhmmss") + ".txt";
             if(!m_DB.IsExistLotNoAndBlockNo(m_CurrentLotNo, no)){
                 m_DB.InsertBlockNo(no, m_CurrentLotNo);
             }
@@ -285,6 +315,7 @@ bool DataFilter::setScan(QString flag, QString no, QString Location, int sn_flag
 
             m_DB.InsertSn(no, m_CurrentBlockNo, Location, sn_flag);
             m_StringList.append(no + "|" + Location);
+            saveLog2(m_CurrentLotNo, m_CurrentBlockNo, no, Location);
             emit stringListChanged();
         }
     }else if(sn_flag == 1){
@@ -306,6 +337,40 @@ bool DataFilter::setScan(QString flag, QString no, QString Location, int sn_flag
         }
     }
     return true;
+}
+
+void DataFilter::saveLog1(QString LotNo, QString BlockNo)
+{
+    QDir d(getDirPath() + "\\" + LOG_DIR + "\\" + LOG_DIR_1);
+    QDateTime dt = QDateTime::currentDateTime();
+    QString fileName = BlockNo + "_" + dt.toString("yyyyMMddhhmmss") + ".txt";
+    QFile f(d.filePath(fileName));
+    f.open(QIODevice::ReadWrite);
+    QString msg = LotNo + "," + BlockNo + "," + dt.toString("yyyy-MM-dd hh:mm:ss");
+    QTextStream in(&f);
+    in << "LotID,PanelID,CreateDateTime" << "\r\n" << msg << "\r\n";
+    f.close();
+}
+
+void DataFilter::saveLog2(QString LotNo, QString BlockNo, QString SN, QString Location)
+{
+    QDir d(getDirPath() + "\\" + LOG_DIR + "\\" + LOG_DIR_2);
+    QDateTime dt = QDateTime::currentDateTime();
+    QString fileName = m_LogFile2;
+    QFile f(d.filePath(fileName));
+
+    QString msg = LotNo + "," + BlockNo + "," + Location + "," + SN + "," + dt.toString("yyyy-MM-dd hh:mm:ss");
+
+    if(f.exists()){
+        f.open(QIODevice::Append);
+    }else {
+        f.open(QIODevice::ReadWrite);
+        msg = "LotID,PanelID,SequenceID,BlockSN,CreateDateTime\r\n" + msg;
+    }
+
+    QTextStream in(&f);
+    in << msg << "\r\n";
+    f.close();
 }
 
 bool DataFilter::record_LotNoBlockNo(QString flag, QString no)

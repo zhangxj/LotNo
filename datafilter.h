@@ -49,6 +49,9 @@ public slots:
     QString CheckDB();
     QString getDirPath();
     QString setFilePath();
+    void createLogDir();
+    void saveLog1(QString LotNo, QString BlockNo);
+    void saveLog2(QString LotNo, QString BlockNo, QString SN, QString Location);
     void quit();
 
 
@@ -59,6 +62,8 @@ public:
 
     QString m_CurrentLotNo;
     QString m_CurrentBlockNo;
+
+    QString m_LogFile2;
 
     QString m_checkCode;
 };
