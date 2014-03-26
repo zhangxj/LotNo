@@ -52,6 +52,7 @@ public slots:
     void createLogDir();
     void saveLog1(QString LotNo, QString BlockNo);
     void saveLog2(QString LotNo, QString BlockNo, QString SN, QString Location);
+    void SNLuRuDone();  //SN 录入完毕， 写入文件
     void quit();
 
 

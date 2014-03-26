@@ -274,8 +274,6 @@ bool DataFilter::setScan(QString flag, QString no, QString Location, int sn_flag
             m_CurrentBlockNo = no;
 
             saveLog1(m_CurrentLotNo, no);
-            QDateTime dt = QDateTime::currentDateTime();
-            m_LogFile2 = no + "_" + dt.toString("yyyyMMddhhmmss") + ".txt";
             if(!m_DB.IsExistLotNoAndBlockNo(m_CurrentLotNo, no)){
                 m_DB.InsertBlockNo(no, m_CurrentLotNo);
             }
@@ -315,7 +313,7 @@ bool DataFilter::setScan(QString flag, QString no, QString Location, int sn_flag
 
             m_DB.InsertSn(no, m_CurrentBlockNo, Location, sn_flag);
             m_StringList.append(no + "|" + Location);
-            saveLog2(m_CurrentLotNo, m_CurrentBlockNo, no, Location);
+
             emit stringListChanged();
         }
     }else if(sn_flag == 1){
@@ -337,6 +335,17 @@ bool DataFilter::setScan(QString flag, QString no, QString Location, int sn_flag
         }
     }
     return true;
+}
+
+void DataFilter::SNLuRuDone()
+{
+    QDateTime dt = QDateTime::currentDateTime();
+    m_LogFile2 = m_CurrentBlockNo + "_" + dt.toString("yyyyMMddhhmmss") + ".txt";
+    for(int i = 0; i < m_StringList.size(); i++){
+        QString str = m_StringList.at(i);
+        QStringList l = str.split("|");
+        saveLog2(m_CurrentLotNo, m_CurrentBlockNo, l[0], l[1]);
+    }
 }
 
 void DataFilter::saveLog1(QString LotNo, QString BlockNo)

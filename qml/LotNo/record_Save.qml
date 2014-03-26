@@ -29,6 +29,13 @@ Rectangle {
                     }
                 }
             }
+            Button{
+                width: 160; height: 50
+                text: "文件设置"
+                onClicked: {
+                    dir_path.text = dataFilter.setFilePath()
+                }
+            }
         }
     }
 

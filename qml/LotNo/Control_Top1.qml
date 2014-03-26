@@ -82,9 +82,13 @@ Rectangle{
                             (value == "rescan" || value == "RESCAN") ||
                             (value == "delete" || value == "DELETE")){
                         dataFilter.setScan(flag, value, dataFilter.getStringList().length + 1, sn_flag);
+                        if(dataFilter.getStringList().length == max_luru){
+                            dataFilter.SNLuRuDone();
+                        }
                     }else{
                         label.text = "最大录入数量" + max_luru + "个";
                     }
+
                     sn.text = ''
                 }
             }
