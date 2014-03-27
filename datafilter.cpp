@@ -52,14 +52,18 @@ void DataFilter::createLogDir()
         d.mkdir(getDirPath() + "\\" + LOG_DIR);
     }
 
-    QDir d1(getDirPath() + "\\" + LOG_DIR + "\\" + LOG_DIR_1);
-    if(!d1.exists()){
-        d1.mkdir(getDirPath() + "\\" + LOG_DIR + "\\" + LOG_DIR_1);
+    if(SMF_Product == "SMF_P2"){
+        QDir d1(getDirPath() + "\\" + LOG_DIR + "\\" + LOG_DIR_1);
+        if(!d1.exists()){
+            d1.mkdir(getDirPath() + "\\" + LOG_DIR + "\\" + LOG_DIR_1);
+        }
     }
 
-    QDir d2(getDirPath() + "\\" + LOG_DIR + "\\" + LOG_DIR_2);
-    if(!d2.exists()){
-        d2.mkdir(getDirPath() + "\\" + LOG_DIR + "\\" + LOG_DIR_2);
+    if(SMF_Product == "SMF_P1"){
+        QDir d2(getDirPath() + "\\" + LOG_DIR + "\\" + LOG_DIR_2);
+        if(!d2.exists()){
+            d2.mkdir(getDirPath() + "\\" + LOG_DIR + "\\" + LOG_DIR_2);
+        }
     }
 }
 
@@ -273,7 +277,6 @@ bool DataFilter::setScan(QString flag, QString no, QString Location, int sn_flag
             }
             m_CurrentBlockNo = no;
 
-            saveLog1(m_CurrentLotNo, no);
             if(!m_DB.IsExistLotNoAndBlockNo(m_CurrentLotNo, no)){
                 m_DB.InsertBlockNo(no, m_CurrentLotNo);
             }
@@ -422,6 +425,7 @@ bool DataFilter::record_LotNoBlockNo(QString flag, QString no)
             return false;
         }
 
+        saveLog1(m_CurrentLotNo, no);
         m_StringList.append(m_CurrentLotNo + "|" + no);
     }
 

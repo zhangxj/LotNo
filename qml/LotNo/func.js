@@ -52,6 +52,7 @@ function getMenuModel(p){
     }else if(p === "SMF_P2"){
         return [{'id': 'system', 'value': '系统', 'items': [
                         {'id': 'config', 'value': '数据库配置', 'page': 'Config.qml'},
+                        {'id': 'record_Save', 'value': '文件路径配置', 'page': 'record_Save.qml'},
                         {'id': 'quit', 'value': '退出'}
                     ]
                 },

@@ -9,7 +9,7 @@
 /*
  * SMF_Product 产品类别
  * SMF_P1: SMF 条码追溯系统
- * SMF_P2: SMF 录入系统
+ * SMF_P2: 前工序 SMF 条码追溯系统
  * SMF_P3: 返修品 SMF 条码追溯系统
  */
 QString SMF_Product = "SMF_P1";
@@ -28,7 +28,7 @@ void InitProduct(int argc, char *argv[])
     if(SMF_Product == "SMF_P1"){
         WindowTitle = "SMF 条码追溯系统";
     }else if(SMF_Product == "SMF_P2"){
-        WindowTitle = "SMF 录入系统";
+        WindowTitle = "前工序 SMF 条码追溯系统";
     }else if(SMF_Product == "SMF_P3"){
         WindowTitle = "返修品 SMF 条码追溯系统";
     }
