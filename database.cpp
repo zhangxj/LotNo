@@ -1,6 +1,7 @@
 #include "database.h"
 #include <QSettings>
 
+extern QString SMF_Product;
 Database::Database()
 {
     //if (! InitDB() ){
@@ -144,6 +145,57 @@ void Database::SearchSn(QString Sn, QStringList *stringList, int sn_flag)
         }
         stringList->append(LotNo + "|" + BlockNo + "|" + SN + "|" + Location + "|" + Addon);
     }
+}
+
+void Database::searchByDate(QString start, QString end, QStringList *stringList)
+{
+    if(SMF_Product == "SMF_P1"){
+        m_Query.exec(QString("select b.LOT_NO, b.BLOCK_NO, s.SN, s.LOCATION, s.ADDON "
+                         "from BLOCK_NO b, SN s "
+                         "where b.BLOCK_NO = s.BLOCK_NO "
+                         "AND s.ADDON >= '%1' and s.ADDON <= '%2' order by s.ADDON").arg(start + " 00:00:00").arg(end + " 23:59:59"));
+        while(m_Query.next()){
+            QString LotNo = m_Query.value(0).toString();
+            QString BlockNo = m_Query.value(1).toString();
+            QString SN = m_Query.value(2).toString();
+            QString Location = m_Query.value(3).toString();
+            QString Addon = m_Query.value(4).toString();
+            QStringList qsl = Addon.split("T");
+            Addon = qsl.join(" ");
+            stringList->append(LotNo + "|" + BlockNo + "|" + SN + "|" + Location + "|" + Addon);
+        }
+    }else if(SMF_Product == "SMF_P2"){
+        m_Query.exec(QString("select BLOCK_NO.LOT_NO, BLOCK_NO.BLOCK_NO, BLOCK_NO.ADDON "
+                             "from BLOCK_NO "
+                             "where BLOCK_NO.ADDON >= '%1' and BLOCK_NO.ADDON <= '%2' "
+                             "order by BLOCK_NO.ADDON")
+                     .arg(start + " 00:00:00").arg(end + " 23:59:59"));
+
+        while(m_Query.next()){
+            QString LotNo = m_Query.value(0).toString();
+            QString BlockNo = m_Query.value(1).toString();
+            QString Addon = m_Query.value(2).toString();
+            QStringList qsl = Addon.split("T");
+            Addon = qsl.join(" ");
+            stringList->append(LotNo + "|" + BlockNo + "|" + Addon);
+        }
+    }else if(SMF_Product == "SMF_P3"){
+        m_Query.exec(QString("select LOT_NO, BLOCK_NO, SN, ADDON "
+                             "from FANXIU_SN "
+                             "where ADDON >= '%1' and ADDON <= '%2' "
+                             "order by ADDON")
+                     .arg(start + " 00:00:00").arg(end + " 23:59:59"));
+        while(m_Query.next()){
+            QString LotNo = m_Query.value(0).toString();
+            QString BlockNo = m_Query.value(1).toString();
+            QString SN = m_Query.value(2).toString();
+            QString Addon = m_Query.value(3).toString();
+            QStringList qsl = Addon.split("T");
+            Addon = qsl.join(" ");
+            stringList->append(LotNo + "|" + BlockNo + "|" + SN + "|" + "" + "|" + Addon);
+        }
+    }
+
 }
 
 void Database::SearchBlockNoByLotNO(QString LotNo, QStringList *stringList)

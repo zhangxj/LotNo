@@ -18,7 +18,7 @@ Rectangle {
 
         Rectangle{
             id: title1
-            width: parent.width / 2; height: parent.height
+            width: parent.width / 3; height: parent.height
             color: "darkgrey"
             border.width: 1
             border.color: "grey"
@@ -33,7 +33,7 @@ Rectangle {
 
         Rectangle{
             id: title2
-            width: parent.width / 2; height: parent.height
+            width: parent.width / 3; height: parent.height
             color: "darkgrey"
             border.width: 1
             border.color: "grey"
@@ -41,6 +41,20 @@ Rectangle {
                 font.pixelSize:18
                 font.bold: true
                 text: "Block No."
+                color: "#474747"
+                anchors.centerIn: parent
+            }
+        }
+        Rectangle{
+            id: title3
+            width: parent.width / 3; height: parent.height
+            color: "darkgrey"
+            border.width: 1
+            border.color: "grey"
+            Text {
+                font.pixelSize:18
+                font.bold: true
+                text: "录入时间"
                 color: "#474747"
                 anchors.centerIn: parent
             }
@@ -80,6 +94,20 @@ Rectangle {
                             font.pixelSize:18
                             font.bold: true
                             text: getModelData(modelData, 1)
+                            color: list_item.text_color //is_LastOne(modelData, leftMenu.model) == "1" ? "white": "#474747"
+                            anchors.centerIn: parent
+                        }
+                    }
+
+                    Rectangle{
+                        width: title3.width; height: parent.height
+                        color: "transparent"
+                        border.width: 1
+                        border.color: "grey"
+                        Text {
+                            font.pixelSize:18
+                            font.bold: true
+                            text: getModelData(modelData, 2)
                             color: list_item.text_color //is_LastOne(modelData, leftMenu.model) == "1" ? "white": "#474747"
                             anchors.centerIn: parent
                         }

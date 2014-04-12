@@ -27,6 +27,7 @@ public:
     void SearchLotNo(QString LotNo, QStringList *stringList, int sn_flag);
     void SearchBlockNo(QString BlockNo, QStringList *stringList, int sn_flag);
     void SearchSn(QString Sn, QStringList *stringList, int sn_flag);
+    void searchByDate(QString start, QString end, QStringList *stringList);
 
     void SearchBlockNoByLotNO(QString LotNo, QStringList *stringList);
     void SearchBlockNoByBlockNo(QString BlockNo, QStringList *stringList);

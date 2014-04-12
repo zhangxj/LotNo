@@ -25,6 +25,8 @@ DataFilter::DataFilter(QObject *parent) :
     m_checkCode = s->value("CODE/VALUE").toString();
     m_Calendar = new QCalendarWidget();
     m_Calendar->setWindowTitle(WindowTitle);
+    m_Calendar->setWindowFlags(Qt::WindowStaysOnTopHint);
+
     connect(m_Calendar, SIGNAL(selectionChanged()), this, SLOT(calendarFormat()));
 
     createLogDir();
@@ -244,6 +246,17 @@ void DataFilter::searchData(QString flag, QString no, int sn_flag)
         m_DB.SearchFanXiu(no, flag, &m_StringList);
     }
 
+    emit stringListChanged();
+}
+
+void DataFilter::searchDataByDate()
+{
+    if(! m_DB.isOpen()){
+        QMessageBox::critical(NULL, "Waining", "数据库连接异常 请配置", QMessageBox::Ok);
+        return;
+    }
+    clearData();
+    m_DB.searchByDate(m_StartDate, m_EndDate, &m_StringList);
     emit stringListChanged();
 }
 
@@ -475,12 +488,28 @@ void DataFilter::OnAbout()
 void DataFilter::calendarFormat()
 {
     m_Calendar->hide();
-    qDebug() << m_Calendar->selectedDate();
+    if(m_DateType == "start"){
+        m_StartDate = m_Calendar->selectedDate().toString("yyyy-MM-dd");
+    }else if(m_DateType == "end"){
+        m_EndDate = m_Calendar->selectedDate().toString("yyyy-MM-dd");
+    }
+
+    emit stringChanged();
 }
 
-void DataFilter::calendarShow()
+void DataFilter::calendarShow(QString type, int x, int y)
 {
+    m_DateType = type;
+    m_Calendar->move(x, y);
     m_Calendar->show();
+}
+QString DataFilter::getDate(QString type)
+{
+    if(m_StartDate == ""){m_StartDate = m_Calendar->selectedDate().toString("yyyy-MM-dd");}
+    if(m_EndDate == "") {m_EndDate = m_Calendar->selectedDate().toString("yyyy-MM-dd");}
+    if(type == "start")
+        return "开始时间: " + m_StartDate;
+    return "结束时间: " + m_EndDate;
 }
 
 void DataFilter::quit()

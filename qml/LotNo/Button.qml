@@ -28,8 +28,11 @@ Rectangle{
         anchors.fill:button
         hoverEnabled:true
         onClicked: button.clicked()
-        onPressed: button.state = "press"
+        onPressed: {
+            button.state = "press"
+        }
         onReleased: button.state = ""
+
     }
     states:[
         State{

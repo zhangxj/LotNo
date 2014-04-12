@@ -8,7 +8,7 @@ FocusScope {
     property alias text: textInput.text
     property variant bk_text: ''
     focus: false;
-    signal finished(string value)
+    signal finished(string value);
 
     BorderImage {
         source: Func.get_image_path("lineedit-bg.png");
