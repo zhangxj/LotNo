@@ -11,9 +11,9 @@
 #include <QTextStream>
 #include <QDateTime>
 
-#define LOG_DIR  "Log format"
-#define LOG_DIR_1 "Log for Panel Registration"
-#define LOG_DIR_2 "Log for PanelBlockLinking"
+#define LOG_DIR  "Logformat"
+#define LOG_DIR_1 "LogforPanelRegistration"
+#define LOG_DIR_2 "LogforPanelBlockLinking"
 extern QString WindowTitle;
 extern QString Version;
 extern QString SMF_Product;
@@ -23,6 +23,10 @@ DataFilter::DataFilter(QObject *parent) :
 {
     QSettings *s = new QSettings("config.ini", QSettings::IniFormat);
     m_checkCode = s->value("CODE/VALUE").toString();
+    m_Calendar = new QCalendarWidget();
+    m_Calendar->setWindowTitle(WindowTitle);
+    connect(m_Calendar, SIGNAL(selectionChanged()), this, SLOT(calendarFormat()));
+
     createLogDir();
     m_string = "hello";
 }
@@ -466,6 +470,17 @@ void DataFilter::OnAbout()
     ab->setSource(QUrl("qml/LotNo/about.qml"));
     ab->show();
     */
+}
+
+void DataFilter::calendarFormat()
+{
+    m_Calendar->hide();
+    qDebug() << m_Calendar->selectedDate();
+}
+
+void DataFilter::calendarShow()
+{
+    m_Calendar->show();
 }
 
 void DataFilter::quit()

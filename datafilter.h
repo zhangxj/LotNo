@@ -7,6 +7,8 @@
 #include <QMap>
 #include <QSet>
 #include <QJsonArray>
+#include <QCalendarWidget>
+
 #include "database.h"
 
 class DataFilter : public QObject
@@ -54,6 +56,8 @@ public slots:
     void saveLog2(QString LotNo, QString BlockNo, QString SN, QString Location);
     void SNLuRuDone();  //SN 录入完毕， 写入文件
     void quit();
+    void calendarFormat();
+    void calendarShow();
 
 
 public:
@@ -67,6 +71,8 @@ public:
     QString m_LogFile2;
 
     QString m_checkCode;
+
+    QCalendarWidget *m_Calendar;
 };
 
 #endif // DATAFILTER_H
