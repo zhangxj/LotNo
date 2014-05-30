@@ -451,7 +451,7 @@ bool DataFilter::record_LotNoBlockNo(QString flag, QString no)
 
     if("lot_no" == flag){
         m_CurrentLotNo = no;
-        m_DB.InsertLotNo(no);
+        //m_DB.InsertLotNo(no);
     }
     else if("block_no" == flag){
         if(m_CurrentLotNo == "") {
@@ -470,6 +470,7 @@ bool DataFilter::record_LotNoBlockNo(QString flag, QString no)
         }
 
         m_CurrentBlockNo = no;
+        m_DB.InsertLotNo(m_CurrentLotNo);
         if(! m_DB.InsertBlockNo(no, m_CurrentLotNo)){
             m_string = "数据已存在";
             emit stringChanged();
@@ -477,9 +478,9 @@ bool DataFilter::record_LotNoBlockNo(QString flag, QString no)
         }
 
         saveLog1(m_CurrentLotNo, no);
-        m_StringList.append(m_CurrentLotNo + "|" + no);
+        QDateTime dt = QDateTime::currentDateTime();
+        m_StringList.append(m_CurrentLotNo + "|" + no + "|" + dt.toString("yyyy-MM-dd hh:mm:ss"));
     }
-
     emit stringListChanged();
     return true;
 }
