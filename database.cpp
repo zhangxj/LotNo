@@ -314,6 +314,17 @@ bool Database::ClearSnByBlockNo(QString BlockNo)
     return m_Query.exec();
 }
 
+int Database::GetSnNumByBlockNo(QString BlockNo)
+{
+    QString sql = QString("select count(*) from SN where BLOCK_NO = '%1'").arg(BlockNo);
+    ExecuteSQL(sql);
+    while(m_Query.next()){
+        return m_Query.value(0).toInt();
+    }
+
+    return 0;
+}
+
 bool Database::ClearSn(QString SN)
 {
     m_Query.prepare("delete from SN where SN = :SN and flag = 0");

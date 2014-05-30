@@ -39,6 +39,7 @@ public:
     bool IsExistLotNoAndBlockNo(QString LotNo, QString BlockNo);
 
     bool ClearSnByBlockNo(QString BlockNo);
+    int GetSnNumByBlockNo(QString BlockNo);
     bool ClearSn(QString SN);
 private:
     QSqlDatabase m_Conn;

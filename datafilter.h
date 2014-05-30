@@ -61,6 +61,8 @@ public slots:
     void calendarShow(QString type, int x, int y);
     QString getDate(QString type);
 
+    void setMaxLuRu(int max_LuRu);
+
 
 public:
     Database        m_DB;
@@ -69,7 +71,7 @@ public:
 
     QString m_CurrentLotNo;
     QString m_CurrentBlockNo;
-
+    int m_CurrentMax_LuRu;
     QString m_LogFile2;
 
     QString m_checkCode;

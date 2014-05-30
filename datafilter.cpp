@@ -260,6 +260,10 @@ void DataFilter::searchDataByDate()
     emit stringListChanged();
 }
 
+void DataFilter::setMaxLuRu(int max_LuRu)
+{
+    m_CurrentMax_LuRu = max_LuRu;
+}
 
 bool DataFilter::setScan(QString flag, QString no, QString Location, int sn_flag)
 {
@@ -277,7 +281,7 @@ bool DataFilter::setScan(QString flag, QString no, QString Location, int sn_flag
     if(sn_flag == 0){
         if("lot_no" == flag){
             m_CurrentLotNo = no;
-            m_DB.InsertLotNo(no);
+            //m_DB.InsertLotNo(no);
         }else if("block_no" == flag){
             if(m_CurrentLotNo == "") {
                 m_string = QString("请先录入 SMF Lot No.");
@@ -294,9 +298,9 @@ bool DataFilter::setScan(QString flag, QString no, QString Location, int sn_flag
             }
             m_CurrentBlockNo = no;
 
-            if(!m_DB.IsExistLotNoAndBlockNo(m_CurrentLotNo, no)){
+            /*if(!m_DB.IsExistLotNoAndBlockNo(m_CurrentLotNo, no)){
                 m_DB.InsertBlockNo(no, m_CurrentLotNo);
-            }
+            }*/
         }else if("sn" == flag){
             if( m_CurrentLotNo == "" || m_CurrentBlockNo == "" ){
                 m_string = QString("请录入 SMF Lot No. Block No.");
@@ -318,11 +322,27 @@ bool DataFilter::setScan(QString flag, QString no, QString Location, int sn_flag
                 if( m_StringList.size() > 0 ){
                     QString del_sn = m_StringList.back();
                     m_StringList.pop_back();
-                    del_sn = del_sn.split("|")[0];
-                    m_DB.ClearSn(del_sn);
+                    //del_sn = del_sn.split("|")[0];
+                    //m_DB.ClearSn(del_sn);
                 }
                 emit stringListChanged();
                 return true;
+            }
+
+
+            if((m_DB.GetSnNumByBlockNo(m_CurrentBlockNo) + m_StringList.size()) >= m_CurrentMax_LuRu){
+                m_string = "录入超过产品设定数量";
+                emit stringChanged();
+                QMessageBox::critical(NULL, "Waining", m_string, QMessageBox::Ok);
+                return false;
+            }
+            for(int i = 0; i < m_StringList.size(); i++){
+                QString str = m_StringList.at(i);
+                if (str.split("|")[0] == no){
+                    m_string = "数据已存在";
+                    emit stringChanged();
+                    return false;
+                }
             }
 
             if(m_DB.IsExistSn(no)) {
@@ -331,7 +351,7 @@ bool DataFilter::setScan(QString flag, QString no, QString Location, int sn_flag
                 return false;
             }
 
-            m_DB.InsertSn(no, m_CurrentBlockNo, Location, sn_flag);
+            //m_DB.InsertSn(no, m_CurrentBlockNo, Location, sn_flag);
             m_StringList.append(no + "|" + Location);
 
             emit stringListChanged();
@@ -361,9 +381,23 @@ void DataFilter::SNLuRuDone()
 {
     QDateTime dt = QDateTime::currentDateTime();
     m_LogFile2 = m_CurrentBlockNo + "_" + dt.toString("yyyyMMddhhmmss") + ".txt";
+
+    m_DB.InsertLotNo(m_CurrentLotNo);
+
+    QString tmp_LotNO = m_DB.GetLotNoByBlockNo(m_CurrentLotNo);
+    if(tmp_LotNO != "" && tmp_LotNO != m_CurrentLotNo){
+        m_string = QString("Block No. %1 属于 %2")
+                .arg(m_CurrentBlockNo)
+                .arg(tmp_LotNO);
+        QMessageBox::critical(NULL, "Waining", m_string, QMessageBox::Ok);
+        return;
+    }
+    m_DB.InsertBlockNo(m_CurrentBlockNo, m_CurrentLotNo);
+
     for(int i = 0; i < m_StringList.size(); i++){
         QString str = m_StringList.at(i);
         QStringList l = str.split("|");
+        m_DB.InsertSn(l[0], m_CurrentBlockNo, l[1], 0);
         saveLog2(m_CurrentLotNo, m_CurrentBlockNo, l[0], l[1]);
     }
 }

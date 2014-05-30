@@ -33,6 +33,7 @@ Rectangle{
                 bk_text: 'SMF Lot No.'
                 onFinished: {
                     dataFilter.clearData();
+                    dataFilter.setMaxLuRu(max_luru);
                     if(dataFilter.setScan(flag, value, "", sn_flag)){
                         block_no.text = "";
                         block_no.focus = true
@@ -84,6 +85,11 @@ Rectangle{
                         dataFilter.setScan(flag, value, dataFilter.getStringList().length + 1, sn_flag);
                         if(dataFilter.getStringList().length == max_luru){
                             dataFilter.SNLuRuDone();
+                            block_no.text = "";
+                            block_no_text.text = "";
+                            lot_no.text = "";
+                            lot_no_text.text = "";
+                            lot_no.focus = true;
                         }
                     }else{
                         label.text = "最大录入数量" + max_luru + "个";
