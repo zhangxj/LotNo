@@ -121,12 +121,13 @@ Rectangle {
     Rectangle{
         z: 1
         color: "white"
-        width: sn_listview.width + 1;
+        //width: sn_listview.width + 1;
         anchors.top: sn_listview.bottom
         anchors.topMargin: 1
         anchors.bottom: parent.bottom
-        anchors.bottomMargin: -2
+        anchors.bottomMargin: -10
         anchors.left: sn_listview.left
+        anchors.right: parent.right
     }
 
     Connections

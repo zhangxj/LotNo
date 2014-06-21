@@ -273,6 +273,8 @@ bool Database::IsExist(QString sql)
  * 返修品录入
  */
 bool Database::FanXiu_LR(QString LotNo, QString BlockNo, QString SN){
+    ExecuteSQL(QString("insert into FANXIU_SN (LOT_NO, BLOCK_NO, SN) values ('%1', '%2', '%3')").arg(LotNo).arg(BlockNo).arg(SN));
+    return true;
     QString sql = QString("SELECT * FROM FANXIU_SN WHERE LOT_NO = '%1' AND BLOCK_NO = '%2' ").arg(LotNo).arg(BlockNo);
     if(IsExist(sql)){
         ExecuteSQL(QString("update FANXIU_SN set SN = '%1' where LOT_NO = '%2' and BLOCK_NO = '%3'").arg(SN).arg(LotNo).arg(BlockNo));

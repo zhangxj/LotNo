@@ -18,7 +18,7 @@ Rectangle {
 
         Rectangle{
             id: title1
-            width: parent.width / 5 - 10; height: parent.height
+            width: (parent.width - 60) / 4; height: parent.height
             color: "darkgrey"
             border.width: 1
             border.color: "grey"
@@ -33,7 +33,7 @@ Rectangle {
 
         Rectangle{
             id: title2
-            width: parent.width / 5 - 10; height: parent.height
+            width: (parent.width - 60) / 4; height: parent.height
             color: "darkgrey"
             border.width: 1
             border.color: "grey"
@@ -48,7 +48,7 @@ Rectangle {
 
         Rectangle{
             id: title3
-            width: parent.width - title1.width - title2.width - title4.width - title5.width; height: parent.height
+            width: (parent.width - 60) / 4; height: parent.height;
             color: "darkgrey"
             border.width: 1
             border.color: "grey"
@@ -78,7 +78,7 @@ Rectangle {
 
         Rectangle{
             id: title5
-            width: 200; height: parent.height
+            width: (parent.width - 60) / 4 + 30; height: parent.height
             color: "darkgrey"
             border.width: 1
             border.color: "grey"
@@ -111,7 +111,7 @@ Rectangle {
                         Text {
                             font.pixelSize:18
                             font.bold: true
-                            text: index == 0 ? getModelData(modelData, 0): ""
+                            text: getModelData(modelData, 0)//index == 0 ? getModelData(modelData, 0): ""
                             color: list_item.text_color //is_LastOne(modelData, leftMenu.model) == "1" ? "white": "#474747"
                             anchors.centerIn: parent
                         }
@@ -208,6 +208,39 @@ Rectangle {
         model: leftMenu.model
         delegate: plugin_sub_item
         //onCurrentIndexChanged: positionViewAtEnd()
+    }
+
+    // 滚动条
+    Rectangle {
+        id: scrollbar
+        width: 28
+        height: list_view.height
+        color: "white"
+        border.color: 'darkgrey'
+        anchors.left: list_view.right
+        anchors.top: list_view.top
+        // 按钮
+        Rectangle {
+            id: button
+            x: 0
+            y: list_view.visibleArea.yPosition * scrollbar.height
+            width: scrollbar.width
+            height: list_view.visibleArea.heightRatio * scrollbar.height;
+            color: "lightblue"
+            // 鼠标区域
+            MouseArea {
+                id: mouseArea
+                anchors.fill: button
+                drag.target: button
+                drag.axis: Drag.YAxis
+                drag.minimumY: 0
+                drag.maximumY: scrollbar.height - button.height
+                // 拖动
+                onMouseYChanged: {
+                    list_view.contentY = button.y / scrollbar.height * list_view.contentHeight
+                }
+            }
+        }
     }
 
 

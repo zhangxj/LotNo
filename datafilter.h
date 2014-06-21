@@ -63,6 +63,8 @@ public slots:
 
     void setMaxLuRu(int max_LuRu);
 
+    bool DeleteBlockNo(QString Block_NO);
+
 
 public:
     Database        m_DB;

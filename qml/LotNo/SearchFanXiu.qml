@@ -129,8 +129,9 @@ Rectangle {
         anchors.top: sn_listview.bottom
         anchors.topMargin: 1
         anchors.bottom: parent.bottom
-        anchors.bottomMargin: -2
+        anchors.bottomMargin: -10
         anchors.left: sn_listview.left
+        anchors.right: parent.right
     }
 
     Connections

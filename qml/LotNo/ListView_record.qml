@@ -47,7 +47,7 @@ Rectangle {
         }
         Rectangle{
             id: title3
-            width: parent.width / 3; height: parent.height
+            width: parent.width / 3 + 30; height: parent.height
             color: "darkgrey"
             border.width: 1
             border.color: "grey"
@@ -105,21 +105,43 @@ Rectangle {
                         border.width: 1
                         border.color: "grey"
                         Text {
+                            id: date
                             font.pixelSize:18
                             font.bold: true
                             text: getModelData(modelData, 2)
                             color: list_item.text_color //is_LastOne(modelData, leftMenu.model) == "1" ? "white": "#474747"
-                            anchors.centerIn: parent
+                            anchors.verticalCenter: parent.verticalCenter
                         }
+
+                        Text {
+                            font.pixelSize:18
+                            font.bold: true
+                            text: "删除"
+                            color: list_item.text_color //is_LastOne(modelData, leftMenu.model) == "1" ? "white": "#474747"
+                            anchors.left: date.right
+                            anchors.leftMargin: 6
+                            anchors.verticalCenter: parent.verticalCenter
+
+                            MouseArea{
+                                anchors.fill: parent
+                                onClicked: {
+                                    dataFilter.DeleteBlockNo(getModelData(modelData, 1));
+                                }
+                            }
+
+                        }
+
+
                     }
                 }
 
-                MouseArea{
+                /*MouseArea{
                     anchors.fill: parent
                     onClicked: {
                         select_item(list_item)
                     }
                 }
+                */
 
                 states: [
                     State{
@@ -152,6 +174,40 @@ Rectangle {
         model: leftMenu.model
         delegate: plugin_sub_item
         onCurrentIndexChanged: positionViewAtEnd()
+    }
+
+
+    // 滚动条
+    Rectangle {
+        id: scrollbar
+        width: 28
+        height: list_view.height
+        color: "white"
+        border.color: 'darkgrey'
+        anchors.left: list_view.right
+        anchors.top: list_view.top
+        // 按钮
+        Rectangle {
+            id: button
+            x: 0
+            y: list_view.visibleArea.yPosition * scrollbar.height
+            width: scrollbar.width
+            height: list_view.visibleArea.heightRatio * scrollbar.height;
+            color: "lightblue"
+            // 鼠标区域
+            MouseArea {
+                id: mouseArea
+                anchors.fill: button
+                drag.target: button
+                drag.axis: Drag.YAxis
+                drag.minimumY: 0
+                drag.maximumY: scrollbar.height - button.height
+                // 拖动
+                onMouseYChanged: {
+                    list_view.contentY = button.y / scrollbar.height * list_view.contentHeight
+                }
+            }
+        }
     }
 
 
