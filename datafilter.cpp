@@ -543,6 +543,11 @@ void DataFilter::searchLotNoBlockNo(QString flag, QString no)
     emit stringListChanged();
 }
 
+bool DataFilter::isLast_BlockNo()
+{
+    return m_DB.isLast_BlockNo(m_CurrentLotNo);
+}
+
 void DataFilter::OnAbout()
 {
     QMessageBox msgBox;

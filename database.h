@@ -41,6 +41,9 @@ public:
     bool ClearSnByBlockNo(QString BlockNo);
     int GetSnNumByBlockNo(QString BlockNo);
     bool ClearSn(QString SN);
+
+    int m_count(QString Sql);
+    bool isLast_BlockNo(QString LotNo);
 private:
     QSqlDatabase m_Conn;
     QSqlQuery m_Query;

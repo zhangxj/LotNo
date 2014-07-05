@@ -87,9 +87,13 @@ Rectangle{
                             dataFilter.SNLuRuDone();
                             block_no.text = "";
                             block_no_text.text = "";
-                            lot_no.text = "";
-                            lot_no_text.text = "";
-                            lot_no.focus = true;
+                            if(dataFilter.isLast_BlockNo()){
+                                lot_no.text = "";
+                                lot_no_text.text = "";
+                                lot_no.focus = true;
+                            }else{
+                                block_no.focus = true;
+                            }
                         }
                     }else{
                         label.text = "最大录入数量" + max_luru + "个";

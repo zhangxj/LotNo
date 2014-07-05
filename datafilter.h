@@ -64,6 +64,7 @@ public slots:
     void setMaxLuRu(int max_LuRu);
 
     bool DeleteBlockNo(QString Block_NO);
+    bool isLast_BlockNo();
 
 
 public:

@@ -334,3 +334,32 @@ bool Database::ClearSn(QString SN)
     return m_Query.exec();
 }
 
+int Database::m_count(QString Sql)
+{
+    ExecuteSQL(Sql);
+    while(m_Query.next()){
+        return m_Query.value(0).toInt();
+    }
+
+    return 0;
+}
+
+bool Database::isLast_BlockNo(QString LotNo)
+{
+    m_Query.exec(QString("select BLOCK_NO from BLOCK_NO "
+                         "where LOT_NO = '%1'").arg(LotNo) );
+    QStringList l;
+    while(m_Query.next()){
+        QString BlockNo = m_Query.value(0).toString();
+        l.append(BlockNo);
+    }
+
+    for(int i = 0; i < l.size(); i++){
+        QString BlockNo = l.at(i);
+        if(m_count(QString("select count(*) from SN where BLOCK_NO='%1'").arg(BlockNo)) == 0)
+            return false;
+    }
+
+    return true;
+}
+
