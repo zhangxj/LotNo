@@ -62,10 +62,10 @@ public slots:
     QString getDate(QString type);
 
     void setMaxLuRu(int max_LuRu);
-
-    bool DeleteBlockNo(QString Block_NO);
     bool isLast_BlockNo();
 
+    void CheckItem(QString item);
+    bool DeleteItem();
 
 public:
     Database        m_DB;
@@ -83,6 +83,7 @@ public:
     QString m_DateType;
     QString m_StartDate;
     QString m_EndDate;
+    QStringList m_CheckItems;
 };
 
 #endif // DATAFILTER_H

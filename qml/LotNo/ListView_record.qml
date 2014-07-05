@@ -72,11 +72,20 @@ Rectangle {
                 property variant text_color: "#474747"
                 Row{
                     width: parent.width; height: parent.height
+
                     Rectangle{
                         width: title1.width; height: parent.height
                         color: "transparent"
                         border.width: 1
                         border.color: "grey"
+                        CheckBox{
+                            id: cb
+                            value: getModelData(modelData, 1)
+                            onClicked:{
+                                dataFilter.CheckItem(cb.value);
+                            }
+                            anchors.verticalCenter: parent.verticalCenter
+                        }
                         Text {
                             font.pixelSize:18
                             font.bold: true
@@ -110,28 +119,8 @@ Rectangle {
                             font.bold: true
                             text: getModelData(modelData, 2)
                             color: list_item.text_color //is_LastOne(modelData, leftMenu.model) == "1" ? "white": "#474747"
-                            anchors.verticalCenter: parent.verticalCenter
+                            anchors.centerIn: parent
                         }
-
-                        Text {
-                            font.pixelSize:18
-                            font.bold: true
-                            text: "删除"
-                            color: list_item.text_color //is_LastOne(modelData, leftMenu.model) == "1" ? "white": "#474747"
-                            anchors.left: date.right
-                            anchors.leftMargin: 6
-                            anchors.verticalCenter: parent.verticalCenter
-
-                            MouseArea{
-                                anchors.fill: parent
-                                onClicked: {
-                                    dataFilter.DeleteBlockNo(getModelData(modelData, 1));
-                                }
-                            }
-
-                        }
-
-
                     }
                 }
 
@@ -175,12 +164,10 @@ Rectangle {
         delegate: plugin_sub_item
         onCurrentIndexChanged: positionViewAtEnd()
     }
-
-
     // 滚动条
     Rectangle {
         id: scrollbar
-        width: 28
+        width: 29
         height: list_view.height
         color: "white"
         border.color: 'darkgrey'

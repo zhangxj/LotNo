@@ -129,4 +129,19 @@ Rectangle{
         anchors.bottom: parent.bottom
         anchors.left: sn_listview.left
     }
+
+    Button{
+        id: b
+        z: 2
+        text: "删 除"
+        width: 100
+        height: 45
+        anchors.top: sn_listview.bottom
+        anchors.topMargin: 3
+        anchors.left: sn_listview.left
+
+        onClicked: {
+            dataFilter.DeleteItem();
+        }
+    }
 }
