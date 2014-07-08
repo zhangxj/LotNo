@@ -200,9 +200,12 @@ void Database::searchByDate(QString start, QString end, QStringList *stringList)
 
 void Database::SearchBlockNoByLotNO(QString LotNo, QStringList *stringList)
 {
-    m_Query.exec(QString("select LOT_NO.LOT_NO, BLOCK_NO.BLOCK_NO, BLOCK_NO.ADDON from LOT_NO "
+    m_Query.prepare("select LOT_NO.LOT_NO, BLOCK_NO.BLOCK_NO, BLOCK_NO.ADDON from LOT_NO "
                          "left join BLOCK_NO on LOT_NO.LOT_NO = BLOCK_NO.LOT_NO "
-                         "where LOT_NO.LOT_NO = '%1'").arg(LotNo) );
+                         "where LOT_NO.LOT_NO = :LOT_NO");
+
+    m_Query.bindValue(0, LotNo);
+    m_Query.exec();
 
     while(m_Query.next()){
         QString LotNo = m_Query.value(0).toString();
