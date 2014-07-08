@@ -89,10 +89,14 @@ bool Database::InsertSn(QString Sn, QString BlockNo, QString Location, int FLAG)
 
 void Database::SearchLotNo(QString LotNo, QStringList *stringList, int sn_flag)
 {
-    m_Query.exec(QString("select LOT_NO.LOT_NO, BLOCK_NO.BLOCK_NO, SN.SN, SN.LOCATION, SN.ADDON from LOT_NO "
+    m_Query.prepare("select LOT_NO.LOT_NO, BLOCK_NO.BLOCK_NO, SN.SN, SN.LOCATION, SN.ADDON from LOT_NO "
                          "left join BLOCK_NO on LOT_NO.LOT_NO = BLOCK_NO.LOT_NO "
                          "left join SN on BLOCK_NO.BLOCK_NO = SN.BLOCK_NO "
-                         "where LOT_NO.LOT_NO = '%1' and sn.flag=%2").arg(LotNo).arg(sn_flag) );
+                         "where LOT_NO.LOT_NO = :LOT_NO and sn.flag=:FLAG");
+    m_Query.bindValue(0, LotNo);
+    m_Query.bindValue(1, sn_flag);
+
+    m_Query.exec();
 
     while(m_Query.next()){
         QString LotNo = m_Query.value(0).toString();
@@ -111,10 +115,14 @@ void Database::SearchLotNo(QString LotNo, QStringList *stringList, int sn_flag)
 
 void Database::SearchBlockNo(QString BlockNo, QStringList *stringList, int sn_flag)
 {
-    m_Query.exec(QString("select LOT_NO.LOT_NO, BLOCK_NO.BLOCK_NO, SN.SN, SN.LOCATION, SN.ADDON from LOT_NO "
+    m_Query.prepare("select LOT_NO.LOT_NO, BLOCK_NO.BLOCK_NO, SN.SN, SN.LOCATION, SN.ADDON from LOT_NO "
                          "join BLOCK_NO on LOT_NO.LOT_NO = BLOCK_NO.LOT_NO "
                          "left join SN on BLOCK_NO.BLOCK_NO = SN.BLOCK_NO "
-                         "where BLOCK_NO.BLOCK_NO = '%1' and sn.flag=%2").arg(BlockNo).arg(sn_flag));
+                         "where BLOCK_NO.BLOCK_NO = :BLOCK_NO");
+
+    m_Query.bindValue(0, BlockNo);
+    m_Query.exec();
+
     while(m_Query.next()){
         QString LotNo = m_Query.value(0).toString();
         QString BlockNo = m_Query.value(1).toString();
@@ -129,9 +137,13 @@ void Database::SearchBlockNo(QString BlockNo, QStringList *stringList, int sn_fl
 
 void Database::SearchSn(QString Sn, QStringList *stringList, int sn_flag)
 {
-    m_Query.exec(QString("select b.LOT_NO, b.BLOCK_NO, s.SN, s.LOCATION, s.ADDON from BLOCK_NO b, SN s "
+    m_Query.prepare("select b.LOT_NO, b.BLOCK_NO, s.SN, s.LOCATION, s.ADDON from BLOCK_NO b, SN s "
                          "where b.BLOCK_NO = S.BLOCK_NO "
-                         "AND S.SN = '%1' and s.flag=%2").arg(Sn).arg(sn_flag));
+                         "AND S.SN = :SN");
+
+    m_Query.bindValue(0, Sn);
+    m_Query.exec();
+
     while(m_Query.next()){
         QString LotNo = m_Query.value(0).toString();
         QString BlockNo = m_Query.value(1).toString();
@@ -150,10 +162,15 @@ void Database::SearchSn(QString Sn, QStringList *stringList, int sn_flag)
 void Database::searchByDate(QString start, QString end, QStringList *stringList)
 {
     if(SMF_Product == "SMF_P1"){
-        m_Query.exec(QString("select b.LOT_NO, b.BLOCK_NO, s.SN, s.LOCATION, s.ADDON "
+        m_Query.prepare("select b.LOT_NO, b.BLOCK_NO, s.SN, s.LOCATION, s.ADDON "
                          "from BLOCK_NO b, SN s "
                          "where b.BLOCK_NO = s.BLOCK_NO "
-                         "AND s.ADDON >= '%1' and s.ADDON <= '%2' order by s.ADDON").arg(start + " 00:00:00").arg(end + " 23:59:59"));
+                         "AND s.ADDON >= :ADDON1 and s.ADDON <= :ADDON2 order by s.ADDON");
+
+        m_Query.bindValue(0, start + " 00:00:00");
+        m_Query.bindValue(1, end + " 23:59:59");
+        m_Query.exec();
+
         while(m_Query.next()){
             QString LotNo = m_Query.value(0).toString();
             QString BlockNo = m_Query.value(1).toString();
@@ -165,11 +182,14 @@ void Database::searchByDate(QString start, QString end, QStringList *stringList)
             stringList->append(LotNo + "|" + BlockNo + "|" + SN + "|" + Location + "|" + Addon);
         }
     }else if(SMF_Product == "SMF_P2"){
-        m_Query.exec(QString("select BLOCK_NO.LOT_NO, BLOCK_NO.BLOCK_NO, BLOCK_NO.ADDON "
+        m_Query.prepare("select BLOCK_NO.LOT_NO, BLOCK_NO.BLOCK_NO, BLOCK_NO.ADDON "
                              "from BLOCK_NO "
-                             "where BLOCK_NO.ADDON >= '%1' and BLOCK_NO.ADDON <= '%2' "
-                             "order by BLOCK_NO.ADDON")
-                     .arg(start + " 00:00:00").arg(end + " 23:59:59"));
+                             "where BLOCK_NO.ADDON >= :ADDON1 and BLOCK_NO.ADDON <= :ADDON2 "
+                             "order by BLOCK_NO.ADDON");
+
+        m_Query.bindValue(0, start + " 00:00:00");
+        m_Query.bindValue(1, end + " 23:59:59");
+        m_Query.exec();
 
         while(m_Query.next()){
             QString LotNo = m_Query.value(0).toString();
@@ -180,11 +200,15 @@ void Database::searchByDate(QString start, QString end, QStringList *stringList)
             stringList->append(LotNo + "|" + BlockNo + "|" + Addon);
         }
     }else if(SMF_Product == "SMF_P3"){
-        m_Query.exec(QString("select LOT_NO, BLOCK_NO, SN, ADDON "
+        m_Query.prepare("select LOT_NO, BLOCK_NO, SN, ADDON "
                              "from FANXIU_SN "
-                             "where ADDON >= '%1' and ADDON <= '%2' "
-                             "order by ADDON")
-                     .arg(start + " 00:00:00").arg(end + " 23:59:59"));
+                             "where ADDON >= :ADDON1 and ADDON <= :ADDON2 "
+                             "order by ADDON");
+
+        m_Query.bindValue(0, start + " 00:00:00");
+        m_Query.bindValue(1, end + " 23:59:59");
+        m_Query.exec();
+
         while(m_Query.next()){
             QString LotNo = m_Query.value(0).toString();
             QString BlockNo = m_Query.value(1).toString();
@@ -219,8 +243,13 @@ void Database::SearchBlockNoByLotNO(QString LotNo, QStringList *stringList)
 
 void Database::SearchBlockNoByBlockNo(QString BlockNo, QStringList *stringList)
 {
-    m_Query.exec(QString("select BLOCK_NO.LOT_NO, BLOCK_NO.BLOCK_NO, BLOCK_NO.ADDON from BLOCK_NO "
-                         "where BLOCK_NO.BLOCK_NO = '%1'").arg(BlockNo));
+    m_Query.prepare("select BLOCK_NO.LOT_NO, BLOCK_NO.BLOCK_NO, BLOCK_NO.ADDON from BLOCK_NO "
+                         "where BLOCK_NO.BLOCK_NO = :BLOCK_NO");
+
+
+    m_Query.bindValue(0, BlockNo);
+    m_Query.exec();
+
     while(m_Query.next()){
         QString LotNo = m_Query.value(0).toString();
         QString BlockNo = m_Query.value(1).toString();
@@ -233,9 +262,13 @@ void Database::SearchBlockNoByBlockNo(QString BlockNo, QStringList *stringList)
 
 QString Database::GetLotNoByBlockNo(QString BlockNo)
 {
-    m_Query.exec(QString("select LOT_NO from BLOCK_NO "
-                         "where BLOCK_NO='%1'").arg(BlockNo));
+    m_Query.prepare("select LOT_NO from BLOCK_NO "
+                         "where BLOCK_NO=:BLOCK_NO");
 
+
+    m_Query.bindValue(0, BlockNo);
+    m_Query.exec();
+\
     while(m_Query.next()){
         return m_Query.value(0).toString();
     }
@@ -245,7 +278,12 @@ QString Database::GetLotNoByBlockNo(QString BlockNo)
 
 bool Database::IsExistLotNoAndBlockNo(QString LotNo, QString BlockNo)
 {
-    m_Query.exec(QString("select * from BLOCK_NO where LOT_NO = '%1' and BLOCK_NO = '%2'").arg(LotNo).arg(BlockNo));
+    m_Query.prepare("select * from BLOCK_NO where LOT_NO = :LOT_NO and BLOCK_NO = :BLOCK_NO");
+
+
+    m_Query.bindValue(0, LotNo);
+    m_Query.bindValue(1, BlockNo);
+    m_Query.exec();
 
     while(m_Query.next())
         return true;
@@ -255,7 +293,10 @@ bool Database::IsExistLotNoAndBlockNo(QString LotNo, QString BlockNo)
 
 bool Database::IsExistSn(QString SN)
 {
-    m_Query.exec(QString("select SN from SN where SN = '%1' and FLAG = 0").arg(SN));
+    m_Query.prepare("select SN from SN where SN = :SN and FLAG = 0");
+
+    m_Query.bindValue(0, SN);
+    m_Query.exec();
 
     while(m_Query.next())
         return true;
@@ -263,9 +304,24 @@ bool Database::IsExistSn(QString SN)
     return false;
 }
 
-bool Database::IsExist(QString sql)
+bool Database::IsExistLotNo(QString LotNo)
 {
-    m_Query.exec(sql);
+    m_Query.prepare("select * from LOT_NO where LOT_NO=:LOT_NO");
+    m_Query.bindValue(0, LotNo);
+    m_Query.exec();
+
+    while(m_Query.next())
+        return true;
+
+    return false;
+}
+
+
+bool Database::IsExistBlockNo(QString BlockNo)
+{
+    m_Query.prepare("select * from BLOCK_NO where BLOCK_NO=:BLOCK_NO");
+    m_Query.bindValue(0, BlockNo);
+    m_Query.exec();
 
     while(m_Query.next())
         return true;
@@ -276,14 +332,11 @@ bool Database::IsExist(QString sql)
  * 返修品录入
  */
 bool Database::FanXiu_LR(QString LotNo, QString BlockNo, QString SN){
-    ExecuteSQL(QString("insert into FANXIU_SN (LOT_NO, BLOCK_NO, SN) values ('%1', '%2', '%3')").arg(LotNo).arg(BlockNo).arg(SN));
-    return true;
-    QString sql = QString("SELECT * FROM FANXIU_SN WHERE LOT_NO = '%1' AND BLOCK_NO = '%2' ").arg(LotNo).arg(BlockNo);
-    if(IsExist(sql)){
-        ExecuteSQL(QString("update FANXIU_SN set SN = '%1' where LOT_NO = '%2' and BLOCK_NO = '%3'").arg(SN).arg(LotNo).arg(BlockNo));
-    }else{
-        ExecuteSQL(QString("insert into FANXIU_SN (LOT_NO, BLOCK_NO, SN) values ('%1', '%2', '%3')").arg(LotNo).arg(BlockNo).arg(SN));
-    }
+    m_Query.prepare("insert into FANXIU_SN (LOT_NO, BLOCK_NO, SN) values (:LOT_NO, :BLOCK_NO, :SN)");
+    m_Query.bindValue(0, LotNo);
+    m_Query.bindValue(1, BlockNo);
+    m_Query.bindValue(2, SN);
+    m_Query.exec();
     return true;
 }
 
@@ -291,16 +344,17 @@ void Database::SearchFanXiu(QString no, QString flag, QStringList *stringList)
 {
     QString sql;
     if("lot_no" == flag){
-        sql = QString("select LOT_NO, BLOCK_NO, SN, ADDON from FANXIU_SN where LOT_NO = '%1'").arg(no);
+        m_Query.prepare("select LOT_NO, BLOCK_NO, SN, ADDON from FANXIU_SN where LOT_NO = :LOT_NO");
     }
     else if("block_no" == flag){
-        sql = QString("select LOT_NO, BLOCK_NO, SN, ADDON from FANXIU_SN where BLOCK_NO = '%1'").arg(no);
+        m_Query.prepare("select LOT_NO, BLOCK_NO, SN, ADDON from FANXIU_SN where BLOCK_NO = :BLOCK_NO");
     }
     else if("sn" == flag){
-        sql = QString("select LOT_NO, BLOCK_NO, SN, ADDON from FANXIU_SN where SN = '%1'").arg(no);
+        m_Query.prepare("select LOT_NO, BLOCK_NO, SN, ADDON from FANXIU_SN where SN = :SN");
     }
+    m_Query.bindValue(0, no);
+    m_Query.exec();
 
-    ExecuteSQL(sql);
     while(m_Query.next()){
         QString LotNo = m_Query.value(0).toString();
         QString BlockNo = m_Query.value(1).toString();
@@ -321,8 +375,10 @@ bool Database::ClearSnByBlockNo(QString BlockNo)
 
 int Database::GetSnNumByBlockNo(QString BlockNo)
 {
-    QString sql = QString("select count(*) from SN where BLOCK_NO = '%1'").arg(BlockNo);
-    ExecuteSQL(sql);
+    m_Query.prepare("select count(*) from SN where BLOCK_NO = :BLOCK_NO");
+    m_Query.bindValue(0, BlockNo);
+    m_Query.exec();
+
     while(m_Query.next()){
         return m_Query.value(0).toInt();
     }
@@ -337,9 +393,9 @@ bool Database::ClearSn(QString SN)
     return m_Query.exec();
 }
 
-int Database::m_count(QString Sql)
+int Database::m_count()
 {
-    ExecuteSQL(Sql);
+    m_Query.exec();
     while(m_Query.next()){
         return m_Query.value(0).toInt();
     }
@@ -349,8 +405,11 @@ int Database::m_count(QString Sql)
 
 bool Database::isLast_BlockNo(QString LotNo)
 {
-    m_Query.exec(QString("select BLOCK_NO from BLOCK_NO "
-                         "where LOT_NO = '%1'").arg(LotNo) );
+    m_Query.prepare("select BLOCK_NO from BLOCK_NO "
+                         "where LOT_NO = :LOT_NO");
+
+    m_Query.bindValue(0, LotNo);
+    m_Query.exec();
     QStringList l;
     while(m_Query.next()){
         QString BlockNo = m_Query.value(0).toString();
@@ -359,7 +418,9 @@ bool Database::isLast_BlockNo(QString LotNo)
 
     for(int i = 0; i < l.size(); i++){
         QString BlockNo = l.at(i);
-        if(m_count(QString("select count(*) from SN where BLOCK_NO='%1'").arg(BlockNo)) == 0)
+        m_Query.prepare("select count(*) from SN where BLOCK_NO=:BLOCK_NO");
+        m_Query.bindValue(0, BlockNo);
+        if(m_count() == 0)
             return false;
     }
 

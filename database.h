@@ -34,7 +34,8 @@ public:
 
     QString GetLotNoByBlockNo(QString BlockNo);
 
-    bool IsExist(QString sql);
+    bool IsExistLotNo(QString LotNo);
+    bool IsExistBlockNo(QString BlockNo);
     bool IsExistSn(QString SN);
     bool IsExistLotNoAndBlockNo(QString LotNo, QString BlockNo);
 
@@ -42,7 +43,7 @@ public:
     int GetSnNumByBlockNo(QString BlockNo);
     bool ClearSn(QString SN);
 
-    int m_count(QString Sql);
+    int m_count();
     bool isLast_BlockNo(QString LotNo);
 private:
     QSqlDatabase m_Conn;
