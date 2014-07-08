@@ -321,7 +321,7 @@ bool DataFilter::setScan(QString flag, QString no, QString Location, int sn_flag
 
     if(sn_flag == 0){
         if("lot_no" == flag){
-            if(!m_DB.IsExist(QString("select * from LOT_NO where LOT_NO=\"%1\"").arg(no))){
+            if(!m_DB.IsExist(QString("select * from LOT_NO where LOT_NO='%1'").arg(no))){
                 m_string = QString("SMF Lot No. 不存在");
                 QMessageBox::critical(NULL, "警告", m_string, QMessageBox::Ok);
                 return false;
@@ -335,7 +335,7 @@ bool DataFilter::setScan(QString flag, QString no, QString Location, int sn_flag
                 QMessageBox::critical(NULL, "警告", m_string, QMessageBox::Ok);
                 return false;
             }
-            if(!m_DB.IsExist(QString("select * from BLOCK_NO where BLOCK_NO=\"%1\"").arg(no))){
+            if(!m_DB.IsExist(QString("select * from BLOCK_NO where BLOCK_NO='%1'").arg(no))){
                 m_string = QString("Block No. 不存在");
                 QMessageBox::critical(NULL, "警告", m_string, QMessageBox::Ok);
                 return false;
