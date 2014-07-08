@@ -114,7 +114,7 @@ Rectangle {
         width: parent.width / 10 * 9
         anchors.top: top_rec.bottom
         anchors.bottom: parent.bottom
-        anchors.bottomMargin: 25
+        anchors.bottomMargin: 41
         anchors.horizontalCenter: parent.horizontalCenter
     }
 
@@ -140,9 +140,125 @@ Rectangle {
         }
 
         onStringListChanged:{
-            sn_listview.model = dataFilter.getStringList()
+            sn_listview.model = getPageData(dataFilter.getStringList(),
+                                            sn_listview.page_index, sn_listview.page_size)
+            page.text = sn_listview.page_index + "/" + getPageNum(dataFilter.getStringList());
+
         }
     }
 
+    Button{
+        z: 2
+        text: "删 除"
+        width: 100
+        height: 45
+        anchors.top: sn_listview.bottom
+        anchors.topMargin: 3
+        anchors.left: sn_listview.left
+
+        onClicked: {
+            dataFilter.DeleteSN();
+        }
+    }
+
+    function getPageNum(data){
+        return parseInt((data.length + sn_listview.page_size - 1) / sn_listview.page_size);
+    }
+
+    function getPageData(data, page_index, page_size){
+        var dest = []
+        btn_page.text = "每页:" + sn_listview.page_size + "条,共:" + getSize(dataFilter.getStringList())+ "条"
+        if(data.length == 0)
+            return dest;
+
+        if(page_index > getPageNum(data)){
+            page_index = getPageNum(data);
+            sn_listview.page_index = page_index;
+        }
+
+        if(page_index <= getPageNum(data)){
+            var end = page_index * page_size;
+            if(page_index == getPageNum(data)){
+                end = data.length;
+            }
+
+            for(var i = (page_index - 1) *  page_size; i < end; i++){
+                dest.push(data[i]);
+            }
+        }
+
+        return dest;
+    }
+
+    function prePage(data){
+        if(sn_listview.page_index > 1){
+            sn_listview.page_index -= 1;
+        }
+
+        sn_listview.model = getPageData(data, sn_listview.page_index, sn_listview.page_size);
+        page.text = sn_listview.page_index + "/" + getPageNum(dataFilter.getStringList());
+    }
+
+    function nextPage(data){
+        if(sn_listview.page_index < getPageNum(data)){
+            sn_listview.page_index += 1;
+        }
+
+        sn_listview.model = getPageData(data, sn_listview.page_index, sn_listview.page_size);
+        page.text = sn_listview.page_index + "/" + getPageNum(data);
+    }
+
+    Row{
+        id: page_row
+        z: 2
+        spacing: 10
+        anchors.top: sn_listview.bottom
+        anchors.topMargin: 3
+        anchors.horizontalCenter: sn_listview.horizontalCenter
+        Button{
+            text: "上一页"
+            width: 100
+            height: 45
+
+            onClicked: {
+                prePage(dataFilter.getStringList())
+            }
+        }
+        Button{
+            id: page
+            text: ""
+            width: 60
+            height: 45
+            color_start: "white"
+            color_stop: "white"
+            text_color: "black"
+        }
+
+        Button{
+            text: "下一页"
+            width: 100
+            height: 45
+            onClicked: {
+                nextPage(dataFilter.getStringList());
+            }
+        }
+    }
+
+    function getSize(data){
+        return data.length;
+    }
+
+    Button{
+        id: btn_page
+        z:1
+        text: "每页:" + sn_listview.page_size + "条,共:" + getSize(dataFilter.getStringList())+ "条"
+        width: 250
+        height: 45
+        color_start: "white"
+        color_stop: "white"
+        text_color: "black"
+        anchors.left: page_row.right
+        anchors.verticalCenter: page_row.verticalCenter
+    }
 
 }

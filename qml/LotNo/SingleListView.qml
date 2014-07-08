@@ -10,6 +10,8 @@ Rectangle {
     border.width: 1
     border.color: "grey"
     property int item_height: 25
+    property int page_index: 1;
+    property int page_size: 25;
 
     Row{
         id: title
@@ -108,6 +110,14 @@ Rectangle {
                         color: "transparent"
                         border.width: 1
                         border.color: "grey"
+                        CheckBox{
+                            id: cb
+                            value: getModelData(modelData, 2)
+                            onClicked:{
+                                dataFilter.CheckItem(cb.value);
+                            }
+                            anchors.verticalCenter: parent.verticalCenter
+                        }
                         Text {
                             font.pixelSize:18
                             font.bold: true
@@ -170,7 +180,7 @@ Rectangle {
                     }
                 }
 
-                MouseArea{
+/*                MouseArea{
                     anchors.fill: parent
                     onClicked: {
                         select_item(list_item)
@@ -195,6 +205,7 @@ Rectangle {
                         }
                     }
                 ]
+*/
             }
 
         }

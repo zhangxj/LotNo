@@ -66,6 +66,8 @@ public slots:
 
     void CheckItem(QString item);
     bool DeleteItem();
+    bool DeleteSN();
+    bool DeleteFanXiu();
 
 public:
     Database        m_DB;

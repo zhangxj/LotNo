@@ -263,6 +263,84 @@ bool DataFilter::DeleteItem(){
     return true;
 }
 
+bool DataFilter::DeleteSN(){
+
+    if(m_CheckItems.empty()){
+        QMessageBox::critical(NULL, "警告", "请选择删除项", QMessageBox::Ok);
+        return true;
+    }
+
+    QMessageBox msgBox;
+    msgBox.setIcon(QMessageBox::Question);
+    msgBox.setWindowTitle(WindowTitle);
+    msgBox.setText("删除操作， 请谨慎！                 ");
+    msgBox.setInformativeText("确认删除?");
+    msgBox.addButton("确定", QMessageBox::YesRole);
+    msgBox.addButton("取消", QMessageBox::NoRole);
+    int ret = msgBox.exec();
+    if(ret != 0){
+        return false;
+    }
+
+    for(int i = 0; i < m_CheckItems.size(); i++)
+    {
+        QString SN = m_CheckItems.at(i);
+
+        m_DB.ExecuteSQL(QString("delete from SN where SN = '%1'").arg(SN));
+
+        for(int j = 0; j < m_StringList.size(); j++){
+            QStringList str = m_StringList.at(j).split("|");
+            if (str[2] == SN){
+                m_StringList.removeAt(j);
+            }
+        }
+    }
+
+    m_CheckItems.clear();
+    emit stringListChanged();
+    return true;
+}
+bool DataFilter::DeleteFanXiu(){
+
+    if(m_CheckItems.empty()){
+        QMessageBox::critical(NULL, "警告", "请选择删除项", QMessageBox::Ok);
+        return true;
+    }
+
+    QMessageBox msgBox;
+    msgBox.setIcon(QMessageBox::Question);
+    msgBox.setWindowTitle(WindowTitle);
+    msgBox.setText("删除操作， 请谨慎！                 ");
+    msgBox.setInformativeText("确认删除?");
+    msgBox.addButton("确定", QMessageBox::YesRole);
+    msgBox.addButton("取消", QMessageBox::NoRole);
+    int ret = msgBox.exec();
+    if(ret != 0){
+        return false;
+    }
+
+    qDebug() << m_CheckItems;
+    for(int i = 0; i < m_CheckItems.size(); i++)
+    {
+        QString SN = m_CheckItems.at(i);
+
+        m_DB.ExecuteSQL(QString("delete from FANXIU_SN where SN = '%1'").arg(SN));
+
+        for(int j = 0; j < m_StringList.size(); j++){
+            QStringList str = m_StringList.at(j).split("|");
+            if (str[2] == SN){
+                m_StringList.removeAt(j);
+                j--;
+            }
+        }
+    }
+
+    m_CheckItems.clear();
+    emit stringListChanged();
+    return true;
+}
+
+
 void DataFilter::searchData(QString flag, QString no, int sn_flag)
 {
     if(no == "") return;
@@ -569,8 +647,6 @@ void DataFilter::CheckItem(QString item)
     }else{
         m_CheckItems.append(item);
     }
-
-    qDebug() << m_CheckItems;
 }
 
 void DataFilter::OnAbout()

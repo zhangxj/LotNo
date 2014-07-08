@@ -95,7 +95,7 @@ Rectangle {
         anchors.bottom: parent.bottom
         model: tableView.model
         delegate: listview_component
-        //onCurrentIndexChanged: positionViewAtEnd()
+        onCurrentIndexChanged: positionViewAtEnd()
     }
 
 

@@ -4,12 +4,15 @@ import 'func.js' as Func
 Rectangle {
     id:leftMenu
     property variant model;
+    property bool checkBoxVisible: false
     signal selected(string value);
     property variant selectedItem;
     property variant currentData;
-    border.width: 1
-    border.color: "grey"
-    property int item_height: 25
+    border.width: 1;
+    border.color: "grey";
+    property int item_height: 25;
+    property int page_index: 1;
+    property int page_size: 20;
 
     Row{
         id: title
@@ -81,6 +84,7 @@ Rectangle {
                         CheckBox{
                             id: cb
                             value: getModelData(modelData, 1)
+                            visible: checkBoxVisible
                             onClicked:{
                                 dataFilter.CheckItem(cb.value);
                             }
