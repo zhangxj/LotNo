@@ -17,7 +17,7 @@ public:
     bool InitDB();
     bool isOpen();
     void close();
-    bool ExecuteSQL(QString sql);
+    bool ExecuteSQL(QString sql, QString args1);
     bool InsertLotNo(QString LotNo);
     bool InsertBlockNo(QString BlockNo, QString LotNo);
     bool InsertSn(QString Sn, QString BlockNo, QString Location, int FLAG);

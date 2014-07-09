@@ -247,7 +247,7 @@ bool DataFilter::DeleteItem(){
     {
         QString Block_No = m_CheckItems.at(i);
 
-        m_DB.ExecuteSQL(QString("delete from BLOCK_NO where BLOCK_NO = '%1'").arg(Block_No));
+        m_DB.ExecuteSQL("delete from BLOCK_NO where BLOCK_NO = :BLOCK_NO", Block_No);
         m_DB.ClearSnByBlockNo(Block_No);
 
         for(int j = 0; j < m_StringList.size(); j++){
@@ -286,7 +286,7 @@ bool DataFilter::DeleteSN(){
     {
         QString SN = m_CheckItems.at(i);
 
-        m_DB.ExecuteSQL(QString("delete from SN where SN = '%1'").arg(SN));
+        m_DB.ExecuteSQL("delete from SN where SN = :SN", SN);
 
         for(int j = 0; j < m_StringList.size(); j++){
             QStringList str = m_StringList.at(j).split("|");
@@ -324,7 +324,7 @@ bool DataFilter::DeleteFanXiu(){
     {
         QString SN = m_CheckItems.at(i);
 
-        m_DB.ExecuteSQL(QString("delete from FANXIU_SN where SN = '%1'").arg(SN));
+        m_DB.ExecuteSQL("delete from FANXIU_SN where SN = :SN", SN);
 
         for(int j = 0; j < m_StringList.size(); j++){
             QStringList str = m_StringList.at(j).split("|");

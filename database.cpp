@@ -58,8 +58,10 @@ void Database::close()
     if(m_Conn.isOpen()) m_Conn.close();
 }
 
-bool Database::ExecuteSQL(QString sql){
-    return m_Query.exec(sql);
+bool Database::ExecuteSQL(QString sql, QString args1){
+    m_Query.prepare(sql);
+    m_Query.bindValue(0, args1);
+    return m_Query.exec();
 }
 
 bool Database::InsertLotNo(QString LotNo)
@@ -224,9 +226,13 @@ void Database::searchByDate(QString start, QString end, QStringList *stringList)
 
 void Database::SearchBlockNoByLotNO(QString LotNo, QStringList *stringList)
 {
+    /*
     m_Query.prepare("select LOT_NO.LOT_NO, BLOCK_NO.BLOCK_NO, BLOCK_NO.ADDON from LOT_NO "
                          "left join BLOCK_NO on LOT_NO.LOT_NO = BLOCK_NO.LOT_NO "
                          "where LOT_NO.LOT_NO = :LOT_NO");
+                         */
+
+    m_Query.prepare("select LOT_NO, BLOCK_NO, ADDON from BLOCK_NO where LOT_NO=:LOT_NO");
 
     m_Query.bindValue(0, LotNo);
     m_Query.exec();
