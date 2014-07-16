@@ -102,9 +102,11 @@ Rectangle {
                             id:subClick; anchors.fill:parent
                             hoverEnabled: true
                             onClicked:{
-                                select_item(item, "subselected")
-                                select_subitem(subItem)
-                                selected(modelData.id);
+                                if(dataFilter.ChangeProductItem(modelData.id)){
+                                    select_item(item, "subselected")
+                                    select_subitem(subItem)
+                                    selected(modelData.id);
+                                }
                             }
                         }
 

@@ -69,6 +69,8 @@ public slots:
     bool DeleteSN();
     bool DeleteFanXiu();
 
+    bool ChangeProductItem(QString item);
+
 public:
     Database        m_DB;
     QString         m_string;
@@ -86,6 +88,8 @@ public:
     QString m_StartDate;
     QString m_EndDate;
     QStringList m_CheckItems;
+
+    QString m_CurrentProduct;
 };
 
 #endif // DATAFILTER_H

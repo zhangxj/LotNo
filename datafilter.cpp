@@ -691,6 +691,34 @@ QString DataFilter::getDate(QString type)
         return "开始时间: " + m_StartDate;
     return "结束时间: " + m_EndDate;
 }
+/*
+ *return true 切换产品录入
+ *return false 停留当前位置
+ */
+bool DataFilter::ChangeProductItem(QString item)
+{
+    if(m_CurrentProduct == item)
+        return false;
+
+    if(m_CurrentLotNo == "" && m_CurrentBlockNo == "" && m_StringList.size() == 0){
+        m_CurrentProduct = item;
+        return true;
+    }
+
+    QMessageBox msgBox;
+    msgBox.setIcon(QMessageBox::Question);
+    msgBox.setWindowTitle(WindowTitle);
+    msgBox.setText("终止录入提示                 ");
+    msgBox.setInformativeText("确定终止当前录入操作， 放弃完整分割录入?");
+    msgBox.addButton("确定", QMessageBox::YesRole);
+    msgBox.addButton("取消", QMessageBox::NoRole);
+    int ret = msgBox.exec();
+    if(ret == 0){
+        m_CurrentProduct = item;
+        return true;
+    }
+    return false;
+}
 
 void DataFilter::quit()
 {
