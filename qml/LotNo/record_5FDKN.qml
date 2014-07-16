@@ -11,6 +11,7 @@ Rectangle {
         z: 1
         color: "white"
         max_luru: 6
+        product: "5FDKN"
     }
 
     Image {

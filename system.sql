@@ -36,6 +36,7 @@ create table SN
 	ADDON datetime default getdate()
 )
 
+--ALTER TABLE SN ADD PRODUCT VARCHAR(20);
 /*
 select LOT_NO.LOT_NO, BLOCK_NO.BLOCK_NO, SN.SN from LOT_NO 
 left join BLOCK_NO on LOT_NO.LOT_NO = BLOCK_NO.LOT_NO 

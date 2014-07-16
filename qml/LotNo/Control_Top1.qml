@@ -6,6 +6,7 @@ Rectangle{
     property bool pos_info: true
     property int max_luru: 12
     property int sn_flag: 0
+    property string product: "6ADKN"
     Text{
         id: label
         anchors.horizontalCenter: parent.horizontalCenter
@@ -34,7 +35,7 @@ Rectangle{
                 onFinished: {
                     dataFilter.clearData();
                     dataFilter.setMaxLuRu(max_luru);
-                    if(dataFilter.setScan(flag, value, "", sn_flag)){
+                    if(dataFilter.setScan(flag, value, "", sn_flag, product)){
                         block_no.text = "";
                         block_no.focus = true
                         lot_no_text.text = bk_text + ":" + value
@@ -55,7 +56,7 @@ Rectangle{
                 width: parent.width; height: parent.height
                 onFinished: {
                     dataFilter.clearBlockNo();
-                    if(dataFilter.setScan(flag, value, "", sn_flag)){
+                    if(dataFilter.setScan(flag, value, "", sn_flag, product)){
                         sn.focus = true
                         block_no_text.text = bk_text + ":" + value
                     }else{
@@ -78,11 +79,11 @@ Rectangle{
                         block_no.text = "";
                         block_no.focus = true
                         block_no_text.text = "";
-                        dataFilter.setScan(flag, value, dataFilter.getStringList().length + 1, sn_flag);
+                        dataFilter.setScan(flag, value, dataFilter.getStringList().length + 1, sn_flag, product);
                     }else if(dataFilter.getStringList().length < max_luru ||
                             (value == "rescan" || value == "RESCAN") ||
                             (value == "delete" || value == "DELETE")){
-                        dataFilter.setScan(flag, value, dataFilter.getStringList().length + 1, sn_flag);
+                        dataFilter.setScan(flag, value, dataFilter.getStringList().length + 1, sn_flag, product);
                         if(dataFilter.getStringList().length == max_luru){
                             dataFilter.SNLuRuDone();
                             block_no.text = "";

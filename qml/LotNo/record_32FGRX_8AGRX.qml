@@ -11,6 +11,7 @@ Rectangle {
         z: 1
         color: "white"
         max_luru: 12
+        product: "32FGRX"
     }
 
     Rectangle {

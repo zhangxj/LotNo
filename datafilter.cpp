@@ -403,7 +403,7 @@ void DataFilter::setMaxLuRu(int max_LuRu)
     m_CurrentMax_LuRu = max_LuRu;
 }
 
-bool DataFilter::setScan(QString flag, QString no, QString Location, int sn_flag)
+bool DataFilter::setScan(QString flag, QString no, QString Location, int sn_flag, QString product)
 {
     if(! m_DB.isOpen()){
         QMessageBox::critical(NULL, "警告", "数据库连接异常 请配置", QMessageBox::Ok);
@@ -416,6 +416,7 @@ bool DataFilter::setScan(QString flag, QString no, QString Location, int sn_flag
     m_string = "";
     emit stringChanged();
 
+    m_Product = product;
     if(sn_flag == 0){
         if("lot_no" == flag){
             if(!m_DB.IsExistLotNo(no)){
@@ -547,7 +548,7 @@ void DataFilter::SNLuRuDone()
     for(int i = 0; i < m_StringList.size(); i++){
         QString str = m_StringList.at(i);
         QStringList l = str.split("|");
-        m_DB.InsertSn(l[0], m_CurrentBlockNo, l[1], 0);
+        m_DB.InsertSn(l[0], m_CurrentBlockNo, l[1], 0, m_Product);
         saveLog2(m_CurrentLotNo, m_CurrentBlockNo, l[0], l[1]);
     }
 }

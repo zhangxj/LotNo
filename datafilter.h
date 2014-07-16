@@ -29,7 +29,7 @@ public slots:
     QString getString();
     QStringList getStringList();
 
-    bool setScan(QString flag, QString no, QString Location, int sn_flag);
+    bool setScan(QString flag, QString no, QString Location, int sn_flag, QString product);
     void searchData(QString flag, QString no, int sn_flag);
     void searchDataByDate();
 
@@ -90,6 +90,7 @@ public:
     QStringList m_CheckItems;
 
     QString m_CurrentProduct;
+    QString m_Product;
 };
 
 #endif // DATAFILTER_H

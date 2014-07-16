@@ -20,7 +20,7 @@ Rectangle {
 
         Rectangle{
             id: title1
-            width: (parent.width - 60) / 4; height: parent.height
+            width: (parent.width - 120) / 4; height: parent.height
             color: "darkgrey"
             border.width: 1
             border.color: "grey"
@@ -35,7 +35,7 @@ Rectangle {
 
         Rectangle{
             id: title2
-            width: (parent.width - 60) / 4; height: parent.height
+            width: (parent.width - 120) / 4; height: parent.height
             color: "darkgrey"
             border.width: 1
             border.color: "grey"
@@ -50,7 +50,7 @@ Rectangle {
 
         Rectangle{
             id: title3
-            width: (parent.width - 60) / 4; height: parent.height;
+            width: (parent.width - 120) / 4; height: parent.height;
             color: "darkgrey"
             border.width: 1
             border.color: "grey"
@@ -65,7 +65,7 @@ Rectangle {
 
         Rectangle{
             id: title4
-            width: 60; height: parent.height
+            width: 40; height: parent.height
             color: "darkgrey"
             border.width: 1
             border.color: "grey"
@@ -79,8 +79,23 @@ Rectangle {
         }
 
         Rectangle{
+            id: title_product
+            width: 80; height: parent.height
+            color: "darkgrey"
+            border.width: 1
+            border.color: "grey"
+            Text {
+                font.pixelSize:18
+                font.bold: true
+                text: "类型"
+                color: "#474747"
+                anchors.centerIn: parent
+            }
+        }
+
+        Rectangle{
             id: title5
-            width: (parent.width - 60) / 4 + 30; height: parent.height
+            width: (parent.width - 120) / 4 + 30; height: parent.height
             color: "darkgrey"
             border.width: 1
             border.color: "grey"
@@ -161,6 +176,20 @@ Rectangle {
                             font.pixelSize:18
                             font.bold: true
                             text: getModelData(modelData, 3)
+                            color: list_item.text_color //is_LastOne(modelData, leftMenu.model) == "1" ? "white": "#474747"
+                            anchors.centerIn: parent
+                        }
+                    }
+
+                    Rectangle{
+                        width: title_product.width; height: parent.height
+                        color: "transparent"
+                        border.width: 1
+                        border.color: "grey"
+                        Text {
+                            font.pixelSize:18
+                            font.bold: true
+                            text: getModelData(modelData, 5)
                             color: list_item.text_color //is_LastOne(modelData, leftMenu.model) == "1" ? "white": "#474747"
                             anchors.centerIn: parent
                         }
