@@ -161,6 +161,34 @@ void Database::SearchSn(QString Sn, QStringList *stringList, int sn_flag)
     }
 }
 
+
+QString Database::GetBlockNoBySn(QString Sn)
+{
+    m_Query.prepare("select BLOCK_NO from SN where SN = :SN");
+    m_Query.bindValue(0, Sn);
+    m_Query.exec();
+
+
+    while(m_Query.next()){
+        QString BlockNo = m_Query.value(0).toString();
+        return BlockNo;
+    }
+    return "";
+}
+
+void Database::GetSnListByBlockNo(QString BlockNo, QStringList *stringList)
+{
+    m_Query.prepare("select SN from SN where BLOCK_NO = :BLOCK_NO");
+    m_Query.bindValue(0, BlockNo);
+    m_Query.exec();
+
+
+    while(m_Query.next()){
+        QString SN = m_Query.value(0).toString();
+        stringList->append(SN);
+    }
+}
+
 void Database::searchByDate(QString start, QString end, QStringList *stringList)
 {
     if(SMF_Product == "SMF_P1"){

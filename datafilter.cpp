@@ -247,14 +247,18 @@ bool DataFilter::DeleteItem(){
     {
         QString Block_No = m_CheckItems.at(i);
 
-        m_DB.ExecuteSQL("delete from BLOCK_NO where BLOCK_NO = :BLOCK_NO", Block_No);
-        m_DB.ClearSnByBlockNo(Block_No);
-
-        for(int j = 0; j < m_StringList.size(); j++){
-            QStringList str = m_StringList.at(j).split("|");
-            if (str[1] == Block_No){
-                m_StringList.removeAt(j);
+        if(m_DB.GetSnNumByBlockNo(Block_No) == 0){
+            m_DB.ExecuteSQL("delete from BLOCK_NO where BLOCK_NO = :BLOCK_NO", Block_No);
+            m_DB.ClearSnByBlockNo(Block_No);
+            for(int j = 0; j < m_StringList.size(); j++){
+                QStringList str = m_StringList.at(j).split("|");
+                if (str[1] == Block_No){
+                    m_StringList.removeAt(j);
+                }
             }
+        }else{
+            QString msg = QString("由于分割BLOCK_NO:%1 存在SN， 禁止删除！").arg(Block_No);
+            QMessageBox::critical(NULL, "删除提醒", msg, QMessageBox::Ok);
         }
     }
 
@@ -268,6 +272,21 @@ bool DataFilter::DeleteSN(){
     if(m_CheckItems.empty()){
         QMessageBox::critical(NULL, "警告", "请选择删除项", QMessageBox::Ok);
         return true;
+    }
+
+    for(int i = 0; i < m_CheckItems.size(); i++)
+    {
+        QString SN = m_CheckItems.at(i);
+        QString BlockNo = m_DB.GetBlockNoBySn(SN);
+
+        QStringList sl;
+        m_DB.GetSnListByBlockNo(BlockNo, &sl);
+        for(int j = 0 ; j < sl.size(); j++){
+            if(!m_CheckItems.contains(sl.at(j))){
+                QMessageBox::critical(NULL, "警告", "请选择完整分割删除， 或者在录入界面扫码RESCAN删除！", QMessageBox::Ok);
+                return true;
+            }
+        }
     }
 
     QMessageBox msgBox;
@@ -697,6 +716,18 @@ QString DataFilter::getDate(QString type)
  */
 bool DataFilter::ChangeProductItem(QString item)
 {
+    QStringList sl;
+    sl.append("record_6ADKN");
+    sl.append("record_5FDKN");
+    sl.append("record_32FGRX");
+    sl.append("record_8AGRX");
+    sl.append("record");
+    sl.append("record_fanxiu");
+
+    if(!sl.contains(m_CurrentProduct)){
+        m_CurrentProduct = item;
+        return true;
+    }
     if(m_CurrentProduct == item)
         return false;
 

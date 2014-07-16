@@ -33,6 +33,8 @@ public:
     void SearchBlockNoByBlockNo(QString BlockNo, QStringList *stringList);
 
     QString GetLotNoByBlockNo(QString BlockNo);
+    QString GetBlockNoBySn(QString Sn);
+    void GetSnListByBlockNo(QString BlockNo, QStringList *stringList);
 
     bool IsExistLotNo(QString LotNo);
     bool IsExistBlockNo(QString BlockNo);
