@@ -243,6 +243,7 @@ bool DataFilter::DeleteItem(){
         return false;
     }
 
+    QStringList sl;
     for(int i = 0; i < m_CheckItems.size(); i++)
     {
         QString Block_No = m_CheckItems.at(i);
@@ -256,13 +257,26 @@ bool DataFilter::DeleteItem(){
                     m_StringList.removeAt(j);
                 }
             }
+            sl.append(Block_No);
         }else{
             QString msg = QString("由于分割BLOCK_NO:%1 存在SN， 禁止删除！").arg(Block_No);
             QMessageBox::critical(NULL, "删除提醒", msg, QMessageBox::Ok);
         }
     }
 
-    m_CheckItems.clear();
+    /*
+    for(int i = 0; i < sl.size(); i++)
+    {
+        for(int j = 0; j<m_CheckItems.size(); j++){
+            if(sl.at(i) == m_CheckItems.at(j)){
+                m_CheckItems.removeAt(j);
+            }
+        }
+    }
+    */
+    if(sl.size() != 0)
+        m_CheckItems.clear();
+
     emit stringListChanged();
     return true;
 }
