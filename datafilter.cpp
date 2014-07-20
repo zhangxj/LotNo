@@ -398,6 +398,10 @@ void DataFilter::searchData(QString flag, QString no, int sn_flag)
         m_DB.SearchFanXiu(no, flag, &m_StringList);
     }
 
+    if(m_StringList.size() == 0){
+        QMessageBox::information(NULL, "提示", "当前查询无结果", QMessageBox::Ok);
+    }
+
     emit stringListChanged();
 }
 
@@ -409,6 +413,11 @@ void DataFilter::searchDataByDate()
     }
     clearData();
     m_DB.searchByDate(m_StartDate, m_EndDate, &m_StringList);
+
+    if(m_StringList.size() == 0){
+        QMessageBox::information(NULL, "提示", "当前查询无结果", QMessageBox::Ok);
+    }
+
     emit stringListChanged();
 }
 
@@ -664,6 +673,10 @@ void DataFilter::searchLotNoBlockNo(QString flag, QString no)
         m_DB.SearchBlockNoByLotNO(no, &m_StringList);
     }else if("block_no" == flag){
         m_DB.SearchBlockNoByBlockNo(no, &m_StringList);
+    }
+
+    if(m_StringList.size() == 0){
+        QMessageBox::information(NULL, "提示", "当前查询无结果", QMessageBox::Ok);
     }
 
     emit stringListChanged();
