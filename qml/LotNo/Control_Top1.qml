@@ -149,13 +149,20 @@ Rectangle{
                 pos4.color = 'transparent'; pos4.text = "";
                 pos5.color = 'transparent'; pos5.text = "";
                 pos6.color = 'transparent'; pos6.text = "";
-                if(max_luru == 12){
+                if(max_luru >= 12){
                     pos7.color = 'transparent'; pos7.text = "";
                     pos8.color = 'transparent'; pos8.text = "";
                     pos9.color = 'transparent'; pos9.text = "";
                     pos10.color = 'transparent'; pos10.text = "";
                     pos11.color = 'transparent'; pos11.text = "";
                     pos12.color = 'transparent'; pos12.text = "";
+                }
+
+                if(max_luru >=16){
+                    pos13.color = 'transparent'; pos13.text = "";
+                    pos14.color = 'transparent'; pos14.text = "";
+                    pos15.color = 'transparent'; pos15.text = "";
+                    pos16.color = 'transparent'; pos16.text = "";
                 }
 
                 var nosample = "?";
@@ -165,13 +172,20 @@ Rectangle{
                 if(snList.length >= 4){pos4.color = color; pos4.text = snList[3].split("|")[0] == "NOSAMPLE" ? nosample:"4";}
                 if(snList.length >= 5){pos5.color = color; pos5.text = snList[4].split("|")[0] == "NOSAMPLE" ? nosample:"5";}
                 if(snList.length >= 6){pos6.color = color; pos6.text = snList[5].split("|")[0] == "NOSAMPLE" ? nosample:"6";}
-                if(max_luru == 12){
+                if(max_luru >= 12){
                     if(snList.length >= 7){pos7.color = color; pos7.text = snList[6].split("|")[0] == "NOSAMPLE" ? nosample:"7";}
                     if(snList.length >= 8){pos8.color = color; pos8.text = snList[7].split("|")[0] == "NOSAMPLE" ? nosample:"8";}
                     if(snList.length >= 9){pos9.color = color; pos9.text = snList[8].split("|")[0] == "NOSAMPLE" ? nosample:"9";}
                     if(snList.length >= 10){pos10.color = color; pos10.text = snList[9].split("|")[0] == "NOSAMPLE" ? nosample:"10";}
                     if(snList.length >= 11){pos11.color = color; pos11.text = snList[10].split("|")[0] == "NOSAMPLE" ? nosample:"11";}
                     if(snList.length >= 12){pos12.color = color; pos12.text = snList[11].split("|")[0] == "NOSAMPLE" ? nosample:"12";}
+                }
+
+                if(max_luru >= 16){
+                    if(snList.length >= 13){pos13.color = color; pos13.text = snList[12].split("|")[0] == "NOSAMPLE" ? nosample:"13";}
+                    if(snList.length >= 14){pos14.color = color; pos14.text = snList[13].split("|")[0] == "NOSAMPLE" ? nosample:"14";}
+                    if(snList.length >= 15){pos15.color = color; pos15.text = snList[14].split("|")[0] == "NOSAMPLE" ? nosample:"15";}
+                    if(snList.length >= 16){pos16.color = color; pos16.text = snList[15].split("|")[0] == "NOSAMPLE" ? nosample:"16";}
                 }
             }
         }

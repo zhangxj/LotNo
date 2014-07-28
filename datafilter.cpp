@@ -568,12 +568,30 @@ void DataFilter::SNLuRuDone()
     }
     m_DB.InsertBlockNo(m_CurrentBlockNo, m_CurrentLotNo);
 
+    QString msg = "";
     for(int i = 0; i < m_StringList.size(); i++){
         QString str = m_StringList.at(i);
         QStringList l = str.split("|");
         m_DB.InsertSn(l[0], m_CurrentBlockNo, l[1], 0, m_Product);
-        saveLog2(m_CurrentLotNo, m_CurrentBlockNo, l[0], l[1]);
+
+        msg = msg + m_CurrentLotNo + "," + m_CurrentBlockNo + "," + l[1] + "," + l[0] + "," + dt.toString("yyyy-MM-dd hh:mm:ss") + "\r\n";
     }
+
+
+    QDir d(getDirPath() + "\\" + LOG_DIR + "\\" + LOG_DIR_2);
+    QString fileName = m_LogFile2;
+    QFile f(d.filePath(fileName));
+
+    if(f.exists()){
+        f.open(QIODevice::Append);
+    }else {
+        f.open(QIODevice::ReadWrite);
+        msg = "LotID,PanelID,SequenceID,BlockSN,CreateDateTime\r\n" + msg;
+    }
+
+    QTextStream in(&f);
+    in << msg;
+    f.close();
 }
 
 void DataFilter::saveLog1(QString LotNo, QString BlockNo)
