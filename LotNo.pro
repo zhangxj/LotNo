@@ -39,4 +39,5 @@ OTHER_FILES += \
     qml/LotNo/generate_code.qml \
     qml/LotNo/record_6ADKN.qml \
     qml/LotNo/record_6ADKN.qml \
-    qml/LotNo/MyTableView.qml
+    qml/LotNo/MyTableView.qml \
+    qml/LotNo/BadMarkConfig.qml

@@ -6,6 +6,7 @@
 #include <QDebug>
 #include <QMessageBox>
 #include <QSqlError>
+#include <QVector>
 
 class Database
 {
@@ -15,7 +16,9 @@ public:
 
 public:
     bool InitDB();
+    bool InitBadMarkDB();
     bool isOpen();
+    bool isBadMarkOpen();
     void close();
     bool ExecuteSQL(QString sql, QString args1);
     bool InsertLotNo(QString LotNo);
@@ -47,9 +50,13 @@ public:
 
     int m_count();
     bool isLast_BlockNo(QString LotNo);
+
+    void GetBadMarkSn(QString BlockNo, QVector<int> *intList);
 private:
     QSqlDatabase m_Conn;
     QSqlQuery m_Query;
+    QSqlDatabase m_BadMarkConn;
+    QSqlQuery m_BadMarkQuery;
 };
 
 #endif // DATABASE_H

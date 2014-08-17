@@ -47,9 +47,46 @@ bool Database::InitDB()
     return true;
 }
 
+bool Database::InitBadMarkDB()
+{
+    QString sIniFilePath   = "config.ini";
+    QSettings *s = new QSettings(sIniFilePath, QSettings::IniFormat);
+    QString dbHost = s->value("BadMark/IP").toString();
+    QString user = s->value("BadMark/USER").toString();
+    QString pwd= s->value("BadMark/PWD").toString();
+
+    if(dbHost.isEmpty() || user.isEmpty() || pwd.isEmpty()){
+        QMessageBox::critical(0, QObject::tr("config Error"), "请配置BadMark数据库");
+        return false;
+    }
+
+    QString db = "BadMark";
+    QString driver = "DRIVER={SQL SERVER};SERVER=" + dbHost + ";DATABASE=" + db;
+
+    m_BadMarkConn = QSqlDatabase::addDatabase("QODBC", "BadMark");
+    m_BadMarkConn.setDatabaseName(driver);
+    m_BadMarkConn.setUserName(user);
+    m_BadMarkConn.setPassword(pwd);
+    m_BadMarkConn.setConnectOptions("SQL_ATTR_CONNECTION_TIMEOUT=1;SQL_ATTR_LOGIN_TIMEOUT=1");
+    if(!m_BadMarkConn.open()) {
+            QMessageBox::critical(0, QObject::tr("Database Error"), "数据库配置错误\r\n" + m_BadMarkConn.lastError().text());
+
+            return false;
+    }
+
+    m_BadMarkQuery = QSqlQuery(m_BadMarkConn);
+    return true;
+}
+
+
 bool Database::isOpen()
 {
     return m_Conn.isOpen();
+}
+
+bool Database::isBadMarkOpen()
+{
+    return m_BadMarkConn.isOpen();
 }
 
 void Database::close()
@@ -466,3 +503,15 @@ bool Database::isLast_BlockNo(QString LotNo)
     return true;
 }
 
+void Database::GetBadMarkSn(QString PanelId, QVector<int> *intList){
+    m_BadMarkQuery.prepare("select BadMarkSeq from valorQM "
+                         "where PanelId = :PanelId");
+
+    m_BadMarkQuery.bindValue(0, PanelId);
+    m_BadMarkQuery.exec();
+
+    while(m_BadMarkQuery.next()){
+        int sn = m_BadMarkQuery.value(0).toInt();
+        intList->append(sn);
+    }
+}

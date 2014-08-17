@@ -6,6 +6,7 @@
 #include <QDebug>
 #include <QMap>
 #include <QSet>
+#include <QVector>
 #include <QJsonArray>
 #include <QCalendarWidget>
 
@@ -46,9 +47,13 @@ public slots:
     void FirstCheck();
     QString JiaMi(QString code);
     void setDBConfig(QString ip, QString user, QString pwd);
+    void setBadMarkDBConfig(QString ip, QString user, QString pwd);
     QString getIp();
     QString getUser();
     QString getPwd();
+    QString getBadMarkIp();
+    QString getBadMarkUser();
+    QString getBadMarkPwd();
     QString CheckDB();
     QString getDirPath();
     QString setFilePath();
@@ -73,6 +78,7 @@ public slots:
 
 public:
     Database        m_DB;
+    Database        m_BadMarkDB;
     QString         m_string;
     QStringList     m_StringList;
 
@@ -91,6 +97,8 @@ public:
 
     QString m_CurrentProduct;
     QString m_Product;
+
+    QVector<int> m_IntList;
 };
 
 #endif // DATAFILTER_H
