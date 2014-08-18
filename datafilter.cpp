@@ -144,7 +144,7 @@ void DataFilter::setBadMarkDBConfig(QString ip, QString user, QString pwd)
     s->setValue("BadMark/USER", user);
     s->setValue("BadMark/PWD", pwd);
 
-    if(m_BadMarkDB.InitBadMarkDB()){
+    if(m_DB.InitBadMarkDB()){
         m_string = "数据库连接成功!";
 
     }else{
@@ -160,8 +160,10 @@ QString DataFilter::CheckDB()
         m_string = "数据库连接失败!";
     }else{
         m_string = "数据库连接成功!";
-        if(!m_DB.isBadMarkOpen() && !m_DB.InitBadMarkDB()){
-            m_string = "BadMark数据库连接失败!";
+        if(SMF_Product == "SMF_P1"){
+            if(!m_DB.isBadMarkOpen() && !m_DB.InitBadMarkDB()){
+                m_string = "BadMark数据库连接失败!";
+            }
         }
     }
     emit stringChanged();
@@ -216,12 +218,25 @@ void DataFilter::checkCode(QString code)
 
 QString DataFilter::getHardMD5()
 {
+    //SYSTEM_INFO info;
+    //GetSystemInfo(&info);
+    //qDebug() << info.lpMaximumApplicationAddress;
+    QString lpRootPathName = "C:\\";
+    LPTSTR lpVolumeNameBuffer = new TCHAR[12];
+    DWORD nVolumeNameSize = 12;
+    DWORD VolumeSerialNumber;
+    DWORD MaximumComponentLength;
+    LPTSTR lpFileSystemNameBuffer = new TCHAR[10];
+    DWORD nFileSystemNameSize = 10;
+    DWORD FileSystemFlags;
+    GetVolumeInformation((LPTSTR)lpRootPathName.utf16(),lpVolumeNameBuffer,nVolumeNameSize, &VolumeSerialNumber,
+                         &MaximumComponentLength, &FileSystemFlags, lpFileSystemNameBuffer,nFileSystemNameSize);
     QList<QNetworkInterface> list = QNetworkInterface::allInterfaces();
     QString mac;
     foreach (QNetworkInterface i, list) {
-        mac = mac + i.hardwareAddress();
+        mac = mac + i.hardwareAddress() + i.name();
     }
-    mac = list.at(1).hardwareAddress();
+    mac = QString("%1").arg(VolumeSerialNumber);
     mac = mac + SMF_Product;
     QString md5;
     QByteArray ba,bb;
@@ -561,10 +576,6 @@ bool DataFilter::setScan(QString flag, QString no, QString Location, int sn_flag
                 emit stringChanged();
                 return false;
             }
-
-
-
-            qDebug() << Location;
             QString BadMarkStr = "Bad";
             for(int l = Location.toInt(); l <= m_CurrentMax_LuRu; l++){
                 if(m_IntList.contains(l)){
@@ -579,7 +590,17 @@ bool DataFilter::setScan(QString flag, QString no, QString Location, int sn_flag
                 m_StringList.append(no + "|" + Location);
             }
 
-            qDebug()<< m_StringList;
+            if(m_StringList.size() < m_CurrentMax_LuRu){
+
+                for(int l = Location.toInt() + 1; l <= m_CurrentMax_LuRu; l++){
+                    if(m_IntList.contains(l)){
+                        m_StringList.append(BadMarkStr + "|" + QString("%1").arg(l));
+                    }else{
+                        break;
+                    }
+                }
+            }
+
             emit stringListChanged();
         }
     }else if(sn_flag == 1){
@@ -624,6 +645,9 @@ void DataFilter::SNLuRuDone()
     for(int i = 0; i < m_StringList.size(); i++){
         QString str = m_StringList.at(i);
         QStringList l = str.split("|");
+        if(l[0] == "Bad" || l[0] == "NOSAMPLE"){
+            continue;
+        }
         m_DB.InsertSn(l[0], m_CurrentBlockNo, l[1], 0, m_Product);
 
         msg = msg + m_CurrentLotNo + "," + m_CurrentBlockNo + "," + l[1] + "," + l[0] + "," + dt.toString("yyyy-MM-dd hh:mm:ss") + "\r\n";
@@ -696,6 +720,7 @@ bool DataFilter::record_LotNoBlockNo(QString flag, QString no)
     if("lot_no" == flag){
         m_CurrentLotNo = no;
         //m_DB.InsertLotNo(no);
+        m_StringList.clear();
     }
     else if("block_no" == flag){
         if(m_CurrentLotNo == "") {

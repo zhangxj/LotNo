@@ -78,7 +78,6 @@ public slots:
 
 public:
     Database        m_DB;
-    Database        m_BadMarkDB;
     QString         m_string;
     QStringList     m_StringList;
 

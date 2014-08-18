@@ -43,6 +43,7 @@ function getMenuModel(p){
                         {'id': 'record_6ADKN', 'value': '6ADKN 录入', 'page': 'record_6ADKN.qml', 'checked': '1'},
                         {'id': 'record_5FDKN', 'value': '5FDKN 录入', 'page': 'record_5FDKN.qml'},
                         {'id': 'record_32FGRX', 'value': '32FGRX 录入', 'page': 'record_32FGRX_8AGRX.qml'},
+                        {'id': 'record_32FGRX_12', 'value': '32FGRX_12 录入', 'page': '32FGRX_12.qml'},
                         {'id': 'record_8AGRX', 'value': '8AGRX 录入', 'page': 'record_8AGRX.qml'},
                         {'id': 'search', 'value': '查询', 'page': 'Search.qml'}
                     ]
