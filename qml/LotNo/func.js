@@ -34,7 +34,7 @@ function getMenuModel(p){
     if(p === "SMF_P1"){
         return [{'id': 'system', 'value': '系统', 'items': [
                         {'id': 'config', 'value': '数据库配置', 'page': 'Config.qml'},
-                        {'id': 'badmark_config', 'value': 'BadMark数据库配置', 'page': 'BadMarkConfig.qml'},
+                        //{'id': 'badmark_config', 'value': 'BadMark数据库配置', 'page': 'BadMarkConfig.qml'},
                         {'id': 'record_Save', 'value': '文件路径配置', 'page': 'record_Save.qml'},
                         {'id': 'quit', 'value': '退出'}
                     ]
@@ -42,8 +42,8 @@ function getMenuModel(p){
                 {'id': 'op', 'value': '操作', 'items': [
                         {'id': 'record_6ADKN', 'value': '6ADKN 录入', 'page': 'record_6ADKN.qml', 'checked': '1'},
                         {'id': 'record_5FDKN', 'value': '5FDKN 录入', 'page': 'record_5FDKN.qml'},
-                        {'id': 'record_32FGRX', 'value': '32FGRX 录入', 'page': 'record_32FGRX_8AGRX.qml'},
                         {'id': 'record_32FGRX_12', 'value': '32FGRX_12 录入', 'page': '32FGRX_12.qml'},
+                        {'id': 'record_32FGRX_16', 'value': '32FGRX_16 录入', 'page': 'record_32FGRX_8AGRX.qml'},
                         {'id': 'record_8AGRX', 'value': '8AGRX 录入', 'page': 'record_8AGRX.qml'},
                         {'id': 'search', 'value': '查询', 'page': 'Search.qml'}
                     ]

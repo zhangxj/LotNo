@@ -160,7 +160,7 @@ QString DataFilter::CheckDB()
         m_string = "数据库连接失败!";
     }else{
         m_string = "数据库连接成功!";
-        if(SMF_Product == "SMF_P1"){
+        if(SMF_Product == "SMF_P1__TODOF"){
             if(!m_DB.isBadMarkOpen() && !m_DB.InitBadMarkDB()){
                 m_string = "BadMark数据库连接失败!";
             }
@@ -842,7 +842,8 @@ bool DataFilter::ChangeProductItem(QString item)
     QStringList sl;
     sl.append("record_6ADKN");
     sl.append("record_5FDKN");
-    sl.append("record_32FGRX");
+    sl.append("record_32FGRX_12");
+    sl.append("record_32FGRX_16");
     sl.append("record_8AGRX");
     sl.append("record");
     sl.append("record_fanxiu");
