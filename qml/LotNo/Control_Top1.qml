@@ -74,6 +74,13 @@ Rectangle{
                 id: sn; flag: 'sn'
                 bk_text: 'Sample SN'
                 width: parent.width; height: parent.height
+                onFocusChanged: {
+                    var sl = dataFilter.getStringList();
+                    if (sl.length() != 0){
+                        console.log();
+                    }
+                }
+
                 onFinished: {
                     if(value == "newblock" || value == "NEWBLOCK"){
                         block_no.text = "";

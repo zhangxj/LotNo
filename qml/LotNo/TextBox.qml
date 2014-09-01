@@ -9,6 +9,7 @@ FocusScope {
     property variant bk_text: ''
     focus: false;
     signal finished(string value);
+    signal focusChanged();
 
     BorderImage {
         source: Func.get_image_path("lineedit-bg.png");
@@ -40,7 +41,8 @@ FocusScope {
         }
 
         onFocusChanged: {
-            textInput.text = ''
+            textInput.text = '';
+            //focusChanged();
         }
     }
 
