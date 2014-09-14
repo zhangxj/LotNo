@@ -34,6 +34,28 @@ DataFilter::DataFilter(QObject *parent) :
     m_string = "hello";
 }
 
+
+QString DataFilter::getBlockNo()
+{
+    return m_CurrentBlockNo;
+}
+
+bool DataFilter::showMessageBox(QString text, QString msg)
+{
+    QMessageBox msgBox;
+    msgBox.setIcon(QMessageBox::Question);
+    msgBox.setWindowTitle(WindowTitle);
+    msgBox.setText(text + "                        ");
+    msgBox.setInformativeText(msg);
+    msgBox.addButton("确定", QMessageBox::YesRole);
+    msgBox.addButton("取消", QMessageBox::NoRole);
+    int ret = msgBox.exec();
+    if(ret == 0){
+        return true;
+    }
+    return false;
+}
+
 QString DataFilter::getIp()
 {
     QSettings *s = new QSettings("config.ini", QSettings::IniFormat);
@@ -405,7 +427,6 @@ bool DataFilter::DeleteFanXiu(){
         return false;
     }
 
-    qDebug() << m_CheckItems;
     for(int i = 0; i < m_CheckItems.size(); i++)
     {
         QString SN = m_CheckItems.at(i);
@@ -845,6 +866,8 @@ bool DataFilter::ChangeProductItem(QString item)
     sl.append("record_32FGRX_12");
     sl.append("record_32FGRX_16");
     sl.append("record_8AGRX");
+    sl.append("record_6FDKN");
+    sl.append("record_7ADKN");
     sl.append("record");
     sl.append("record_fanxiu");
 

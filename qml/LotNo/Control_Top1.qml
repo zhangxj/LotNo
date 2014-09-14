@@ -74,6 +74,24 @@ Rectangle{
                 id: sn; flag: 'sn'
                 bk_text: 'Sample SN'
                 width: parent.width; height: parent.height
+
+                onFocusChanged: {
+                    if(!sn.focus){
+                        var sl = dataFilter.getStringList();
+                        if(sl.length > 0 && sl.length < max_luru){
+                            var ss = dataFilter.showMessageBox("提示", "确定终止当前录入操作?")
+                            if(ss){
+                                dataFilter.clearBlockNo();
+                            }else{
+                                if(!sn.focus){
+                                    sn.focus = true;
+                                }
+                                block_no.text = dataFilter.getBlockNo();
+                            }
+                        }
+                    }
+                }
+
                 onFinished: {
                     if(value == "newblock" || value == "NEWBLOCK"){
                         block_no.text = "";
@@ -146,10 +164,19 @@ Rectangle{
             if(sn_flag == 0){
                 pos1.color = 'transparent'; pos1.text = "";
                 pos2.color = 'transparent'; pos2.text = "";
-                pos3.color = 'transparent'; pos3.text = "";
-                pos4.color = 'transparent'; pos4.text = "";
-                pos5.color = 'transparent'; pos5.text = "";
-                pos6.color = 'transparent'; pos6.text = "";
+                if(max_luru >= 3){
+                    pos3.color = 'transparent'; pos3.text = "";
+
+                }
+                if(max_luru >= 4){
+                    pos4.color = 'transparent'; pos4.text = "";
+                }
+                if(max_luru >= 5){
+                    pos5.color = 'transparent'; pos5.text = "";
+                }
+                if(max_luru >=6){
+                    pos6.color = 'transparent'; pos6.text = "";
+                }
                 if(max_luru >= 12){
                     pos7.color = 'transparent'; pos7.text = "";
                     pos8.color = 'transparent'; pos8.text = "";

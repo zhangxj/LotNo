@@ -28,6 +28,8 @@ signals:
 
 public slots:
     QString getString();
+    QString getBlockNo();
+    bool showMessageBox(QString text, QString msg);
     QStringList getStringList();
 
     bool setScan(QString flag, QString no, QString Location, int sn_flag, QString product);

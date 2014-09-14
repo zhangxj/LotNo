@@ -40,7 +40,7 @@ FocusScope {
         }
 
         onFocusChanged: {
-            textInput.text = ''
+            textInput.text = '';
         }
     }
 
