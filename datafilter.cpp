@@ -513,6 +513,10 @@ bool DataFilter::setScan(QString flag, QString no, QString Location, int sn_flag
     m_string = "";
     emit stringChanged();
 
+    if(product == "6ADKN" || product == "5FDKN"){
+        return this->setScan_1(flag, no, Location, sn_flag, product);
+    }
+
     m_Product = product;
     if(sn_flag == 0){
         if("lot_no" == flag){
@@ -641,6 +645,119 @@ bool DataFilter::setScan(QString flag, QString no, QString Location, int sn_flag
             m_StringList.append(no + "|" + Location);
             emit stringListChanged();
         }
+    }
+    return true;
+}
+
+
+
+bool DataFilter::setScan_1(QString flag, QString no, QString Location, int sn_flag, QString product)
+{
+    QMap<QString, QString> m_6ADKN;
+    QMap<QString, QString> m_5FDKN;
+
+    m_6ADKN.insert("B", "FYQM");
+    m_6ADKN.insert("W", "G5P8");
+    m_6ADKN.insert("G", "G5P9");
+
+    m_5FDKN.insert("B", "FQ4R");
+    m_5FDKN.insert("W", "G5C4");
+    m_5FDKN.insert("G", "G5C3");
+
+    //BLOCK 5   -----    SN 12:15
+    m_Product = product;
+
+    if("lot_no" == flag){
+        m_CurrentLotNo = no;
+    }else if("block_no" == flag){
+        if(m_CurrentLotNo == "") {
+            m_string = QString("请先录入 SMF Lot No.");
+            QMessageBox::critical(NULL, "警告", m_string, QMessageBox::Ok);
+            return false;
+        }
+        QString tmp_LotNO = m_DB.GetLotNoByBlockNo(no);
+        if(tmp_LotNO != "" && tmp_LotNO != m_CurrentLotNo){
+            m_string = QString("Block No. %1 属于 %2")
+                    .arg(no)
+                    .arg(tmp_LotNO);
+            //QMessageBox::critical(NULL, "警告", m_string, QMessageBox::Ok);
+            //return false;
+            emit stringChanged();
+            m_CurrentLotNo = tmp_LotNO;
+        }
+        m_CurrentBlockNo = no;
+    }else if("sn" == flag){
+        if( m_CurrentLotNo == "" || m_CurrentBlockNo == "" ){
+            m_string = QString("请录入 SMF Lot No. Block No.");
+            QMessageBox::critical(NULL, "警告", m_string, QMessageBox::Ok);
+            return false;
+        }else if(no == "rescan" || no == "RESCAN"){
+            m_DB.ClearSnByBlockNo(m_CurrentBlockNo);
+            m_StringList.clear();
+            emit stringListChanged();
+            return true;
+        }else if( no == "nosample" || no == "NOSAMPLE" ){
+            m_StringList.append(no + "|" + Location);
+            emit stringListChanged();
+            return true;
+        }else if( no == "newblock" || no == "NEWBLOCK" ){
+            clearBlockNo();
+            return true;
+        }else if( no == "delete" || no == "DELETE" ){
+            if( m_StringList.size() > 0 ){
+                QString del_sn = m_StringList.back();
+                m_StringList.pop_back();
+            }
+            emit stringListChanged();
+            return true;
+        }
+
+
+        if((m_DB.GetSnNumByBlockNo(m_CurrentBlockNo) + m_StringList.size()) >= m_CurrentMax_LuRu){
+            m_string = "录入超过产品设定数量";
+            emit stringChanged();
+            QMessageBox::critical(NULL, "警告", m_string, QMessageBox::Ok);
+            return false;
+        }
+        for(int i = 0; i < m_StringList.size(); i++){
+            QString str = m_StringList.at(i);
+            if (str.split("|")[0] == no){
+                m_string = "数据已存在";
+                emit stringChanged();
+                return false;
+            }
+        }
+
+        if(m_DB.IsExistSn(no)) {
+            m_string = "数据已存在";
+            emit stringChanged();
+            return false;
+        }
+
+        QString color_sn, eeee;
+        if(m_Product == "6ADKN"){
+            color_sn = m_CurrentBlockNo.left(5).right(1);
+            eeee = m_6ADKN.value(color_sn);
+        }else{
+            color_sn = m_CurrentBlockNo.left(5).right(1);
+            eeee = m_5FDKN.value(color_sn);
+        }
+
+        QString no_eeee = no.left(15).right(4);
+        if(no_eeee != eeee){
+            m_string = QString("Block No COLOR位 %1 与 SN EEEE: %2 不匹配").arg(color_sn).arg(no_eeee);
+            emit stringChanged();
+            QMessageBox::critical(NULL, "警告", m_string, QMessageBox::Ok);
+            return false;
+        }
+
+
+
+        if(m_StringList.size() < m_CurrentMax_LuRu){
+            m_StringList.append(no + "|" + Location);
+        }
+
+        emit stringListChanged();
     }
     return true;
 }

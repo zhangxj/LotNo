@@ -33,6 +33,7 @@ public slots:
     QStringList getStringList();
 
     bool setScan(QString flag, QString no, QString Location, int sn_flag, QString product);
+    bool setScan_1(QString flag, QString no, QString Location, int sn_flag, QString product);
     void searchData(QString flag, QString no, int sn_flag);
     void searchDataByDate();
 
