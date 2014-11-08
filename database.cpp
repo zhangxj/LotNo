@@ -29,7 +29,7 @@ bool Database::InitDB()
         return false;
     }
 
-    QString db = "barcode";
+    QString db = "smf_barcode";
     QString driver = "DRIVER={SQL SERVER};SERVER=" + dbHost + ";DATABASE=" + db;
 
     m_Conn = QSqlDatabase::addDatabase("QODBC");
