@@ -28,12 +28,18 @@ signals:
 
 public slots:
     QString getString();
+<<<<<<< HEAD
     QString getBlockNo();
     bool showMessageBox(QString text, QString msg);
     QStringList getStringList();
 
     bool setScan(QString flag, QString no, QString Location, int sn_flag, QString product);
     bool setScan_1(QString flag, QString no, QString Location, int sn_flag, QString product);
+=======
+    QStringList getStringList();
+
+    bool setScan(QString flag, QString no, QString Location, int sn_flag, QString product);
+>>>>>>> 6ca23f8a09287a84a7bdae003af1c0f047aeb670
     void searchData(QString flag, QString no, int sn_flag);
     void searchDataByDate();
 

@@ -34,6 +34,7 @@ DataFilter::DataFilter(QObject *parent) :
     m_string = "hello";
 }
 
+<<<<<<< HEAD
 
 QString DataFilter::getBlockNo()
 {
@@ -56,6 +57,8 @@ bool DataFilter::showMessageBox(QString text, QString msg)
     return false;
 }
 
+=======
+>>>>>>> 6ca23f8a09287a84a7bdae003af1c0f047aeb670
 QString DataFilter::getIp()
 {
     QSettings *s = new QSettings("config.ini", QSettings::IniFormat);
@@ -427,6 +430,10 @@ bool DataFilter::DeleteFanXiu(){
         return false;
     }
 
+<<<<<<< HEAD
+=======
+    qDebug() << m_CheckItems;
+>>>>>>> 6ca23f8a09287a84a7bdae003af1c0f047aeb670
     for(int i = 0; i < m_CheckItems.size(); i++)
     {
         QString SN = m_CheckItems.at(i);
@@ -513,10 +520,13 @@ bool DataFilter::setScan(QString flag, QString no, QString Location, int sn_flag
     m_string = "";
     emit stringChanged();
 
+<<<<<<< HEAD
     if(product == "6ADKN" || product == "5FDKN"){
         return this->setScan_1(flag, no, Location, sn_flag, product);
     }
 
+=======
+>>>>>>> 6ca23f8a09287a84a7bdae003af1c0f047aeb670
     m_Product = product;
     if(sn_flag == 0){
         if("lot_no" == flag){
@@ -562,6 +572,7 @@ bool DataFilter::setScan(QString flag, QString no, QString Location, int sn_flag
                 m_StringList.clear();
                 emit stringListChanged();
                 return true;
+<<<<<<< HEAD
             }else if(no == "NOSAMPLE"){
                 no = "*";
                 m_StringList.append(no + "|" + Location);
@@ -569,6 +580,9 @@ bool DataFilter::setScan(QString flag, QString no, QString Location, int sn_flag
                 return true;
             }else if(no == "BADMARK"){
                 no = "BADMARK";
+=======
+            }else if( no == "nosample" || no == "NOSAMPLE" ){
+>>>>>>> 6ca23f8a09287a84a7bdae003af1c0f047aeb670
                 m_StringList.append(no + "|" + Location);
                 emit stringListChanged();
                 return true;
@@ -607,7 +621,11 @@ bool DataFilter::setScan(QString flag, QString no, QString Location, int sn_flag
                 emit stringChanged();
                 return false;
             }
+<<<<<<< HEAD
             QString BadMarkStr = "BADMARK";
+=======
+            QString BadMarkStr = "Bad";
+>>>>>>> 6ca23f8a09287a84a7bdae003af1c0f047aeb670
             for(int l = Location.toInt(); l <= m_CurrentMax_LuRu; l++){
                 if(m_IntList.contains(l)){
                     m_StringList.append(BadMarkStr + "|" + QString("%1").arg(l));
@@ -655,6 +673,7 @@ bool DataFilter::setScan(QString flag, QString no, QString Location, int sn_flag
     return true;
 }
 
+<<<<<<< HEAD
 
 
 bool DataFilter::setScan_1(QString flag, QString no, QString Location, int sn_flag, QString product)
@@ -774,6 +793,8 @@ bool DataFilter::setScan_1(QString flag, QString no, QString Location, int sn_fl
     return true;
 }
 
+=======
+>>>>>>> 6ca23f8a09287a84a7bdae003af1c0f047aeb670
 void DataFilter::SNLuRuDone()
 {
     QDateTime dt = QDateTime::currentDateTime();
@@ -795,11 +816,15 @@ void DataFilter::SNLuRuDone()
     for(int i = 0; i < m_StringList.size(); i++){
         QString str = m_StringList.at(i);
         QStringList l = str.split("|");
+<<<<<<< HEAD
         if(l[0] == "*"){
             continue;
         }
         if(l[0] == "BADMARK"){
             msg = msg + m_CurrentLotNo + "," + m_CurrentBlockNo + "," + l[1] + "," + "BADMARK" + "," + dt.toString("yyyy-MM-dd hh:mm:ss") + "\r\n";
+=======
+        if(l[0] == "Bad" || l[0] == "NOSAMPLE"){
+>>>>>>> 6ca23f8a09287a84a7bdae003af1c0f047aeb670
             continue;
         }
         m_DB.InsertSn(l[0], m_CurrentBlockNo, l[1], 0, m_Product);
@@ -999,8 +1024,11 @@ bool DataFilter::ChangeProductItem(QString item)
     sl.append("record_32FGRX_12");
     sl.append("record_32FGRX_16");
     sl.append("record_8AGRX");
+<<<<<<< HEAD
     sl.append("record_6FDKN");
     sl.append("record_7ADKN");
+=======
+>>>>>>> 6ca23f8a09287a84a7bdae003af1c0f047aeb670
     sl.append("record");
     sl.append("record_fanxiu");
 

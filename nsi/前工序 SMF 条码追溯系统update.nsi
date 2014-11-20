@@ -44,8 +44,13 @@ Section "${PRODUCT_NAME}" SEC01
   SetOverwrite try
   File /r "C:\pack\update\"
   CreateDirectory "$SMPROGRAMS\${PRODUCT_NAME}"
+<<<<<<< HEAD
   CreateShortCut "$SMPROGRAMS\${PRODUCT_NAME}\${PRODUCT_NAME}.lnk" "$PROGRAMFILES\${PRODUCT_NAME}\LotNo.exe" "SMF_P2 v1.1"
   CreateShortCut "$DESKTOP\${PRODUCT_NAME}.lnk" "$PROGRAMFILES\${PRODUCT_NAME}\LotNo.exe" "SMF_P2 v1.1" 
+=======
+  CreateShortCut "$SMPROGRAMS\${PRODUCT_NAME}\${PRODUCT_NAME}.lnk" "$PROGRAMFILES\${PRODUCT_NAME}\LotNo.exe" "SMF_P2 v1.0"
+  CreateShortCut "$DESKTOP\${PRODUCT_NAME}.lnk" "$PROGRAMFILES\${PRODUCT_NAME}\LotNo.exe" "SMF_P2 v1.0" 
+>>>>>>> 6ca23f8a09287a84a7bdae003af1c0f047aeb670
 SectionEnd
 
 

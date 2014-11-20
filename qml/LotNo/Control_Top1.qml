@@ -74,6 +74,7 @@ Rectangle{
                 id: sn; flag: 'sn'
                 bk_text: 'Sample SN'
                 width: parent.width; height: parent.height
+<<<<<<< HEAD
 
                 onFocusChanged: {
                     if(!sn.focus){
@@ -89,6 +90,12 @@ Rectangle{
                                 block_no.text = dataFilter.getBlockNo();
                             }
                         }
+=======
+                onFocusChanged: {
+                    var sl = dataFilter.getStringList();
+                    if (sl.length() != 0){
+                        console.log();
+>>>>>>> 6ca23f8a09287a84a7bdae003af1c0f047aeb670
                     }
                 }
 
@@ -164,6 +171,7 @@ Rectangle{
             if(sn_flag == 0){
                 pos1.color = 'transparent'; pos1.text = "";
                 pos2.color = 'transparent'; pos2.text = "";
+<<<<<<< HEAD
                 if(max_luru >= 3){
                     pos3.color = 'transparent'; pos3.text = "";
 
@@ -177,6 +185,12 @@ Rectangle{
                 if(max_luru >=6){
                     pos6.color = 'transparent'; pos6.text = "";
                 }
+=======
+                pos3.color = 'transparent'; pos3.text = "";
+                pos4.color = 'transparent'; pos4.text = "";
+                pos5.color = 'transparent'; pos5.text = "";
+                pos6.color = 'transparent'; pos6.text = "";
+>>>>>>> 6ca23f8a09287a84a7bdae003af1c0f047aeb670
                 if(max_luru >= 12){
                     pos7.color = 'transparent'; pos7.text = "";
                     pos8.color = 'transparent'; pos8.text = "";
@@ -193,6 +207,7 @@ Rectangle{
                     pos16.color = 'transparent'; pos16.text = "";
                 }
 
+<<<<<<< HEAD
                 var nosample = "*";
                 if(snList.length >= 1){var dd =snList[0].split("|")[0];
                     pos1.color = color;
@@ -200,24 +215,51 @@ Rectangle{
                     if(dd == "*"){
                         pos1.text = nosample;
                     }else if(dd == "BADMARK"){
+=======
+                var nosample = "?";
+                if(snList.length >= 1){var dd =snList[0].split("|")[0];
+                    pos1.color = color;
+                    pos1.text = 1;
+                    if(dd == "NOSAMPLE"){
+                        pos1.text = nosample;
+                    }else if(dd == "Bad"){
+>>>>>>> 6ca23f8a09287a84a7bdae003af1c0f047aeb670
                         pos1.color = bad_color;
                     }
                 }
                 if(snList.length >= 2){var dd =snList[1].split("|")[0];
+<<<<<<< HEAD
                     pos2.color = color;
                     pos2.text = 2;
                     if(dd == "*"){
                         pos2.text = nosample;
                     }else if(dd == "BADMARK"){
+=======
+                    console.log(dd);
+                    pos2.color = color;
+                    pos2.text = 2;
+                    if(dd == "NOSAMPLE"){
+                        pos2.text = nosample;
+                    }else if(dd == "Bad"){
+>>>>>>> 6ca23f8a09287a84a7bdae003af1c0f047aeb670
                         pos2.color = bad_color;
                     }
                 }
                 if(snList.length >= 3){var dd =snList[2].split("|")[0];
+<<<<<<< HEAD
                     pos3.color = color;
                     pos3.text = 3;
                     if(dd == "*"){
                         pos3.text = nosample;
                     }else if(dd == "BADMARK"){
+=======
+                    console.log(dd);
+                    pos3.color = color;
+                    pos3.text = 3;
+                    if(dd == "NOSAMPLE"){
+                        pos3.text = nosample;
+                    }else if(dd == "Bad"){
+>>>>>>> 6ca23f8a09287a84a7bdae003af1c0f047aeb670
                         pos3.color = bad_color;
                     }
                 }
@@ -225,27 +267,45 @@ Rectangle{
                 if(snList.length >= 4){var dd =snList[3].split("|")[0];
                     pos4.color = color;
                     pos4.text = 4;
+<<<<<<< HEAD
                     if(dd == "*"){
                         pos4.text = nosample;
                     }else if(dd == "BADMARK"){
+=======
+                    if(dd == "NOSAMPLE"){
+                        pos4.text = nosample;
+                    }else if(dd == "Bad"){
+>>>>>>> 6ca23f8a09287a84a7bdae003af1c0f047aeb670
                         pos4.color = bad_color;
                     }
                 }
                 if(snList.length >= 5){var dd =snList[4].split("|")[0];
                     pos5.color = color;
                     pos5.text = 5;
+<<<<<<< HEAD
                     if(dd == "*"){
                         pos5.text = nosample;
                     }else if(dd == "BADMARK"){
+=======
+                    if(dd == "NOSAMPLE"){
+                        pos5.text = nosample;
+                    }else if(dd == "Bad"){
+>>>>>>> 6ca23f8a09287a84a7bdae003af1c0f047aeb670
                         pos5.color = bad_color;
                     }
                 }
                 if(snList.length >= 6){var dd =snList[5].split("|")[0];
                     pos6.color = color;
                     pos6.text = 6;
+<<<<<<< HEAD
                     if(dd == "*"){
                         pos6.text = nosample;
                     }else if(dd == "BADMARK"){
+=======
+                    if(dd == "NOSAMPLE"){
+                        pos6.text = nosample;
+                    }else if(dd == "Bad"){
+>>>>>>> 6ca23f8a09287a84a7bdae003af1c0f047aeb670
                         pos6.color = bad_color;
                     }
                 }
@@ -253,54 +313,90 @@ Rectangle{
                     if(snList.length >= 7){var dd =snList[6].split("|")[0];
                         pos7.color = color;
                         pos7.text = 7;
+<<<<<<< HEAD
                         if(dd == "*"){
                             pos7.text = nosample;
                         }else if(dd == "BADMARK"){
+=======
+                        if(dd == "NOSAMPLE"){
+                            pos7.text = nosample;
+                        }else if(dd == "Bad"){
+>>>>>>> 6ca23f8a09287a84a7bdae003af1c0f047aeb670
                             pos7.color = bad_color;
                         }
                     }
                     if(snList.length >= 8){var dd =snList[7].split("|")[0];
                         pos8.color = color;
                         pos8.text = 8;
+<<<<<<< HEAD
                         if(dd == "*"){
                             pos8.text = nosample;
                         }else if(dd == "BADMARK"){
+=======
+                        if(dd == "NOSAMPLE"){
+                            pos8.text = nosample;
+                        }else if(dd == "Bad"){
+>>>>>>> 6ca23f8a09287a84a7bdae003af1c0f047aeb670
                             pos8.color = bad_color;
                         }
                     }
                     if(snList.length >= 9){var dd =snList[8].split("|")[0];
                         pos9.color = color;
                         pos9.text = 9;
+<<<<<<< HEAD
                         if(dd == "*"){
                             pos9.text = nosample;
                         }else if(dd == "BADMARK"){
+=======
+                        if(dd == "NOSAMPLE"){
+                            pos9.text = nosample;
+                        }else if(dd == "Bad"){
+>>>>>>> 6ca23f8a09287a84a7bdae003af1c0f047aeb670
                             pos9.color = bad_color;
                         }
                     }
                     if(snList.length >= 10){var dd =snList[9].split("|")[0];
                         pos10.color = color;
                         pos10.text = 10;
+<<<<<<< HEAD
                         if(dd == "*"){
                             pos10.text = nosample;
                         }else if(dd == "BADMARK"){
+=======
+                        if(dd == "NOSAMPLE"){
+                            pos10.text = nosample;
+                        }else if(dd == "Bad"){
+>>>>>>> 6ca23f8a09287a84a7bdae003af1c0f047aeb670
                             pos10.color = bad_color;
                         }
                     }
                     if(snList.length >= 11){var dd =snList[10].split("|")[0];
                         pos11.color = color;
                         pos11.text = 11;
+<<<<<<< HEAD
                         if(dd == "*"){
                             pos11.text = nosample;
                         }else if(dd == "BADMARK"){
+=======
+                        if(dd == "NOSAMPLE"){
+                            pos11.text = nosample;
+                        }else if(dd == "Bad"){
+>>>>>>> 6ca23f8a09287a84a7bdae003af1c0f047aeb670
                             pos11.color = bad_color;
                         }
                     }
                     if(snList.length >= 12){var dd =snList[11].split("|")[0];
                         pos12.color = color;
                         pos12.text = 12;
+<<<<<<< HEAD
                         if(dd == "*"){
                             pos12.text = nosample;
                         }else if(dd == "BADMARK"){
+=======
+                        if(dd == "NOSAMPLE"){
+                            pos12.text = nosample;
+                        }else if(dd == "Bad"){
+>>>>>>> 6ca23f8a09287a84a7bdae003af1c0f047aeb670
                             pos12.color = bad_color;
                         }
                     }
@@ -310,36 +406,60 @@ Rectangle{
                     if(snList.length >= 13){var dd =snList[12].split("|")[0];
                         pos13.color = color;
                         pos13.text = 13;
+<<<<<<< HEAD
                         if(dd == "*"){
                             pos13.text = nosample;
                         }else if(dd == "BADMARK"){
+=======
+                        if(dd == "NOSAMPLE"){
+                            pos13.text = nosample;
+                        }else if(dd == "Bad"){
+>>>>>>> 6ca23f8a09287a84a7bdae003af1c0f047aeb670
                             pos13.color = bad_color;
                         }
                     }
                     if(snList.length >= 14){var dd =snList[13].split("|")[0];
                         pos14.color = color;
                         pos14.text = 14;
+<<<<<<< HEAD
                         if(dd == "*"){
                             pos14.text = nosample;
                         }else if(dd == "BADMARK"){
+=======
+                        if(dd == "NOSAMPLE"){
+                            pos14.text = nosample;
+                        }else if(dd == "Bad"){
+>>>>>>> 6ca23f8a09287a84a7bdae003af1c0f047aeb670
                             pos14.color = bad_color;
                         }
                     }
                     if(snList.length >= 15){var dd =snList[14].split("|")[0];
                         pos15.color = color;
                         pos15.text = 15;
+<<<<<<< HEAD
                         if(dd == "*"){
                             pos15.text = nosample;
                         }else if(dd == "BADMARK"){
+=======
+                        if(dd == "NOSAMPLE"){
+                            pos15.text = nosample;
+                        }else if(dd == "Bad"){
+>>>>>>> 6ca23f8a09287a84a7bdae003af1c0f047aeb670
                             pos15.color = bad_color;
                         }
                     }
                     if(snList.length >= 16){var dd =snList[15].split("|")[0];
                         pos16.color = color;
                         pos16.text = 16;
+<<<<<<< HEAD
                         if(dd == "*"){
                             pos16.text = nosample;
                         }else if(dd == "BADMARK"){
+=======
+                        if(dd == "NOSAMPLE"){
+                            pos16.text = nosample;
+                        }else if(dd == "Bad"){
+>>>>>>> 6ca23f8a09287a84a7bdae003af1c0f047aeb670
                             pos16.color = bad_color;
                         }
                     }

@@ -57,7 +57,11 @@ Rectangle {
                 text: dataFilter.getPwd()
                 width: 300; height: 50
                 onFinished: {
+<<<<<<< HEAD
 
+=======
+                    console.log(value)
+>>>>>>> 6ca23f8a09287a84a7bdae003af1c0f047aeb670
                 }
             }
         }
