@@ -80,7 +80,7 @@ Rectangle {
 
         Rectangle{
             id: title_product
-            width: 80; height: parent.height
+            width: 90; height: parent.height
             color: "darkgrey"
             border.width: 1
             border.color: "grey"
@@ -95,7 +95,7 @@ Rectangle {
 
         Rectangle{
             id: title5
-            width: (parent.width - 120) / 4 + 30; height: parent.height
+            width: (parent.width - 120) / 4 + 20; height: parent.height
             color: "darkgrey"
             border.width: 1
             border.color: "grey"
@@ -204,7 +204,12 @@ Rectangle {
                             font.bold: true
                             text: getModelData(modelData, 4).substring(0, 100)
                             color: list_item.text_color //is_LastOne(modelData, leftMenu.model) == "1" ? "white": "#474747"
-                            anchors.centerIn: parent
+
+                            anchors.left: parent.left
+                            anchors.leftMargin: 2
+                            anchors.top: parent.top
+                            anchors.topMargin: 4
+
                         }
                     }
                 }

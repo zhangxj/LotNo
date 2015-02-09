@@ -562,7 +562,13 @@ bool DataFilter::setScan(QString flag, QString no, QString Location, int sn_flag
                 m_StringList.clear();
                 emit stringListChanged();
                 return true;
-            }else if( no == "nosample" || no == "NOSAMPLE" ){
+            }else if(no == "NOSAMPLE"){
+                no = "*";
+                m_StringList.append(no + "|" + Location);
+                emit stringListChanged();
+                return true;
+            }else if(no == "BADMARK"){
+                no = "BADMARK";
                 m_StringList.append(no + "|" + Location);
                 emit stringListChanged();
                 return true;
@@ -601,7 +607,7 @@ bool DataFilter::setScan(QString flag, QString no, QString Location, int sn_flag
                 emit stringChanged();
                 return false;
             }
-            QString BadMarkStr = "Bad";
+            QString BadMarkStr = "BADMARK";
             for(int l = Location.toInt(); l <= m_CurrentMax_LuRu; l++){
                 if(m_IntList.contains(l)){
                     m_StringList.append(BadMarkStr + "|" + QString("%1").arg(l));
@@ -696,7 +702,13 @@ bool DataFilter::setScan_1(QString flag, QString no, QString Location, int sn_fl
             m_StringList.clear();
             emit stringListChanged();
             return true;
-        }else if( no == "nosample" || no == "NOSAMPLE" ){
+        }else if(no == "NOSAMPLE"){
+            no = "*";
+            m_StringList.append(no + "|" + Location);
+            emit stringListChanged();
+            return true;
+        }else if(no == "BADMARK"){
+            no = "BADMARK";
             m_StringList.append(no + "|" + Location);
             emit stringListChanged();
             return true;
@@ -783,7 +795,11 @@ void DataFilter::SNLuRuDone()
     for(int i = 0; i < m_StringList.size(); i++){
         QString str = m_StringList.at(i);
         QStringList l = str.split("|");
-        if(l[0] == "Bad" || l[0] == "NOSAMPLE"){
+        if(l[0] == "*"){
+            continue;
+        }
+        if(l[0] == "BADMARK"){
+            msg = msg + m_CurrentLotNo + "," + m_CurrentBlockNo + "," + l[1] + "," + "BADMARK" + "," + dt.toString("yyyy-MM-dd hh:mm:ss") + "\r\n";
             continue;
         }
         m_DB.InsertSn(l[0], m_CurrentBlockNo, l[1], 0, m_Product);
@@ -987,6 +1003,8 @@ bool DataFilter::ChangeProductItem(QString item)
     sl.append("record_7ADKN");
     sl.append("record");
     sl.append("record_fanxiu");
+    sl.append("record_6FDKN_P2");
+    sl.append("record_7ADKN_EVT");
 
     if(!sl.contains(m_CurrentProduct)){
         m_CurrentProduct = item;

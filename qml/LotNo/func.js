@@ -47,6 +47,8 @@ function getMenuModel(p){
                         {'id': 'record_8AGRX', 'value': '8AGRX 录入', 'page': 'record_8AGRX.qml'},
                         {'id': 'record_6FDKN', 'value': '6FDKN 录入', 'page': 'record_6FDKN.qml'},
                         {'id': 'record_7ADKN', 'value': '7ADKN 录入', 'page': 'record_7ADKN.qml'},
+                        {'id': 'record_6FDKN_P2', 'value': '6FDKN-P2 录入', 'page': 'record_6FDKN_P2.qml'},
+                        {'id': 'record_7ADKN_EVT', 'value': '7ADKN EVT 录入', 'page': 'record_7ADKN_EVT.qml'},
                         {'id': 'search', 'value': '查询', 'page': 'Search.qml'}
                     ]
                 },

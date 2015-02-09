@@ -57,7 +57,7 @@ Rectangle {
                 text: dataFilter.getBadMarkPwd()
                 width: 300; height: 50
                 onFinished: {
-                    console.log(value)
+
                 }
             }
         }
