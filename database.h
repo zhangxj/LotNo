@@ -45,6 +45,7 @@ public:
     bool IsExistLotNoAndBlockNo(QString LotNo, QString BlockNo);
 
     bool ClearSnByBlockNo(QString BlockNo);
+    int GetBlockNoNumByLotNo(QString LotNo);
     int GetSnNumByBlockNo(QString BlockNo);
     bool ClearSn(QString SN);
 

@@ -458,6 +458,19 @@ bool Database::ClearSnByBlockNo(QString BlockNo)
     return m_Query.exec();
 }
 
+int Database::GetBlockNoNumByLotNo(QString LotNo)
+{
+    m_Query.prepare("select count(*) from BLOCK_NO where LOT_NO = :LOT_NO");
+    m_Query.bindValue(0, LotNo);
+    m_Query.exec();
+
+    while(m_Query.next()){
+        return m_Query.value(0).toInt();
+    }
+
+    return 0;
+}
+
 int Database::GetSnNumByBlockNo(QString BlockNo)
 {
     m_Query.prepare("select count(*) from SN where BLOCK_NO = :BLOCK_NO");

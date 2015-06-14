@@ -895,6 +895,9 @@ bool DataFilter::record_LotNoBlockNo(QString flag, QString no)
             return false;
         }
 
+        int count = m_DB.GetBlockNoNumByLotNo(m_CurrentLotNo);
+        qDebug() << count;
+
         QString tmp_LotNO = m_DB.GetLotNoByBlockNo(no);
         if(tmp_LotNO != "" && tmp_LotNO != m_CurrentLotNo){
             m_string = QString("Block No. %1 属于 %2")
