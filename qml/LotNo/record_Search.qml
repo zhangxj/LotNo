@@ -133,19 +133,19 @@ Rectangle{
         anchors.left: sn_listview.left
     }
 
-    Button{
-        z: 2
-        text: "删 除"
-        width: 100
-        height: 45
-        anchors.top: sn_listview.bottom
-        anchors.topMargin: 3
-        anchors.left: sn_listview.left
+//    Button{
+//        z: 2
+//        text: "删 除"
+//        width: 100
+//        height: 45
+//        anchors.top: sn_listview.bottom
+//        anchors.topMargin: 3
+//        anchors.left: sn_listview.left
 
-        onClicked: {
-            dataFilter.DeleteItem();
-        }
-    }
+//        onClicked: {
+//            dataFilter.DeleteItem();
+//        }
+//    }
 
     function getPageNum(data){
         return parseInt((data.length + sn_listview.page_size - 1) / sn_listview.page_size);

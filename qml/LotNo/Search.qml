@@ -137,6 +137,7 @@ Rectangle {
         onStringChanged: {
             start_date.text = dataFilter.getDate('start')
             end_date.text = dataFilter.getDate('end')
+            label.text = dataFilter.getString()
         }
 
         onStringListChanged:{
@@ -147,19 +148,32 @@ Rectangle {
         }
     }
 
-    Button{
+    Text{
+        id: label
         z: 2
-        text: "删 除"
         width: 100
         height: 45
         anchors.top: sn_listview.bottom
         anchors.topMargin: 3
         anchors.left: sn_listview.left
-
-        onClicked: {
-            dataFilter.DeleteSN();
-        }
+        font.pixelSize: 25
+        font.bold: true
+        color: 'black'
     }
+
+//    Button{
+//        z: 2
+//        text: "删 除"
+//        width: 100
+//        height: 45
+//        anchors.top: sn_listview.bottom
+//        anchors.topMargin: 3
+//        anchors.left: sn_listview.left
+
+//        onClicked: {
+//            dataFilter.DeleteSN();
+//        }
+//    }
 
     function getPageNum(data){
         return parseInt((data.length + sn_listview.page_size - 1) / sn_listview.page_size);

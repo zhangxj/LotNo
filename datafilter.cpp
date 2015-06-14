@@ -287,6 +287,7 @@ void DataFilter::clearData()
 
     m_CurrentLotNo = "";
     m_CurrentBlockNo = "";
+    m_Opt_ID = "";
 
     emit stringListChanged();
 }
@@ -472,10 +473,17 @@ void DataFilter::searchData(QString flag, QString no, int sn_flag)
         m_DB.SearchFanXiu(no, flag, &m_StringList);
     }
 
+    QString opt_id = "无";
     if(m_StringList.size() == 0){
         QMessageBox::information(NULL, "提示", "当前查询无结果", QMessageBox::Ok);
+    }else{
+        QString content = m_StringList[0];
+        QStringList l = content.split("|");
+        opt_id = l[6];
     }
 
+    m_string = "操作员: " + opt_id;
+    emit stringChanged();
     emit stringListChanged();
 }
 
@@ -515,6 +523,10 @@ bool DataFilter::setScan(QString flag, QString no, QString Location, int sn_flag
 
     if(product == "6ADKN" || product == "5FDKN"){
         return this->setScan_1(flag, no, Location, sn_flag, product);
+    }
+
+    if(flag == "opt_id"){
+        m_Opt_ID = no;
     }
 
     m_Product = product;
@@ -802,7 +814,7 @@ void DataFilter::SNLuRuDone()
             msg = msg + m_CurrentLotNo + "," + m_CurrentBlockNo + "," + l[1] + "," + "BADMARK" + "," + dt.toString("yyyy-MM-dd hh:mm:ss") + "\r\n";
             continue;
         }
-        m_DB.InsertSn(l[0], m_CurrentBlockNo, l[1], 0, m_Product);
+        m_DB.InsertSn(l[0], m_CurrentBlockNo, l[1], 0, m_Product, m_Opt_ID);
 
         msg = msg + m_CurrentLotNo + "," + m_CurrentBlockNo + "," + l[1] + "," + l[0] + "," + dt.toString("yyyy-MM-dd hh:mm:ss") + "\r\n";
     }

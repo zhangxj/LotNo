@@ -86,6 +86,7 @@ public:
 
     QString m_CurrentLotNo;
     QString m_CurrentBlockNo;
+    QString m_Opt_ID;
     int m_CurrentMax_LuRu;
     QString m_LogFile2;
 

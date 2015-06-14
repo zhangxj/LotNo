@@ -23,7 +23,7 @@ public:
     bool ExecuteSQL(QString sql, QString args1);
     bool InsertLotNo(QString LotNo);
     bool InsertBlockNo(QString BlockNo, QString LotNo);
-    bool InsertSn(QString Sn, QString BlockNo, QString Location, int FLAG, QString product);
+    bool InsertSn(QString Sn, QString BlockNo, QString Location, int FLAG, QString product, QString opt_id);
     bool FanXiu_LR(QString LotNo, QString BlockNo, QString SN); //返修品录入
     void SearchFanXiu(QString no, QString flag, QStringList *stringList);
 
