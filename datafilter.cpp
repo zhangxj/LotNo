@@ -92,6 +92,15 @@ QString DataFilter::getBadMarkPwd()
     return s->value("BadMark/PWD").toString();
 }
 
+int DataFilter::GetBlockNoLimitSettings(){
+    return m_DB.GetBlockNoLimitSettings();
+}
+
+void DataFilter::SetBlockNoLimitSettings(int limit){
+    m_DB.SetBlockNoLimitSettings(limit);
+    QMessageBox::information(NULL, "提示", "设置成功", QMessageBox::Ok);
+}
+
 void DataFilter::createLogDir()
 {
     QDir d(getDirPath() + "\\" + LOG_DIR);
@@ -896,7 +905,12 @@ bool DataFilter::record_LotNoBlockNo(QString flag, QString no)
         }
 
         int count = m_DB.GetBlockNoNumByLotNo(m_CurrentLotNo);
-        qDebug() << count;
+        int limit = m_DB.GetBlockNoLimitSettings();
+        if (count >= limit){
+            m_string = QString("BLOCK_NO 数量超限, 请在设置菜单调整.");
+            QMessageBox::critical(NULL, "警告", m_string, QMessageBox::Ok);
+            return false;
+        }
 
         QString tmp_LotNO = m_DB.GetLotNoByBlockNo(no);
         if(tmp_LotNO != "" && tmp_LotNO != m_CurrentLotNo){

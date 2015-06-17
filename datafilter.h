@@ -79,6 +79,8 @@ public slots:
 
     bool ChangeProductItem(QString item);
 
+    int GetBlockNoLimitSettings();
+    void SetBlockNoLimitSettings(int limit);
 public:
     Database        m_DB;
     QString         m_string;

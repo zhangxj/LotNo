@@ -61,11 +61,13 @@ function getMenuModel(p){
         return [{'id': 'system', 'value': '系统', 'items': [
                         {'id': 'config', 'value': '数据库配置', 'page': 'Config.qml'},
                         {'id': 'record_Save', 'value': '文件路径配置', 'page': 'record_Save.qml'},
+                        {'id': 'settings', 'value': '设置', 'page': 'settings.qml'},
                         {'id': 'quit', 'value': '退出'}
                     ]
                 },
                 {'id': 'op', 'value': '操作', 'items': [
                         {'id': 'record', 'value': '录入系统', 'page': 'record.qml', 'checked': '1'},
+                        {'id': 'record_re', 'value': '补录系统', 'page': 'record_re.qml'},
                         {'id': 'record_search', 'value': '查询系统', 'page': 'record_Search.qml'}
                     ]
                 },

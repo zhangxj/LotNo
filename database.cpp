@@ -537,3 +537,23 @@ void Database::GetBadMarkSn(QString PanelId, QVector<int> *intList){
         intList->append(sn);
     }
 }
+
+
+int Database::GetBlockNoLimitSettings(){
+    m_Query.prepare("select BLOCK_NO_LIMIT from SETTINGS");
+    m_Query.exec();
+
+    while(m_Query.next()){
+        return m_Query.value(0).toInt();
+    }
+
+    return 0;
+}
+
+void Database::SetBlockNoLimitSettings(int limit){
+    m_Query.prepare("update SETTINGS set BLOCK_NO_LIMIT=:LIMIT");
+    m_Query.bindValue(0, limit);
+    m_Query.exec();
+}
+
+

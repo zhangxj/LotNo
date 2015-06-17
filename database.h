@@ -53,6 +53,9 @@ public:
     bool isLast_BlockNo(QString LotNo);
 
     void GetBadMarkSn(QString BlockNo, QVector<int> *intList);
+
+    int GetBlockNoLimitSettings();
+    void SetBlockNoLimitSettings(int limit);
 private:
     QSqlDatabase m_Conn;
     QSqlQuery m_Query;

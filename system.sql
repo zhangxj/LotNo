@@ -39,6 +39,16 @@ create table SN
 ALTER TABLE SN ADD PRODUCT VARCHAR(20);
 use smf_barcode;
 ALTER TABLE SN ADD OPT_ID VARCHAR(50);
+
+if EXISTS (select * from sysobjects where name = 'SETTINGS')
+	DROP TABLE SETTINGS;
+
+create table SETTINGS
+(
+	BLOCK_NO_LIMIT int
+)
+
+
 /*
 select LOT_NO.LOT_NO, BLOCK_NO.BLOCK_NO, SN.SN from LOT_NO 
 left join BLOCK_NO on LOT_NO.LOT_NO = BLOCK_NO.LOT_NO 
