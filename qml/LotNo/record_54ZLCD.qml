@@ -10,7 +10,7 @@ Rectangle {
         width: parent.width + 1; height: 150
         z: 1
         color: "white"
-        max_luru: 16
+        max_luru: 6
         product: "7ADKN-EVT"
     }
 
@@ -44,7 +44,7 @@ Rectangle {
 
     Row{
         id: row1
-        spacing: pic.width / 360 * 19  // 1/3  放大 40倍细化位置
+        spacing: pic.width / 360 * 30  // 1/3  放大 40倍细化位置
         anchors.top: pic.top
         anchors.topMargin: pic.height / 160 * 37   // 1/4 放大 40倍细化位置
         anchors.left: pic.left
@@ -74,7 +74,6 @@ Rectangle {
             color:'transparent'; width: pos1.width; height: pos1.height
             Text{ text: parent.text; anchors.centerIn: parent; font.pixelSize: 16; font.bold: true; color: 'black'}
         }
-
         Rectangle {
             id: pos5
             property variant text: ''
@@ -87,86 +86,6 @@ Rectangle {
             color:'transparent'; width: pos1.width; height: pos1.height
             Text{ text: parent.text; anchors.centerIn: parent; font.pixelSize: 16; font.bold: true; color: 'black'}
         }
-
-        Rectangle {
-            id: pos7
-            property variant text: ''
-            color:'transparent'; width: pos1.width; height: pos1.height
-            Text{ text: parent.text; anchors.centerIn: parent; font.pixelSize: 16; font.bold: true; color: 'black'}
-        }
-
-        Rectangle {
-            id: pos8
-            property variant text: ''
-            color:'transparent'; width: pos1.width; height: pos1.height
-            Text{ text: parent.text; anchors.centerIn: parent; font.pixelSize: 16; font.bold: true; color: 'black'}
-        }
-
-    }
-
-
-    Row{
-        spacing: row1.spacing
-        anchors.top: pic.top
-        anchors.topMargin: pic.height / 160 * 110   // 3/4 放大 40倍细化位置
-        anchors.left: row1.left
-
-        Rectangle {
-            id: pos16
-            property variant text: ''
-            color:'transparent'; width: pos1.width; height: pos1.height
-            Text{ text: parent.text; anchors.centerIn: parent; font.pixelSize: 16; font.bold: true; color: 'black'}
-        }
-
-        Rectangle {
-            id: pos15
-            property variant text: ''
-            color:'transparent'; width: pos1.width; height: pos1.height
-            Text{ text: parent.text; anchors.centerIn: parent; font.pixelSize: 16; font.bold: true; color: 'black'}
-        }
-
-        Rectangle {
-            id: pos14
-            property variant text: ''
-            color:'transparent'; width: pos1.width; height: pos1.height
-            Text{ text: parent.text; anchors.centerIn: parent; font.pixelSize: 16; font.bold: true; color: 'black'}
-        }
-
-        Rectangle {
-            id: pos13
-            property variant text: ''
-            color:'transparent'; width: pos1.width; height: pos1.height
-            Text{ text: parent.text; anchors.centerIn: parent; font.pixelSize: 16; font.bold: true; color: 'black'}
-        }
-
-        Rectangle {
-            id: pos12
-            property variant text: ''
-            color:'transparent'; width: pos1.width; height: pos1.height
-            Text{ text: parent.text; anchors.centerIn: parent; font.pixelSize: 16; font.bold: true; color: 'black'}
-        }
-
-        Rectangle {
-            id: pos11
-            property variant text: ''
-            color:'transparent'; width: pos1.width; height: pos1.height
-            Text{ text: parent.text; anchors.centerIn: parent; font.pixelSize:16; font.bold: true; color: 'black'}
-        }
-
-        Rectangle {
-            id: pos10
-            property variant text: ''
-            color:'transparent'; width: pos1.width; height: pos1.height
-            Text{ text: parent.text; anchors.centerIn: parent; font.pixelSize: 16; font.bold: true; color: 'black'}
-        }
-
-        Rectangle {
-            id: pos9
-            property variant text: ''
-            color:'transparent'; width: pos1.width; height: pos1.height
-            Text{ text: parent.text; anchors.centerIn: parent; font.pixelSize: 16; font.bold: true; color: 'black'}
-        }
-
     }
 
     Row{

@@ -40,6 +40,8 @@ ALTER TABLE SN ADD PRODUCT VARCHAR(20);
 use smf_barcode;
 ALTER TABLE SN ADD OPT_ID VARCHAR(50);
 
+
+use smf_barcode;
 if EXISTS (select * from sysobjects where name = 'SETTINGS')
 	DROP TABLE SETTINGS;
 
@@ -47,6 +49,20 @@ create table SETTINGS
 (
 	BLOCK_NO_LIMIT int
 )
+
+insert SETTINGS (BLOCK_NO_LIMIT) values (100);
+
+use smf_barcode;
+if EXISTS (select * from sysobjects where name = 'PASSPORT')
+	DROP TABLE PASSPORT;
+
+create table PASSPORT 
+(
+	ID int primary key identity(1,1),
+	OPT_ID varchar(50) unique,
+	NICKNAME varchar(50),
+	ADDON datetime default getdate()
+);
 
 
 /*

@@ -26,7 +26,7 @@ Rectangle{
         ShadowRectangle {
             id: shadow1
             color: "#434343"
-            width: 250; height: 50
+            width: 280; height: 50
             TextBox {
                 id: lot_no; flag: 'lot_no'
                 width: parent.width; height: parent.height
@@ -36,10 +36,10 @@ Rectangle{
                     dataFilter.clearData();
                     dataFilter.setMaxLuRu(max_luru);
                     if(dataFilter.setScan(flag, value, "", sn_flag, product)){
-                        opt_id.text = "";
-                        opt_id.focus = true;
+                        //opt_id.text = "";
+                        //opt_id.focus = true;
                         block_no.text = "";
-                        //block_no.focus = true
+                        block_no.focus = true
                         lot_no_text.text = bk_text + ":" + value
                         block_no_text.text = "";
                     }else{
@@ -48,27 +48,27 @@ Rectangle{
                 }
             }
         }
-        ShadowRectangle {
-            id: shadow_opt_id
-            color: "#434343"
-            width: 250; height: 50
-            TextBox {
-                id: opt_id; flag: 'opt_id'
-                width: parent.width; height: parent.height
-                bk_text: 'OPT ID.'
-                onFinished: {
-                    if(dataFilter.setScan(flag, value, "", sn_flag, product)){
-                        block_no.focus = true
-                    }else{
-                        lot_no.text = "";
-                    }
-                }
-            }
-        }
+//        ShadowRectangle {
+//            id: shadow_opt_id
+//            color: "#434343"
+//            width: 250; height: 50
+//            TextBox {
+//                id: opt_id; flag: 'opt_id'
+//                width: parent.width; height: parent.height
+//                bk_text: 'OPT ID.'
+//                onFinished: {
+//                    if(dataFilter.setScan(flag, value, "", sn_flag, product)){
+//                        block_no.focus = true
+//                    }else{
+//                        lot_no.text = "";
+//                    }
+//                }
+//            }
+//        }
         ShadowRectangle {
             id: shadow2
             color: "#434343"
-            width: 250; height: 50
+            width: 280; height: 50
             TextBox {
                 id: block_no; flag: 'block_no'
                 bk_text: 'Block No.'
@@ -88,7 +88,7 @@ Rectangle{
         ShadowRectangle {
             id: shadow3
             color: "#434343"
-            width: 250; height: 50
+            width: 280; height: 50
             TextBox {
                 id: sn; flag: 'sn'
                 bk_text: 'Sample SN'
