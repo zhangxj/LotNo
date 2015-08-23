@@ -47,6 +47,38 @@ bool Database::InitDB()
     return true;
 }
 
+bool Database::InitMssDB()
+{
+    QString sIniFilePath   = "config.ini";
+    QSettings *s = new QSettings(sIniFilePath, QSettings::IniFormat);
+    QString dbHost = s->value("DATABASE/MSS_IP").toString();
+    QString user = s->value("DATABASE/MSS_USER").toString();
+    QString pwd= s->value("DATABASE/MSS_PWD").toString();
+    QString db= s->value("DATABASE/MSS_DB").toString();
+
+    if(dbHost.isEmpty() || user.isEmpty() || pwd.isEmpty()){
+        //QMessageBox::critical(0, QObject::tr("config Error"), "请配置数据库");
+        return false;
+    }
+
+    //db = "smf_barcode";
+    QString driver = "DRIVER={SQL SERVER};SERVER=" + dbHost + ";DATABASE=" + db;
+
+    m_Conn = QSqlDatabase::addDatabase("QODBC");
+    m_Conn.setDatabaseName(driver);
+    m_Conn.setUserName(user);
+    m_Conn.setPassword(pwd);
+    m_Conn.setConnectOptions("SQL_ATTR_CONNECTION_TIMEOUT=1;SQL_ATTR_LOGIN_TIMEOUT=1");
+    if(!m_Conn.open()) {
+            QMessageBox::critical(0, QObject::tr("Database Error"), "数据库配置错误\r\n" + m_Conn.lastError().text());
+
+            return false;
+    }
+
+    m_Query = QSqlQuery(m_Conn);
+    return true;
+}
+
 bool Database::InitBadMarkDB()
 {
     QString sIniFilePath   = "config.ini";
@@ -556,4 +588,20 @@ void Database::SetBlockNoLimitSettings(int limit){
     m_Query.exec();
 }
 
+QString Database::getMssConfig(QString LotNo){
+    m_Query.prepare("SELECT A.OrderNumber, B.Columns*B.Rows panelQuantity ,A.QuantityOrdered,A.Status  FROM [ValorMDM].[dbo].[WorkOrder]  A,[ValorMDM].[dbo].[Panel] B "
+                    "where A.Assembly_id=B.Assembly_id and A.OrderNumber=:LotNo");
 
+    m_Query.bindValue(0, LotNo);
+    m_Query.exec();
+
+    while(m_Query.next()){
+        QString OrderNumber = m_Query.value(0).toString();
+        QString panelQuantity = m_Query.value(1).toString();
+        QString QuantityOrdered = m_Query.value(2).toString();
+        QString Status = m_Query.value(3).toString();
+
+        return OrderNumber + "|" + panelQuantity + "|" + QuantityOrdered + "|" + Status;
+    }
+    return "";
+}

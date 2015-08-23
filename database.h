@@ -16,6 +16,7 @@ public:
 
 public:
     bool InitDB();
+    bool InitMssDB();
     bool InitBadMarkDB();
     bool isOpen();
     bool isBadMarkOpen();
@@ -56,10 +57,12 @@ public:
 
     int GetBlockNoLimitSettings();
     void SetBlockNoLimitSettings(int limit);
+    QString getMssConfig(QString LotNo);
 private:
     QSqlDatabase m_Conn;
     QSqlQuery m_Query;
     QSqlDatabase m_BadMarkConn;
+    QSqlDatabase m_MssConn;
     QSqlQuery m_BadMarkQuery;
 };
 

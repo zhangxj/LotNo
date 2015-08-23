@@ -74,6 +74,29 @@ QString DataFilter::getPwd()
     return s->value("DATABASE/PWD").toString();
 }
 
+QString DataFilter::getMssIp()
+{
+    QSettings *s = new QSettings("config.ini", QSettings::IniFormat);
+    return s->value("DATABASE/MSS_IP").toString();
+}
+
+QString DataFilter::getMssUser()
+{
+    QSettings *s = new QSettings("config.ini", QSettings::IniFormat);
+    return s->value("DATABASE/MSS_USER").toString();
+}
+
+QString DataFilter::getMssPwd()
+{
+    QSettings *s = new QSettings("config.ini", QSettings::IniFormat);
+    return s->value("DATABASE/MSS_PWD").toString();
+}
+QString DataFilter::getMssDB()
+{
+    QSettings *s = new QSettings("config.ini", QSettings::IniFormat);
+    return s->value("DATABASE/MSS_DB").toString();
+}
+
 QString DataFilter::getBadMarkIp()
 {
     QSettings *s = new QSettings("config.ini", QSettings::IniFormat);
@@ -148,18 +171,22 @@ QString DataFilter::setFilePath()
 }
 
 
-void DataFilter::setDBConfig(QString ip, QString user, QString pwd)
+void DataFilter::setDBConfig(QString ip, QString user, QString pwd,QString mss_ip, QString mss_user, QString mss_pwd, QString mss_db)
 {
     QSettings *s = new QSettings("config.ini", QSettings::IniFormat);
     s->setValue("DATABASE/IP", ip);
     s->setValue("DATABASE/USER", user);
     s->setValue("DATABASE/PWD", pwd);
 
+    s->setValue("DATABASE/MSS_IP", mss_ip);
+    s->setValue("DATABASE/MSS_USER", mss_user);
+    s->setValue("DATABASE/MSS_PWD", mss_pwd);
+    s->setValue("DATABASE/MSS_DB", mss_db);
     if(m_DB.isOpen()){
         m_DB.close();
     }
 
-    if(m_DB.InitDB()){
+    if(m_DB.InitDB() && m_DB.InitMssDB()){
         m_string = "数据库连接成功!";
 
     }else{
@@ -189,7 +216,11 @@ QString DataFilter::CheckDB()
     if(!m_DB.isOpen() && !m_DB.InitDB())
     {
         m_string = "数据库连接失败!";
-    }else{
+    }else if(!m_DB.InitMssDB())
+    {
+        m_string = "数据库连接失败!";
+    }
+    else{
         m_string = "数据库连接成功!";
         if(SMF_Product == "SMF_P1__TODOF"){
             if(!m_DB.isBadMarkOpen() && !m_DB.InitBadMarkDB()){
@@ -529,6 +560,23 @@ bool DataFilter::setScan(QString flag, QString no, QString Location, int sn_flag
 
     m_string = "";
     emit stringChanged();
+
+    if("lot_no" == flag){
+        QString MssConfig = m_DB.getMssConfig(no);
+        if(MssConfig != ""){
+            QString status = MssConfig.split("|")[3];
+            if(status == "1" || status == "5"){}
+            else{
+                m_string = QString("MSS 系统工单匹配错误");
+                QMessageBox::critical(NULL, "警告", m_string, QMessageBox::Ok);
+                return false;
+            }
+        }else{
+            m_string = QString("MSS 系统工单匹配错误");
+            QMessageBox::critical(NULL, "警告", m_string, QMessageBox::Ok);
+            return false;
+        }
+    }
 
     if(product == "6ADKN" || product == "5FDKN"){
         return this->setScan_1(flag, no, Location, sn_flag, product);
