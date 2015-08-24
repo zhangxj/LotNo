@@ -1028,7 +1028,7 @@ void DataFilter::OnAbout()
     msgBox.setIcon(QMessageBox::Information);
     msgBox.setWindowTitle(WindowTitle);
     msgBox.setText(WindowTitle + " " + Version + "                            ");
-    msgBox.setInformativeText("Copyright 深圳市菲尼曼特科技有限公司 2013");
+    msgBox.setInformativeText("Copyright 深圳市菲尼曼特科技有限公司 2015");
     msgBox.addButton("确定", QMessageBox::YesRole);
     msgBox.exec();
     /*
