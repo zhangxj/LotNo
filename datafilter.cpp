@@ -186,12 +186,18 @@ void DataFilter::setDBConfig(QString ip, QString user, QString pwd,QString mss_i
         m_DB.close();
     }
 
-    if(m_DB.InitDB() && m_DB.InitMssDB()){
-        m_string = "数据库连接成功!";
-
+    m_string = "数据库连接成功!";
+    if(SMF_Product == "SMF_P2"){
+        if(!m_DB.InitDB() || !m_DB.InitMssDB()){
+            m_string = m_string = "数据库连接失败!";
+        }
     }else{
-        m_string = "数据库连接失败!";
+        if(!m_DB.InitDB())
+        {
+            m_string = "数据库连接失败!";
+        }
     }
+
     emit stringChanged();
 }
 
@@ -213,19 +219,15 @@ void DataFilter::setBadMarkDBConfig(QString ip, QString user, QString pwd)
 
 QString DataFilter::CheckDB()
 {
-    if(!m_DB.isOpen() && !m_DB.InitDB())
-    {
-        m_string = "数据库连接失败!";
-    }else if(!m_DB.InitMssDB())
-    {
-        m_string = "数据库连接失败!";
-    }
-    else{
-        m_string = "数据库连接成功!";
-        if(SMF_Product == "SMF_P1__TODOF"){
-            if(!m_DB.isBadMarkOpen() && !m_DB.InitBadMarkDB()){
-                m_string = "BadMark数据库连接失败!";
-            }
+    m_string = "数据库连接成功!";
+    if(SMF_Product == "SMF_P2"){
+        if(!m_DB.InitDB() || !m_DB.InitMssDB()){
+            m_string = m_string = "数据库连接失败!";
+        }
+    }else{
+        if(!m_DB.InitDB())
+        {
+            m_string = "数据库连接失败!";
         }
     }
     emit stringChanged();
@@ -560,23 +562,6 @@ bool DataFilter::setScan(QString flag, QString no, QString Location, int sn_flag
 
     m_string = "";
     emit stringChanged();
-
-    if("lot_no" == flag){
-        QString MssConfig = m_DB.getMssConfig(no);
-        if(MssConfig != ""){
-            QString status = MssConfig.split("|")[3];
-            if(status == "1" || status == "5"){}
-            else{
-                m_string = QString("MSS 系统工单匹配错误");
-                QMessageBox::critical(NULL, "警告", m_string, QMessageBox::Ok);
-                return false;
-            }
-        }else{
-            m_string = QString("MSS 系统工单匹配错误");
-            QMessageBox::critical(NULL, "警告", m_string, QMessageBox::Ok);
-            return false;
-        }
-    }
 
     if(product == "6ADKN" || product == "5FDKN"){
         return this->setScan_1(flag, no, Location, sn_flag, product);
@@ -941,6 +926,35 @@ bool DataFilter::record_LotNoBlockNo(QString flag, QString no)
     emit stringChanged();
 
     if("lot_no" == flag){
+        QString MssConfig = m_DB.getMssConfig(no);
+        if(MssConfig != ""){
+            QString status = MssConfig.split("|")[3];
+            if(status == "1" || status == "5"){}
+            else if(status == "0"){
+                m_string = QString("MSS 系统工单匹配错误 [0---新建工单未释放]");
+                QMessageBox::critical(NULL, "警告", m_string, QMessageBox::Ok);
+                return false;
+            }else if(status == "6"){
+                m_string = QString("MSS 系统工单匹配错误 [6---已终止]");
+                QMessageBox::critical(NULL, "警告", m_string, QMessageBox::Ok);
+                return false;
+            }else if(status == "8"){
+                m_string = QString("MSS 系统工单匹配错误 [8---已完成]");
+                QMessageBox::critical(NULL, "警告", m_string, QMessageBox::Ok);
+                return false;
+            }else if(status == "9"){
+                m_string = QString("MSS 系统工单匹配错误 [9---已计划]");
+                QMessageBox::critical(NULL, "警告", m_string, QMessageBox::Ok);
+                return false;
+            }
+        }else{
+            m_string = QString("MSS 系统工单匹配错误 [未查询到状态]");
+            QMessageBox::critical(NULL, "警告", m_string, QMessageBox::Ok);
+            return false;
+        }
+    }
+
+    if("lot_no" == flag){
         m_CurrentLotNo = no;
         //m_DB.InsertLotNo(no);
         m_StringList.clear();
@@ -952,13 +966,13 @@ bool DataFilter::record_LotNoBlockNo(QString flag, QString no)
             return false;
         }
 
-        int count = m_DB.GetBlockNoNumByLotNo(m_CurrentLotNo);
-        int limit = m_DB.GetBlockNoLimitSettings();
-        if (count >= limit){
-            m_string = QString("BLOCK_NO 数量超限, 请在设置菜单调整.");
-            QMessageBox::critical(NULL, "警告", m_string, QMessageBox::Ok);
-            return false;
-        }
+//        int count = m_DB.GetBlockNoNumByLotNo(m_CurrentLotNo);
+//        int limit = m_DB.GetBlockNoLimitSettings();
+//        if (count >= limit){
+//            m_string = QString("BLOCK_NO 数量超限, 请在设置菜单调整.");
+//            QMessageBox::critical(NULL, "警告", m_string, QMessageBox::Ok);
+//            return false;
+//        }
 
         QString tmp_LotNO = m_DB.GetLotNoByBlockNo(no);
         if(tmp_LotNO != "" && tmp_LotNO != m_CurrentLotNo){
