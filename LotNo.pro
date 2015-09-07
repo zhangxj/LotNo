@@ -41,4 +41,5 @@ OTHER_FILES += \
     qml/LotNo/record_6ADKN.qml \
     qml/LotNo/MyTableView.qml \
     qml/LotNo/BadMarkConfig.qml \
-    qml/LotNo/record_6FDKN.qml
+    qml/LotNo/record_6FDKN.qml \
+    qml/LotNo/record_64ZLCD.qml

@@ -925,34 +925,34 @@ bool DataFilter::record_LotNoBlockNo(QString flag, QString no)
     m_string = "";
     emit stringChanged();
 
-    if("lot_no" == flag){
-        QString MssConfig = m_DB.getMssConfig(no);
-        if(MssConfig != ""){
-            QString status = MssConfig.split("|")[3];
-            if(status == "1" || status == "5"){}
-            else if(status == "0"){
-                m_string = QString("MSS 系统工单匹配错误 [0---新建工单未释放]");
-                QMessageBox::critical(NULL, "警告", m_string, QMessageBox::Ok);
-                return false;
-            }else if(status == "6"){
-                m_string = QString("MSS 系统工单匹配错误 [6---已终止]");
-                QMessageBox::critical(NULL, "警告", m_string, QMessageBox::Ok);
-                return false;
-            }else if(status == "8"){
-                m_string = QString("MSS 系统工单匹配错误 [8---已完成]");
-                QMessageBox::critical(NULL, "警告", m_string, QMessageBox::Ok);
-                return false;
-            }else if(status == "9"){
-                m_string = QString("MSS 系统工单匹配错误 [9---已计划]");
-                QMessageBox::critical(NULL, "警告", m_string, QMessageBox::Ok);
-                return false;
-            }
-        }else{
-            m_string = QString("MSS 系统工单匹配错误 [未查询到状态]");
-            QMessageBox::critical(NULL, "警告", m_string, QMessageBox::Ok);
-            return false;
-        }
-    }
+//    if("lot_no" == flag){
+//        QString MssConfig = m_DB.getMssConfig(no);
+//        if(MssConfig != ""){
+//            QString status = MssConfig.split("|")[3];
+//            if(status == "1" || status == "5"){}
+//            else if(status == "0"){
+//                m_string = QString("MSS 系统工单匹配错误 [新建工单未释放]");
+//                QMessageBox::critical(NULL, "警告", m_string, QMessageBox::Ok);
+//                return false;
+//            }else if(status == "6"){
+//                m_string = QString("MSS 系统工单匹配错误 [已终止]");
+//                QMessageBox::critical(NULL, "警告", m_string, QMessageBox::Ok);
+//                return false;
+//            }else if(status == "8"){
+//                m_string = QString("MSS 系统工单匹配错误 [已完成]");
+//                QMessageBox::critical(NULL, "警告", m_string, QMessageBox::Ok);
+//                return false;
+//            }else if(status == "9"){
+//                m_string = QString("MSS 系统工单匹配错误 [已计划]");
+//                QMessageBox::critical(NULL, "警告", m_string, QMessageBox::Ok);
+//                return false;
+//            }
+//        }else{
+//            m_string = QString("MSS 系统工单匹配错误 [未建工单]");
+//            QMessageBox::critical(NULL, "警告", m_string, QMessageBox::Ok);
+//            return false;
+//        }
+//    }
 
     if("lot_no" == flag){
         m_CurrentLotNo = no;
@@ -1096,6 +1096,8 @@ bool DataFilter::ChangeProductItem(QString item)
     sl.append("record_fanxiu");
     sl.append("record_6FDKN_P2");
     sl.append("record_7ADKN_EVT");
+    sl.append("record_54ZLCD");
+    sl.append("record_64ZLCD");
 
     if(!sl.contains(m_CurrentProduct)){
         m_CurrentProduct = item;
