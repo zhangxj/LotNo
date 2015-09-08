@@ -170,8 +170,25 @@ QString DataFilter::setFilePath()
     return getDirPath();
 }
 
+void DataFilter::setDBConfig(QString ip, QString user, QString pwd)
+{
+    QSettings *s = new QSettings("config.ini", QSettings::IniFormat);
+    s->setValue("DATABASE/IP", ip);
+    s->setValue("DATABASE/USER", user);
+    s->setValue("DATABASE/PWD", pwd);
 
-void DataFilter::setDBConfig(QString ip, QString user, QString pwd,QString mss_ip, QString mss_user, QString mss_pwd, QString mss_db)
+    if(m_DB.isOpen()){
+        m_DB.close();
+    }
+
+    if(!m_DB.InitDB())
+    {
+        m_string = "数据库连接失败!";
+    }
+    emit stringChanged();
+}
+
+void DataFilter::setDBConfig_P2(QString ip, QString user, QString pwd,QString mss_ip, QString mss_user, QString mss_pwd, QString mss_db)
 {
     QSettings *s = new QSettings("config.ini", QSettings::IniFormat);
     s->setValue("DATABASE/IP", ip);
@@ -187,17 +204,10 @@ void DataFilter::setDBConfig(QString ip, QString user, QString pwd,QString mss_i
     }
 
     m_string = "数据库连接成功!";
-    if(SMF_Product == "SMF_P2"){
-        if(!m_DB.InitDB() || !m_DB.InitMssDB()){
-            m_string = m_string = "数据库连接失败!";
-        }
-    }else{
-        if(!m_DB.InitDB())
-        {
-            m_string = "数据库连接失败!";
-        }
-    }
 
+    if(!m_DB.InitDB() || !m_DB.InitMssDB()){
+        m_string = m_string = "数据库连接失败!";
+    }
     emit stringChanged();
 }
 

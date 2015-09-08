@@ -49,7 +49,8 @@ public slots:
     void checkCode(QString code);
     void FirstCheck();
     QString JiaMi(QString code);
-    void setDBConfig(QString ip, QString user, QString pwd,QString mss_ip, QString mss_user, QString mss_pwd,QString mss_db);
+    void setDBConfig(QString ip, QString user, QString pwd);
+    void setDBConfig_P2(QString ip, QString user, QString pwd,QString mss_ip, QString mss_user, QString mss_pwd,QString mss_db);
     void setBadMarkDBConfig(QString ip, QString user, QString pwd);
     QString getIp();
     QString getUser();
